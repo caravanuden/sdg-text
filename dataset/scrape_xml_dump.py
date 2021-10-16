@@ -64,6 +64,7 @@ def xml_parse_wikidump():
     This function downloads and parses the xml files from the wikimedia dump.
     :return:
     """
+    outputs = ""
 
     # first, get a list of the xml file names that have article information and text
     page_text = urllib.request.urlopen(BASE_URL).read().decode()
@@ -81,11 +82,15 @@ def xml_parse_wikidump():
                          xml_file_names))
 
         for page_name, page_location in mwxml.map(process_dump, pool_of_xml_file_names):
+            outputs += "\n {}, {} \n".format(page_name, page_location)
             print("\n {}, {} \n".format(page_name, page_location))
 
         for xml_file_name in pool_of_xml_file_names:
             os.remove(xml_file_name)
 
+    output_file = open("outputs.txt")
+    output_file.write(outputs)
+    output_file.close
 
 
 if __name__ == '__main__':
