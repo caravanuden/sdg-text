@@ -1,7 +1,6 @@
 import urllib.request
 import re
 import os
-import bz2
 import mwxml
 import multiprocessing
 
