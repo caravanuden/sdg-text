@@ -10,11 +10,28 @@ import multiprocessing
 # then, once we have all htose file names, download them sequentially and use mwxml to parse them.
 # easy peasy!
 
+# helpful link: https://github.com/mediawiki-utilities/python-mwxml/blob/master/ipython/labs_example.ipynb
+
 BASE_URL = "https://dumps.wikimedia.org/enwiki/latest/"
 ARTICLE_XML_REGEX = "\"(enwiki-latest-pages-articles[0-9]+.xml-.*.bz2)\""
 
-def extract_location_data():
-    pass
+def extract_location_data(text):
+    """
+    This function will be used to detect if a given revision contains location data for the page overall
+    NOTE: We need to make sure this is the only way that location data is specified!
+    :param text: the text from which we want to capture coordinate data
+    :return: The capture groups from the text
+    For example,
+    extract_location_data(coordinates = {{Coord|12|31|07|N|70|02|09|W|type:city}})
+    should return [(12|31|07|N|70|02|09|W, city)]
+    """
+    #regex = "{{coord\|([0-9]+\.[0-9]+\|[0-9]+\.[0-9]+)}}"
+    regex = "coordinates\s *=\s * {{Coord\ | (. *)\ | type: (. *)}}"
+    capture_groups = re.findall(regex, text)
+    if len(capture_groups) == 0:
+        return None
+    return capture_groups
+
 
 
 def chunks(array, n):
@@ -42,43 +59,34 @@ def process_dump(dump, path):
             yield page.title, page_location
 
 
-def get_dump():
+def xml_parse_wikidump():
+    """
+    This function downloads and parses the xml files from the wikimedia dump.
+    :return:
+    """
+
     # first, get a list of the xml file names that have article information and text
-    page_text = urllib.request.urlopen(BASE_URL).read()
-    xml_file_names = re.findall(page_text, ARTICLE_XML_REGEX)
+    page_text = urllib.request.urlopen(BASE_URL).read().decode()
+    xml_file_names = re.findall(ARTICLE_XML_REGEX, page_text)
 
     NUM_PARALLEL_PROCESSES = 4
 
     # next, get NUM_PARALLEL_PROCESSES articles downloaded parallely
     # and then parse them in parallel
-    q = multiprocessing.Queue()
     pools_of_xml_file_names = chunks(xml_file_names, NUM_PARALLEL_PROCESSES)
-
     for pool_of_xml_file_names in pools_of_xml_file_names:
+        with multiprocessing.Pool(processes=NUM_PARALLEL_PROCESSES) as pool:
+            pool.starmap(urllib.request.urlretrieve,
+                     zip([os.path.join(BASE_URL, xml_file_name) for xml_file_name in xml_file_names],
+                         xml_file_names))
+
+        for page_name, page_location in mwxml.map(process_dump, pool_of_xml_file_names):
+            print("\n {}, {} \n".format(page_name, page_location))
+
         for xml_file_name in pool_of_xml_file_names:
-            p = multiprocessing.Process(target=urllib.request.urlretrieve,
-                                        args=(os.path.join(BASE_URL, xml_file_name), xml_file_name))
-            p.start()
-        print(q.get())  # prints "[42, None, 'hello']"
-        p.join()
-
-
-    # next, get the articles one at at a time and parse them
-    for xml_file_name in xml_file_names:
-        urllib.request.urlretrieve(os.path.join(BASE_URL, xml_file_name), xml_file_name)
-
-        # then, parse the file
-        dump = mwxml.Dump.from_file(bz2.open(xml_file_name))
-        process_dump(dump)
+            os.remove(xml_file_name)
 
 
 
-
-
-test = mwxml.Dump.from_file(bz2.open("enwiki-latest-pages-articles1.xml-p1p41242.bz2"))
-x = 5
-for page in test:
-    y=6
-    #test2 = sum(1 for _ in page)
-    for revision in page:
-        z = 7
+if __name__ == '__main__':
+    xml_parse_wikidump()
