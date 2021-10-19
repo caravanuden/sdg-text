@@ -88,7 +88,7 @@ def xml_parse_wikidump():
                          pool_of_xml_file_names))
 
         for page_name, page_location, page_text in mwxml.map(process_dump, pool_of_xml_file_names):
-            outputs.append += "{}, {}, {}".format(page_name, page_location, page_text)
+            outputs.append("{}, {}, {}".format(page_name, page_location, page_text))
 
         for xml_file_name in pool_of_xml_file_names:
             os.remove(xml_file_name)
