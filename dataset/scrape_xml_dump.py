@@ -25,7 +25,7 @@ def extract_location_data(text):
     should return [(12|31|07|N|70|02|09|W, city)]
     """
     #regex = "{{coord\|([0-9]+\.[0-9]+\|[0-9]+\.[0-9]+)}}"
-    regex = "coordinates\s *=\s * {{Coord\ | (. *)\ | type: (. *)}}"
+    regex = "coordinates\s*=\s*{{Coord\|(.*)\|type:(.*)}}"
     capture_groups = re.findall(regex, text)
     if len(capture_groups) == 0:
         return None
@@ -77,8 +77,8 @@ def xml_parse_wikidump():
     for pool_of_xml_file_names in pools_of_xml_file_names:
         with multiprocessing.Pool(processes=NUM_PARALLEL_PROCESSES) as pool:
             pool.starmap(urllib.request.urlretrieve,
-                     zip([os.path.join(BASE_URL, xml_file_name) for xml_file_name in xml_file_names],
-                         xml_file_names))
+                     zip([os.path.join(BASE_URL, xml_file_name) for xml_file_name in pool_of_xml_file_names],
+                         pool_of_xml_file_names))
 
         for page_name, page_location in mwxml.map(process_dump, pool_of_xml_file_names):
             outputs += "\n {}, {} \n".format(page_name, page_location)
