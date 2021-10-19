@@ -2,7 +2,7 @@ import urllib.request
 import re
 import os
 import mwxml
-import multiprocessing
+from multiprocessing.pool import ThreadPool
 
 # what we should od:
 # use the base url and then use that to find all lnks with downloads to the pages thing
@@ -12,7 +12,7 @@ import multiprocessing
 # helpful link: https://github.com/mediawiki-utilities/python-mwxml/blob/master/ipython/labs_example.ipynb
 
 BASE_URL = "https://dumps.wikimedia.org/enwiki/latest/"
-ARTICLE_XML_REGEX = "\"(enwiki-latest-pages-articles[0-9]+.xml-.*.bz2)\""
+ARTICLE_XML_REGEX = "\"(enwiki-latest-pages-articles-multistream[0-9]+.xml-.*.bz2)\""
 
 def extract_location_data(text):
     """
@@ -49,13 +49,16 @@ def process_dump(dump, path):
     """
     for page in dump:
         page_location = None
+        article_text = None
         for revision in page:
+            # there will be only one revision in the case of multi-stream; the latest revision and the text is the actual article text.
             new_page_location = extract_location_data(revision.text)
             if new_page_location is not None:
                 page_location = new_page_location
+                article_text = revision.text
 
         if page_location is not None:
-            yield page.title, page_location
+            yield page.title, page_location, article_text
 
 
 def xml_parse_wikidump():
@@ -75,14 +78,14 @@ def xml_parse_wikidump():
     # and then parse them in parallel
     pools_of_xml_file_names = chunks(xml_file_names, NUM_PARALLEL_PROCESSES)
     for pool_of_xml_file_names in pools_of_xml_file_names:
-        with multiprocessing.Pool(processes=NUM_PARALLEL_PROCESSES) as pool:
+        with ThreadPool(processes=NUM_PARALLEL_PROCESSES) as pool:
             pool.starmap(urllib.request.urlretrieve,
                      zip([os.path.join(BASE_URL, xml_file_name) for xml_file_name in pool_of_xml_file_names],
                          pool_of_xml_file_names))
 
-        for page_name, page_location in mwxml.map(process_dump, pool_of_xml_file_names):
-            outputs += "\n {}, {} \n".format(page_name, page_location)
-            print("\n {}, {} \n".format(page_name, page_location))
+        for page_name, page_location, page_text in mwxml.map(process_dump, pool_of_xml_file_names):
+            outputs += "\n {}, {}, {} \n".format(page_name, page_location, page_text)
+            print("\n {}, {}, {} \n".format(page_name, page_location))
 
         for xml_file_name in pool_of_xml_file_names:
             os.remove(xml_file_name)
