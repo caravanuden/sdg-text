@@ -51,11 +51,15 @@ def process_dump(dump, path):
         page_location = None
         article_text = None
         for revision in page:
-            # there will be only one revision in the case of multi-stream; the latest revision and the text is the actual article text.
-            new_page_location = extract_location_data(revision.text)
-            if new_page_location is not None:
-                page_location = new_page_location
-                article_text = revision.text
+            try:
+                # there will be only one revision in the case of multi-stream; the latest revision and the text is the actual article text.
+                new_page_location = extract_location_data(revision.text)
+                if new_page_location is not None:
+                    page_location = new_page_location
+                    article_text = revision.text
+            except Exception as e:
+                print(e)
+
 
         if page_location is not None:
             yield page.title, page_location, article_text
@@ -89,7 +93,7 @@ def xml_parse_wikidump():
         for xml_file_name in pool_of_xml_file_names:
             os.remove(xml_file_name)
 
-    output_file = open("outputs.txt")
+    output_file = open("outputs.txt", "w")
     output_file.write('\n'.join(outputs))
     output_file.close()
 
