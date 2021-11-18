@@ -11,7 +11,7 @@ from multiprocessing.pool import ThreadPool
 
 # helpful link: https://github.com/mediawiki-utilities/python-mwxml/blob/master/ipython/labs_example.ipynb
 
-BASE_URL = "https://dumps.wikimedia.org/enwiki/latest/"
+BASE_URL = "https://dumps.wikimedia.your.org/enwiki/latest/"
 ARTICLE_XML_REGEX = "\"(enwiki-latest-pages-articles-multistream[0-9]+.xml-.*.bz2)\""
 
 def extract_location_data(text):
@@ -88,7 +88,11 @@ def xml_parse_wikidump():
                          pool_of_xml_file_names))
 
         for page_name, page_location, page_text in mwxml.map(process_dump, pool_of_xml_file_names):
-            outputs.append("{}, {}, {}".format(page_name, page_location, page_text))
+            outputs.append({
+                "page_name": "{}".format(page_name),
+                "page_location": "{}".format(page_location),
+                "page_text": "{}".format(page_text)
+            })
 
         for xml_file_name in pool_of_xml_file_names:
             os.remove(xml_file_name)
