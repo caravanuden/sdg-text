@@ -3,6 +3,7 @@ import re
 import os
 import mwxml
 from multiprocessing.pool import ThreadPool
+from dataset.Utility import *
 
 # what we should od:
 # use the base url and then use that to find all lnks with downloads to the pages thing
@@ -81,7 +82,8 @@ def xml_parse_wikidump():
     # next, get NUM_PARALLEL_PROCESSES articles downloaded parallely
     # and then parse them in parallel
     pools_of_xml_file_names = chunks(xml_file_names, NUM_PARALLEL_PROCESSES)
-    for pool_of_xml_file_names in pools_of_xml_file_names:
+    for i,pool_of_xml_file_names in enumerate(pools_of_xml_file_names):
+        print("getting contents of files {} out of {} total".format(i, len(pools_of_xml_file_names)))
         with ThreadPool(processes=NUM_PARALLEL_PROCESSES) as pool:
             pool.starmap(urllib.request.urlretrieve,
                      zip([os.path.join(BASE_URL, xml_file_name) for xml_file_name in pool_of_xml_file_names],
@@ -97,10 +99,8 @@ def xml_parse_wikidump():
         for xml_file_name in pool_of_xml_file_names:
             os.remove(xml_file_name)
 
-    output_file = open("outputs.txt", "w")
-    output_file.write('\n'.join(outputs))
-    output_file.close()
-
+        writeToJsonFile(outputs, "outputs_{}.json".format(i))
+        outputs=list()
 
 if __name__ == '__main__':
     xml_parse_wikidump()
