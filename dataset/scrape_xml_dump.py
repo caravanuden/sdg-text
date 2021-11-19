@@ -36,8 +36,10 @@ def extract_location_data(text):
 
 def chunks(array, n):
     """Yield successive n-sized chunks from array."""
+    chunks = list()
     for i in range(0, len(array), n):
-        yield array[i:i + n]
+        chunks.append(array[i:i + n])
+        #yield array[i:i + n]
 
 
 def process_dump(dump, path):
@@ -77,7 +79,7 @@ def xml_parse_wikidump():
     page_text = urllib.request.urlopen(BASE_URL).read().decode()
     xml_file_names = re.findall(ARTICLE_XML_REGEX, page_text)
 
-    NUM_PARALLEL_PROCESSES = 4
+    NUM_PARALLEL_PROCESSES = 6
 
     # next, get NUM_PARALLEL_PROCESSES articles downloaded parallely
     # and then parse them in parallel
