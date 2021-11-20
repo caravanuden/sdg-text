@@ -3,7 +3,7 @@ import re
 import os
 import mwxml
 from multiprocessing.pool import ThreadPool
-from dataset.Utility import *
+from Utility import *
 
 # what we should od:
 # use the base url and then use that to find all lnks with downloads to the pages thing
@@ -40,6 +40,7 @@ def chunks(array, n):
     for i in range(0, len(array), n):
         chunks.append(array[i:i + n])
         #yield array[i:i + n]
+    return chunks
 
 
 def process_dump(dump, path):

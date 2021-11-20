@@ -1,4 +1,6 @@
 # 
+dataset/outputs
+./dataset/outputs
 .idea/
 
 # Byte-compiled / optimized / DLL files
