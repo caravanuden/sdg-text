@@ -87,6 +87,8 @@ def xml_parse_wikidump():
     # and then parse them in parallel
     pools_of_xml_file_names = chunks(xml_file_names, NUM_PARALLEL_PROCESSES)
     outputs_counter = 0
+    FILES_PER_ZIP_FILE = 10
+    can_zip = False
     for i,pool_of_xml_file_names in enumerate(pools_of_xml_file_names):
         print("getting contents of files {} out of {} total".format(i, len(pools_of_xml_file_names)))
         with ThreadPool(processes=NUM_PARALLEL_PROCESSES) as pool:
@@ -101,16 +103,19 @@ def xml_parse_wikidump():
                 "page_text": "{}".format(page_text)
             })
             if len(outputs) >= 5000:
-                writeToJsonFile(outputs, os.path.join(PATH_TO_OUTPUTS, "outputs_{}.json".format(outputs_counter)))
+                writeToJsonFile(outputs, os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, "outputs_{}.json".format(outputs_counter)))
                 outputs = list()
                 outputs_counter += 1
-            if outputs_counter % 10 == 0:
-                subprocess.run(["zip", "outputs_{}.zip".format(outputs_counter // 10), os.path.join(PATH_TO_OUTPUTS,"outputs*.json")])
+                can_zip = True
+            if can_zip and outputs_counter % FILES_PER_ZIP_FILE == 0:
+                os.system("zip outputs_{}.zip {}".format(outputs_counter // FILES_PER_ZIP_FILE - 1, os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS,"outputs*.json")))
+                os.system("rm outputs/outputs*.json")
+                can_zip = False
                 """
                 if outputs_counter == 0:
-                    subprocess.run(["zip", "new_outputs.zip", os.path.join(PATH_TO_OUTPUTS,"outputs*.json")])
+                    subprocess.run(["zip", "new_outputs.zip", os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS,"outputs*.json")])
                 else:
-                    subprocess.run(["zip", "-u", "new_outputs.zip", os.path.join(PATH_TO_OUTPUTS, "outputs*.json")])
+                    subprocess.run(["zip", "-u", "new_outputs.zip", os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, "outputs*.json")])
                 """
 
 

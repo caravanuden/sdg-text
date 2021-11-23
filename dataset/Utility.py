@@ -2,12 +2,12 @@ import json
 import os
 from pathlib import Path
 
-PATH_TO_OUTPUTS = "./outputs"
+PATH_TO_WIKIPEDIA_OUTPUTS = "./wiki_outputs"
+PATH_TO_GDELT_OUTPUTS = "./gdelt_outputs"
 
 def readFromJsonFile(infile_path):
     with open(infile_path, 'r') as infile:
         return json.load(infile)
-    raise Exception
 def writeToJsonFile(data, outfile_path, prettify=False):
     Path('/'.join(outfile_path.split('/')[:-1])).mkdir(parents=True, exist_ok=True) # create directory if necessary
     with open(outfile_path, 'w') as outfile:

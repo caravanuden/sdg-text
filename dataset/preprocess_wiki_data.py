@@ -76,8 +76,11 @@ def get_lat_lon_from_wiki_coord_tag(coord_tag):
 
 
 
-def doc2vec_encode(document):
+
+
+
+def doc2vec_encode():
     """
-    :param document:
-    :return:
+    :return: In this function, we'll train the doc2vec model on the relevant articles (Those with matching lat/long values in the dataset
+    Then, we'll save the resulting doc2vec model and, essentially, use that for the dataloader stuff
     """
