@@ -22,11 +22,11 @@ def extract_location_data(text):
     :param text: the text from which we want to capture coordinate data
     :return: The capture groups from the text
     For example,
-    extract_location_data(coordinates = {{Coord|12|31|07|N|70|02|09|W|type:city}})
+    extract_location_data("some_text...coordinates = {{Coord|12|31|07|N|70|02|09|W|type:city}}...more_text")
     should return [(12|31|07|N|70|02|09|W, city)]
     """
     #regex = "{{coord\|([0-9]+\.[0-9]+\|[0-9]+\.[0-9]+)}}"
-    regex = "coordinates\s*=\s*{{Coord\|(.*)\|type:(.*)}}"
+    regex = "{{[Cc]oord\|(.*)\|type:(.*)}}"
     capture_groups = re.findall(regex, text)
     if len(capture_groups) == 0:
         return None
@@ -85,6 +85,7 @@ def xml_parse_wikidump():
     # next, get NUM_PARALLEL_PROCESSES articles downloaded parallely
     # and then parse them in parallel
     pools_of_xml_file_names = chunks(xml_file_names, NUM_PARALLEL_PROCESSES)
+    outputs_counter = 0
     for i,pool_of_xml_file_names in enumerate(pools_of_xml_file_names):
         print("getting contents of files {} out of {} total".format(i, len(pools_of_xml_file_names)))
         with ThreadPool(processes=NUM_PARALLEL_PROCESSES) as pool:
@@ -98,12 +99,15 @@ def xml_parse_wikidump():
                 "page_location": "{}".format(page_location),
                 "page_text": "{}".format(page_text)
             })
+            if len(outputs >= 5000):
+                writeToJsonFile(outputs, "outputs_{}.json".format(outputs_counter))
+                outputs = list()
+                outputs_counter += 1
 
         for xml_file_name in pool_of_xml_file_names:
             os.remove(xml_file_name)
 
-        writeToJsonFile(outputs, "outputs_{}.json".format(i))
-        outputs=list()
+
 
 if __name__ == '__main__':
     xml_parse_wikidump()
