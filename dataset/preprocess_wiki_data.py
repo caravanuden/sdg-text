@@ -2,7 +2,7 @@
 # 1) get only those wiki articles whose lat/lon coordinates have a corresponding image in the database
 # 2) doc2vec encode those articles
 
-
+from Utility import *
 
 
 def get_lat_lon_from_wiki_coord_tag(coord_tag):
@@ -75,8 +75,9 @@ def get_lat_lon_from_wiki_coord_tag(coord_tag):
     return (latitude,longitude)
 
 
-# now, we need to match the (lat,long) pairs with the values found in the metadata for sustainbench. To do that, we need
-# to download the dataset. The last piece is to doc2vec encode the values
 
 def doc2vec_encode(document):
-    pass
+    """
+    :param document:
+    :return:
+    """

@@ -3,6 +3,7 @@ import re
 import os
 import mwxml
 from multiprocessing.pool import ThreadPool
+import subprocess
 from Utility import *
 
 # what we should od:
@@ -99,10 +100,19 @@ def xml_parse_wikidump():
                 "page_location": "{}".format(page_location),
                 "page_text": "{}".format(page_text)
             })
-            if len(outputs >= 5000):
-                writeToJsonFile(outputs, "outputs_{}.json".format(outputs_counter))
+            if len(outputs) >= 5000:
+                writeToJsonFile(outputs, os.path.join(PATH_TO_OUTPUTS, "outputs_{}.json".format(outputs_counter)))
                 outputs = list()
                 outputs_counter += 1
+            if outputs_counter % 10 == 0:
+                subprocess.run(["zip", "outputs_{}.zip".format(outputs_counter // 10), os.path.join(PATH_TO_OUTPUTS,"outputs*.json")])
+                """
+                if outputs_counter == 0:
+                    subprocess.run(["zip", "new_outputs.zip", os.path.join(PATH_TO_OUTPUTS,"outputs*.json")])
+                else:
+                    subprocess.run(["zip", "-u", "new_outputs.zip", os.path.join(PATH_TO_OUTPUTS, "outputs*.json")])
+                """
+
 
         for xml_file_name in pool_of_xml_file_names:
             os.remove(xml_file_name)
