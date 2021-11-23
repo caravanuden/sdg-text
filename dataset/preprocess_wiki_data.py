@@ -40,7 +40,8 @@ def get_lat_lon_from_wiki_coord_tag(coord_tag):
         return (degrees + minutes / 60 + seconds / (60 * 60)) * (-1 if direction in ['W', 'S'] else 1)
 
     #coordinate_data = coord_tag.split("|")[1:]
-    coordinate_data = coord_tag.split("|")
+    filter_outs = ["display=title", "display=inline,title", "format=dms"]
+    coordinate_data = [item.strip() for item in coord_tag.split("|") if not item.isspace() and item not in filter_outs]
 
     lat_degrees = lat_minutes = lat_seconds = 0
     long_degrees = long_minutes = long_seconds = 0
@@ -48,14 +49,18 @@ def get_lat_lon_from_wiki_coord_tag(coord_tag):
 
     latitude = longitude = None
 
-    if len(coordinate_data) > 1 and coordinate_data[1] == "N" or coordinate_data[1] == "S":
+    if len(coordinate_data) < 4:
+        # then, we have Case 4.
+        latitude = float(coordinate_data[0])
+        longitude = float(coordinate_data[1])
+    elif coordinate_data[1] == "N" or coordinate_data[1] == "S":
         # then, we have Case 1
         lat_degrees = float(coordinate_data[0])
         lat_direction = coordinate_data[1]
 
         long_degrees = float(coordinate_data[2])
         long_direction = coordinate_data[3]
-    elif len(coordinate_data) > 2 and coordinate_data[2] == "N" or coordinate_data[2] == "S":
+    elif coordinate_data[2] == "N" or coordinate_data[2] == "S":
         # then, we have Case 2
         lat_degrees = float(coordinate_data[0])
         lat_minutes = float(coordinate_data[1])
@@ -65,7 +70,7 @@ def get_lat_lon_from_wiki_coord_tag(coord_tag):
         long_minutes = float(coordinate_data[4])
         long_direction = coordinate_data[5]
 
-    elif len(coordinate_data) > 3 and coordinate_data[3] == "N" or coordinate_data[3] == "S":
+    elif coordinate_data[3] == "N" or coordinate_data[3] == "S":
         # then, we have Case 3
         lat_degrees = float(coordinate_data[0])
         lat_minutes = float(coordinate_data[1])
@@ -77,9 +82,15 @@ def get_lat_lon_from_wiki_coord_tag(coord_tag):
         long_seconds = float(coordinate_data[6])
         long_direction = coordinate_data[7]
     else:
-        # then, we have Case 4.
-        latitude = float(coordinate_data[0])
-        longitude = float(coordinate_data[1])
+        # there was a bug when we obtained the caputre groups from the regular expression
+        # so we can also try this as a last resort
+        #latitude = float(coordinate_data[0])
+        #longitude = float(coordinate_data[1])
+
+        #print("Set lat/lon using else branch with coordinate_tag={}".format(coord_tag))
+
+        raise Exception("The coordinate tag is invalid.")
+
 
     #else:
     #    raise Exception("Coordinate is not parsable.")
@@ -110,7 +121,7 @@ class GensimDocumentsIterator():
         else:
             return result
 
-    def load(self):
+    def load(self, verbose=False):
         """
 
         :return: This function yields a SINGLE article each time
@@ -124,26 +135,37 @@ class GensimDocumentsIterator():
         """
 
         # get all the zip files in the Wikipedia outputs directory
-        # zip_file_names = os.listdir(PATH_TO_WIKIPEDIA_OUTPUTS)
         zip_file_names = [file_name for file_name in os.listdir(PATH_TO_WIKIPEDIA_OUTPUTS) if os.path.splitext(file_name)[1] == ".zip"]
-        for zip_file_name in zip_file_names:
+        num_exceptions = 0
+
+        for i,zip_file_name in enumerate(zip_file_names):
             # read the zip files without actually extracting them
+            print("***working on ZIP file {} out of {} total***".format(i, len(zip_file_names)))
+            print("{} total exceptions so far".format(num_exceptions))
             zip_file = zipfile.ZipFile(os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, zip_file_name))
-            for file_name in zip_file.namelist():
+            file_names = zip_file.namelist()
+            for j,file_name in enumerate(file_names):
+                print("working on file {} out of {} total".format(j, len(file_names)))
                 file = zip_file.read(file_name)
-                file = json.loads(file.read().decode()) # call decode because file.read() is just bytes
+                file_json = json.loads(file.decode()) # call decode because file.read() is just bytes
 
-                for document in file:
+                for document in file_json:
                     coord_tag = document["page_location"].split(",")[0][3:-1] # ugly, but necessary because of how the page_location tuple is json encoded. Oops!
-                    latitude,longitude = get_lat_lon_from_wiki_coord_tag(coord_tag)
+                    try:
+                        latitude,longitude = get_lat_lon_from_wiki_coord_tag(coord_tag)
 
-                    # also clean the wiki page text
-                    clean_page_text = clean(document["page_text"])
+                        # also clean the wiki page text
+                        clean_page_text = clean(document["page_text"])
 
-                    # NOTE: we use the value document_latitude-document_longitude as the document tag!
-                    # this is VERY IMPORTANT! The tag is what is used to obtain the desired document vector later on
-                    # (i.e., to obtain a document at latitude,longitude value -30,40, we would use model.dv["-30-40"]
-                    yield TaggedDocument(words=clean_page_text.split(), tags=["{}-{}".format(latitude, longitude)])
+                        # NOTE: we use the value document_latitude-document_longitude as the document tag!
+                        # this is VERY IMPORTANT! The tag is what is used to obtain the desired document vector later on
+                        # (i.e., to obtain a document at latitude,longitude value -30,40, we would use model.dv["-30-40"]
+                        yield TaggedDocument(words=clean_page_text.split(), tags=["{}-{}".format(latitude, longitude)])
+                    except Exception as e:
+                        num_exceptions += 1
+
+                        if verbose:
+                            print("----\ngot exception: {} \n for coordinate tag: {} \n for page_loc: {} \n\n\n----".format(e, coord_tag, document["page_location"]))
 
                 file.close()
 
@@ -167,6 +189,9 @@ def doc2vec_encode():
     # now, we'll save it
     model.save("wiki_trained_doc2vec_model.model")
 
+
+if __name__ == "__main__":
+    doc2vec_encode()
 
 
 
