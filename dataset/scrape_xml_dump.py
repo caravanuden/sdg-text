@@ -103,20 +103,14 @@ def xml_parse_wikidump():
                 "page_text": "{}".format(page_text)
             })
             if len(outputs) >= 5000:
-                writeToJsonFile(outputs, os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, "outputs_{}.json".format(outputs_counter)))
+                writeToJsonFile(outputs, os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, "wiki_outputs_{}.json".format(outputs_counter)))
                 outputs = list()
                 outputs_counter += 1
                 can_zip = True
             if can_zip and outputs_counter % FILES_PER_ZIP_FILE == 0:
-                os.system("zip outputs_{}.zip {}".format(outputs_counter // FILES_PER_ZIP_FILE - 1, os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS,"outputs*.json")))
-                os.system("rm outputs/outputs*.json")
+                os.system("zip wiki_outputs_{}.zip {}".format(outputs_counter // FILES_PER_ZIP_FILE - 1, os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS,"wiki_outputs*.json")))
+                os.system("rm {}".format(PATH_TO_WIKIPEDIA_OUTPUTS, "wiki_outputs*.json"))
                 can_zip = False
-                """
-                if outputs_counter == 0:
-                    subprocess.run(["zip", "new_outputs.zip", os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS,"outputs*.json")])
-                else:
-                    subprocess.run(["zip", "-u", "new_outputs.zip", os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, "outputs*.json")])
-                """
 
 
         for xml_file_name in pool_of_xml_file_names:

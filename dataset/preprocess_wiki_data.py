@@ -3,6 +3,21 @@
 # 2) doc2vec encode those articles
 
 from Utility import *
+import os
+import zipfile
+import json
+from gensim.models.doc2vec import Doc2Vec, TaggedDocument
+
+def clean(text):
+    """
+
+    :param text (string): supposed to be text from a Wiki article
+    :return: the text cleaned up.
+    """
+
+    # temporary
+    return text
+
 
 
 def get_lat_lon_from_wiki_coord_tag(coord_tag):
@@ -24,7 +39,8 @@ def get_lat_lon_from_wiki_coord_tag(coord_tag):
     def convert_degrees_minutes_seconds_lat_or_long(degrees, minutes, seconds, direction):
         return (degrees + minutes / 60 + seconds / (60 * 60)) * (-1 if direction in ['W', 'S'] else 1)
 
-    coordinate_data = coord_tag.split("|")[1:]
+    #coordinate_data = coord_tag.split("|")[1:]
+    coordinate_data = coord_tag.split("|")
 
     lat_degrees = lat_minutes = lat_seconds = 0
     long_degrees = long_minutes = long_seconds = 0
@@ -78,9 +94,79 @@ def get_lat_lon_from_wiki_coord_tag(coord_tag):
 
 
 
+class GensimDocumentsIterator():
+    def __init__(self):
+        pass
+
+    def __iter__(self):
+        # reset the generator
+        self.generator = self.load()
+        return self
+
+    def __next__(self):
+        result = next(self.generator)
+        if result is None:
+            raise StopIteration
+        else:
+            return result
+
+    def load(self):
+        """
+
+        :return: This function yields a SINGLE article each time
+        This function will basically read in all Wiki articles that are geolocated (the ones we
+        obtained by scraping) and then use these articles to train a Doc2Vec model.
+        Then, we can use the Doc2Vec embeddings as features in our late fusion model.
+        For now, I think I'll try and train on ALL the Wiki articles, and we can decide later how we want
+        to actually associate those articles with data points.
+
+        For now, only load files from Wikipedia (can add in GDELT later)
+        """
+
+        # get all the zip files in the Wikipedia outputs directory
+        # zip_file_names = os.listdir(PATH_TO_WIKIPEDIA_OUTPUTS)
+        zip_file_names = [file_name for file_name in os.listdir(PATH_TO_WIKIPEDIA_OUTPUTS) if os.path.splitext(file_name)[1] == ".zip"]
+        for zip_file_name in zip_file_names:
+            # read the zip files without actually extracting them
+            zip_file = zipfile.ZipFile(os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, zip_file_name))
+            for file_name in zip_file.namelist():
+                file = zip_file.read(file_name)
+                file = json.loads(file.read().decode()) # call decode because file.read() is just bytes
+
+                for document in file:
+                    coord_tag = document["page_location"].split(",")[0][3:-1] # ugly, but necessary because of how the page_location tuple is json encoded. Oops!
+                    latitude,longitude = get_lat_lon_from_wiki_coord_tag(coord_tag)
+
+                    # also clean the wiki page text
+                    clean_page_text = clean(document["page_text"])
+
+                    # NOTE: we use the value document_latitude-document_longitude as the document tag!
+                    # this is VERY IMPORTANT! The tag is what is used to obtain the desired document vector later on
+                    # (i.e., to obtain a document at latitude,longitude value -30,40, we would use model.dv["-30-40"]
+                    yield TaggedDocument(words=clean_page_text.split(), tags=["{}-{}".format(latitude, longitude)])
+
+                file.close()
+
+            zip_file.close()
+
+
+
 
 def doc2vec_encode():
     """
     :return: In this function, we'll train the doc2vec model on the relevant articles (Those with matching lat/long values in the dataset
     Then, we'll save the resulting doc2vec model and, essentially, use that for the dataloader stuff
     """
+    data_iter = GensimDocumentsIterator()
+    model = Doc2Vec(documents=data_iter, vector_size=300, window=8, min_count=1, workers=4, epochs=10)
+
+    print("training doc2vec model...")
+    model.train(data_iter, total_examples=model.corpus_count, epochs=2)
+    print("finished training doc2vec model.")
+
+    # now, we'll save it
+    model.save("wiki_trained_doc2vec_model.model")
+
+
+
+
