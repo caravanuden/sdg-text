@@ -4,6 +4,9 @@ from pathlib import Path
 
 PATH_TO_WIKIPEDIA_OUTPUTS = "./wiki_outputs"
 PATH_TO_GDELT_OUTPUTS = "./gdelt_outputs"
+PATH_TO_PREPROCESSED_DOC2VEC_INPUTS = "./doc2vec_inputs"
+PATH_TO_DOC2VEC_MODEL = "./doc2vec_model"
+
 
 def readFromJsonFile(infile_path):
     with open(infile_path, 'r') as infile:

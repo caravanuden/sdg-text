@@ -107,7 +107,7 @@ def get_lat_lon_from_wiki_coord_tag(coord_tag):
 
 class GensimDocumentsIterator():
     def __init__(self):
-        pass
+        self.first_pass = True
 
     def __iter__(self):
         # reset the generator
@@ -120,6 +120,67 @@ class GensimDocumentsIterator():
             raise StopIteration
         else:
             return result
+
+    def initialize_preprocessed_data(self, verbose=False):
+        """
+
+        :param verbose:
+        :return: This function will preprocess the data and write to files if it doesn't already exist
+        """
+        # get all the zip files in the Wikipedia outputs directory
+        zip_file_names = [file_name for file_name in os.listdir(PATH_TO_WIKIPEDIA_OUTPUTS) if
+                          os.path.splitext(file_name)[1] == ".zip"]
+        num_exceptions = 0
+
+        for i, zip_file_name in enumerate(zip_file_names):
+            # read the zip files without actually extracting them
+            print("***working on ZIP file {} out of {} total***".format(i, len(zip_file_names) - 1))
+            print("{} total exceptions so far".format(num_exceptions))
+            zip_file = zipfile.ZipFile(os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, zip_file_name))
+            file_names = zip_file.namelist()
+
+            output_file_path = os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, "preprocessed_{}.json".format(zip_file_name.split(".")[0]))
+            output_json = list()
+
+            # create the file if we need to only.
+            if not os.path.is_file(output_file_path):
+                for j, file_name in enumerate(file_names):
+                    print("working on file {} out of {} total".format(j, len(file_names) - 1))
+                    file = zip_file.read(file_name)
+                    file_json = json.loads(file.decode())  # call decode because file.read() is just bytes
+
+                    for document in file_json:
+                        coord_tag = document["page_location"].split(",")[0][
+                                    3:-1]  # ugly, but necessary because of how the page_location tuple is json encoded. Oops!
+                        try:
+                            latitude, longitude = get_lat_lon_from_wiki_coord_tag(coord_tag)
+
+                            # also clean the wiki page text
+                            clean_page_text = clean(document["page_text"])
+
+
+
+                            # NOTE: we use the value document_latitude-document_longitude as the document tag!
+                            # this is VERY IMPORTANT! The tag is what is used to obtain the desired document vector later on
+                            # (i.e., to obtain a document at latitude,longitude value -30,40, we would use model.dv["-30-40"]
+                            # yield TaggedDocument(words=clean_page_text.split(), tags=["{}-{}".format(latitude, longitude)])
+                            output_json.append({
+                                "clean_text": clean_page_text,
+                                "tag": "{}-{}".format(latitude, longitude)
+                            })
+                        except Exception as e:
+                            num_exceptions += 1
+
+                            if verbose:
+                                print(
+                                    "----\ngot exception: {} \n for coordinate tag: {} \n for page_loc: {} \n\n\n----".format(
+                                        e, coord_tag, document["page_location"]))
+
+                    file.close()
+
+                writeToJsonFile(output_json, output_file_path)
+
+            zip_file.close()
 
     def load(self, verbose=False):
         """
@@ -134,42 +195,20 @@ class GensimDocumentsIterator():
         For now, only load files from Wikipedia (can add in GDELT later)
         """
 
-        # get all the zip files in the Wikipedia outputs directory
-        zip_file_names = [file_name for file_name in os.listdir(PATH_TO_WIKIPEDIA_OUTPUTS) if os.path.splitext(file_name)[1] == ".zip"]
-        num_exceptions = 0
+        if self.first_pass:
+            self.initialize_preprocessed_data(verbose)
+            self.first_pass = False
 
-        for i,zip_file_name in enumerate(zip_file_names):
+        # now, just read in the data
+        file_names = [file_name for file_name in os.listdir(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS)]
+        for i, file_name in enumerate(file_names):
             # read the zip files without actually extracting them
-            print("***working on ZIP file {} out of {} total***".format(i, len(zip_file_names)-1))
-            print("{} total exceptions so far".format(num_exceptions))
+            print("***working on INPUT FILE file {} out of {} total***".format(i, len(file_names) - 1))
             zip_file = zipfile.ZipFile(os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, zip_file_name))
             file_names = zip_file.namelist()
-            for j,file_name in enumerate(file_names):
-                print("working on file {} out of {} total".format(j, len(file_names)-1))
-                file = zip_file.read(file_name)
-                file_json = json.loads(file.decode()) # call decode because file.read() is just bytes
 
-                for document in file_json:
-                    coord_tag = document["page_location"].split(",")[0][3:-1] # ugly, but necessary because of how the page_location tuple is json encoded. Oops!
-                    try:
-                        latitude,longitude = get_lat_lon_from_wiki_coord_tag(coord_tag)
-
-                        # also clean the wiki page text
-                        clean_page_text = clean(document["page_text"])
-
-                        # NOTE: we use the value document_latitude-document_longitude as the document tag!
-                        # this is VERY IMPORTANT! The tag is what is used to obtain the desired document vector later on
-                        # (i.e., to obtain a document at latitude,longitude value -30,40, we would use model.dv["-30-40"]
-                        yield TaggedDocument(words=clean_page_text.split(), tags=["{}-{}".format(latitude, longitude)])
-                    except Exception as e:
-                        num_exceptions += 1
-
-                        if verbose:
-                            print("----\ngot exception: {} \n for coordinate tag: {} \n for page_loc: {} \n\n\n----".format(e, coord_tag, document["page_location"]))
-
-                file.close()
-
-            zip_file.close()
+            output_file_path = os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, "preprocessed_{}.json".format(zip_file_name.split(".")[0]))
+            output_json = list()
 
 
 
@@ -187,7 +226,7 @@ def doc2vec_encode():
     print("finished training doc2vec model.")
 
     # now, we'll save it
-    model.save("wiki_trained_doc2vec_model.model")
+    model.save(os.path.join(PATH_TO_DOC2VEC_MODEL, "wiki_trained_doc2vec_model.model"))
 
 
 if __name__ == "__main__":
