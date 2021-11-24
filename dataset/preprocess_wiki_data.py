@@ -197,6 +197,7 @@ class GensimDocumentsIterator():
         For now, only load files from Wikipedia (can add in GDELT later)
         """
 
+        # only try and build the actual files from the raw, scraped data the first time through the iterator
         if self.first_pass:
             self.initialize_preprocessed_data(verbose)
             self.first_pass = False
@@ -206,13 +207,9 @@ class GensimDocumentsIterator():
         for i, file_name in enumerate(file_names):
             # read the zip files without actually extracting them
             print("***working on INPUT FILE file {} out of {} total***".format(i, len(file_names) - 1))
-            zip_file = zipfile.ZipFile(os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, zip_file_name))
-            file_names = zip_file.namelist()
-
-            output_file_path = os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, "preprocessed_{}.json".format(zip_file_name.split(".")[0]))
-            output_json = list()
-
-
+            file_json = readFromJsonFile(file_name)
+            for document in file_json:
+                yield TaggedDocument(words=document["clean_text"].split(), tags=[document["tag"]])
 
 
 def doc2vec_encode():
