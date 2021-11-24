@@ -139,13 +139,15 @@ class GensimDocumentsIterator():
             zip_file = zipfile.ZipFile(os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, zip_file_name))
             file_names = zip_file.namelist()
 
-            output_file_path = os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, "preprocessed_{}.json".format(zip_file_name.split(".")[0]))
             output_json = list()
 
             # create the file if we need to only.
-            if not os.path.is_file(output_file_path):
-                for j, file_name in enumerate(file_names):
-                    print("working on file {} out of {} total".format(j, len(file_names) - 1))
+            #if not os.path.is_file(output_file_path):
+            for j, file_name in enumerate(file_names):
+                print("working on file {} out of {} total".format(j, len(file_names) - 1))
+                output_file_path = os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS,
+                                                "preprocessed_{}.json".format(zip_file_name.split(".")[0]))
+                if not os.path.is_file(output_file_path):
                     file = zip_file.read(file_name)
                     file_json = json.loads(file.decode())  # call decode because file.read() is just bytes
 
@@ -178,9 +180,9 @@ class GensimDocumentsIterator():
 
                     file.close()
 
-                writeToJsonFile(output_json, output_file_path)
+                    writeToJsonFile(output_json, output_file_path)
 
-            zip_file.close()
+        zip_file.close()
 
     def load(self, verbose=False):
         """
