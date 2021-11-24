@@ -140,12 +140,12 @@ class GensimDocumentsIterator():
 
         for i,zip_file_name in enumerate(zip_file_names):
             # read the zip files without actually extracting them
-            print("***working on ZIP file {} out of {} total***".format(i, len(zip_file_names)))
+            print("***working on ZIP file {} out of {} total***".format(i, len(zip_file_names)-1))
             print("{} total exceptions so far".format(num_exceptions))
             zip_file = zipfile.ZipFile(os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, zip_file_name))
             file_names = zip_file.namelist()
             for j,file_name in enumerate(file_names):
-                print("working on file {} out of {} total".format(j, len(file_names)))
+                print("working on file {} out of {} total".format(j, len(file_names)-1))
                 file = zip_file.read(file_name)
                 file_json = json.loads(file.decode()) # call decode because file.read() is just bytes
 

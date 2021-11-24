@@ -108,14 +108,19 @@ def xml_parse_wikidump():
                 outputs_counter += 1
                 can_zip = True
             if can_zip and outputs_counter % FILES_PER_ZIP_FILE == 0:
-                os.system("zip wiki_outputs_{}.zip {}".format(outputs_counter // FILES_PER_ZIP_FILE - 1, os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS,"wiki_outputs*.json")))
-                os.system("rm {}".format(PATH_TO_WIKIPEDIA_OUTPUTS, "wiki_outputs*.json"))
+                os.system("zip {} {}".format(os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, "wiki_outputs_{}.zip".format(outputs_counter // FILES_PER_ZIP_FILE - 1)), os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS,"wiki_outputs*.json")))
+                os.system("rm {}".format(os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, "wiki_outputs*.json")))
                 can_zip = False
 
 
         for xml_file_name in pool_of_xml_file_names:
             os.remove(xml_file_name)
 
+    # write the rest of the outputs to a file
+    os.system("zip {} {}".format(os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS,
+                                              "wiki_outputs_{}.zip".format(outputs_counter // FILES_PER_ZIP_FILE)),
+                                 os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, "wiki_outputs*.json")))
+    os.system("rm {}".format(os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, "wiki_outputs*.json")))
 
 
 if __name__ == '__main__':
