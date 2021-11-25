@@ -146,7 +146,7 @@ class GensimDocumentsIterator():
             for j, file_name in enumerate(file_names):
                 print("working on file {} out of {} total".format(j, len(file_names) - 1))
                 output_file_path = os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS,
-                                                "preprocessed_{}.json".format(zip_file_name.split(".")[0]))
+                                                "preprocessed_{}_{}.json".format(zip_file_name.split(".")[0], j))
                 if not os.path.is_file(output_file_path):
                     file = zip_file.read(file_name)
                     file_json = json.loads(file.decode())  # call decode because file.read() is just bytes
