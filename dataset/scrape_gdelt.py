@@ -3,9 +3,28 @@ This file queries for GDELT articles relating to the articles we're given
 """
 from google.cloud import bigquery
 import csv
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
 
 
 LAT_AND_LONG_SQUARE_LENGTH = 4
+
+def clean_article(text):
+    """
+
+    :param text (string): the article text
+    :return: (string) the cleaned article text
+    """
+    # break into lines and remove leading and trailing space on each
+    lines = (line.strip() for line in text.splitlines())
+    # break multi-headlines into a line each
+    chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+    # drop blank lines
+    text = '\n'.join(chunk for chunk in chunks if chunk)
+
+    # anything else we should do?
+
+    return text
 
 def get_query_string(lat, long, year):
     """
@@ -21,14 +40,35 @@ def get_query_string(lat, long, year):
     within some square radius.
     """
 
+    def get_all_values_in_square(num):
+        return "\.?.*|".join([str(i) for i in range(int(num) - LAT_AND_LONG_SQUARE_LENGTH, int(num) + LAT_AND_LONG_SQUARE_LENGTH + 1)]) + "\.?.*"
+
     return f"""
     SELECT DOCUMENTIDENTIFIER
     FROM `gdelt-bq.gdeltv2.gkg_partitioned`
     WHERE _PARTITIONTIME >= "{year-1}-01-01 00:00:00" AND
           _PARTITIONTIME < "{year}-01-01 00:00:00" AND
           SOURCECOLLECTIONIDENTIFIER = 1 AND
-          REGEXP_CONTAINS(V2LOCATIONS, r'.#{lat}#{long}#.')
+          REGEXP_CONTAINS(V2LOCATIONS, r'.#{get_all_values_in_square(lat)}#{get_all_values_in_square(long)}#.')
     """
+
+def extract_article_text_from_url(url):
+    """
+
+    :param url (string): the url for the article we obtained from the query over the GDELT GKG
+    :return: (string) the text of the article that's returned.
+
+    NOTE: got this functionality from stack overflow!
+    See here: https://stackoverflow.com/questions/328356/extracting-text-from-html-file-using-python
+    """
+    html = urlopen(url).read()
+    soup = BeautifulSoup(html, features="html.parser")
+
+    # kill all script and style elements
+    for script in soup(["script", "style"]):
+        script.extract()  # rip it out
+
+    return clean_article(soup.get_text())
 
 
 def query_for_whole_dataset():
@@ -37,14 +77,25 @@ def query_for_whole_dataset():
 
     dhs_labels_csv = open(PATH_TO_DHS_LABELS, 'r')
     dhs_labels_csv_reader = csv.reader(dhs_labels_csv, delimiter=',')
+
+    articles = dict()
+
     for dhs_label_row in dhs_labels_csv_reader:
         curr_query = get_query_string(float(dhs_label_row[3]), float(dhs_label_row[4]), float(dhs_label_row[2]))
 
         query_result = client.query(curr_query)
-        for result_row in query_result:
-            pass
+        if __name__ == '__main__':
+            for result_row in query_result:
+                article_text = extract_article_text_from_url(result_row[0])
+
+                # now, we need to figure out how to save the article text so we know what row it corresponds to
+                # let's use the ID, yeah? given by dhs_label_row[0]
+                articles[dhs_label_row[0]] = article_text
 
     dhs_labels_csv.close()
+
+    # write the articles
+    writeToJsonFile(articles, os.path.join(PATH_TO_GDELT_OUTPUTS, "articles.json"))
 
 
 
