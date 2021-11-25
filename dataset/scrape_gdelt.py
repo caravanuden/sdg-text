@@ -1,3 +1,103 @@
+"""
+This file queries for GDELT articles relating to the articles we're given
+"""
+from google.cloud import bigquery
+import csv
+
+
+LAT_AND_LONG_SQUARE_LENGTH = 4
+
+def get_query_string(lat, long, year):
+    """
+
+    :param lat (float): lat correspnding to the given row
+    :param long (float):
+    :param year (int):
+    :return: (string) the query corresponding to the row.
+    This function takes in the lat/long and year values for a given row in the DHS CSV and then returns
+    the corresponding query we want to send to Google BigQuery corresponding to that row.
+
+    NOTE: for now, we just query the actual lat/long values given. Soon, we'll adjust this to query for a range of values
+    within some square radius.
+    """
+
+    return f"""
+    SELECT DOCUMENTIDENTIFIER
+    FROM `gdelt-bq.gdeltv2.gkg_partitioned`
+    WHERE _PARTITIONTIME >= "{year-1}-01-01 00:00:00" AND
+          _PARTITIONTIME < "{year}-01-01 00:00:00" AND
+          SOURCECOLLECTIONIDENTIFIER = 1 AND
+          REGEXP_CONTAINS(V2LOCATIONS, r'.#{lat}#{long}#.')
+    """
+
+
+def query_for_whole_dataset():
+    # get a bigquery client
+    client = bigquery.Client()
+
+    dhs_labels_csv = open(PATH_TO_DHS_LABELS, 'r')
+    dhs_labels_csv_reader = csv.reader(dhs_labels_csv, delimiter=',')
+    for dhs_label_row in dhs_labels_csv_reader:
+        curr_query = get_query_string(float(dhs_label_row[3]), float(dhs_label_row[4]), float(dhs_label_row[2]))
+
+        query_result = client.query(curr_query)
+        for result_row in query_result:
+            pass
+
+    dhs_labels_csv.close()
+
+
+
+
+if __name__ == '__main__':
+    query_for_whole_dataset()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # SELECT V2Locations FROM `gdelt-bq.gdeltv2.gkg` LIMIT 1000

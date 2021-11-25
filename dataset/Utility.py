@@ -2,6 +2,7 @@ import json
 import os
 from pathlib import Path
 
+PATH_TO_DHS_LABELS = "./dhs_labels/dhs_final_labels.csv"
 PATH_TO_WIKIPEDIA_OUTPUTS = "./wiki_outputs"
 PATH_TO_GDELT_OUTPUTS = "./gdelt_outputs"
 PATH_TO_PREPROCESSED_DOC2VEC_INPUTS = "./doc2vec_inputs"
