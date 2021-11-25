@@ -1,5 +1,8 @@
 """
 This file queries for GDELT articles relating to the articles we're given
+
+IMPORTANT NOTE: Before using this script, you must follow the instructions given at the top of
+configure_google_service_account.sh and you should probably run that script as well
 """
 from google.cloud import bigquery
 import csv
@@ -41,15 +44,17 @@ def get_query_string(lat, long, year):
     """
 
     def get_all_values_in_square(num):
-        return "\.?.*|".join([str(i) for i in range(int(num) - LAT_AND_LONG_SQUARE_LENGTH, int(num) + LAT_AND_LONG_SQUARE_LENGTH + 1)]) + "\.?.*"
+        return "\\.?.*|".join([str(i) for i in range(int(num) - LAT_AND_LONG_SQUARE_LENGTH, int(num) + LAT_AND_LONG_SQUARE_LENGTH + 1)]) + "\\.?.*"
 
+    # note: we only query on the partition time from year-01-01 to year-02-01 (so only over one month instead of
+    # a full year) because then we go over our quota for queries.
     return f"""
     SELECT DOCUMENTIDENTIFIER
     FROM `gdelt-bq.gdeltv2.gkg_partitioned`
-    WHERE _PARTITIONTIME >= "{year-1}-01-01 00:00:00" AND
-          _PARTITIONTIME < "{year}-01-01 00:00:00" AND
+    WHERE _PARTITIONTIME >= "{year}-01-01 00:00:00" AND
+          _PARTITIONTIME < "{year}-02-01 00:00:00" AND
           SOURCECOLLECTIONIDENTIFIER = 1 AND
-          REGEXP_CONTAINS(V2LOCATIONS, r'.#{get_all_values_in_square(lat)}#{get_all_values_in_square(long)}#.')
+          REGEXP_CONTAINS(V2LOCATIONS, r\'.#({get_all_values_in_square(lat)})#({get_all_values_in_square(long)})#.\')
     """
 
 def extract_article_text_from_url(url):
@@ -80,17 +85,23 @@ def query_for_whole_dataset():
 
     articles = dict()
 
-    for dhs_label_row in dhs_labels_csv_reader:
-        curr_query = get_query_string(float(dhs_label_row[3]), float(dhs_label_row[4]), float(dhs_label_row[2]))
+    for i,dhs_label_row in enumerate(dhs_labels_csv_reader):
+        if i==0:
+            continue # this is because hte first row is just the column names.
+        curr_query = get_query_string(float(dhs_label_row[3]), float(dhs_label_row[4]), int(dhs_label_row[2]))
 
-        query_result = client.query(curr_query)
-        if __name__ == '__main__':
-            for result_row in query_result:
+        query_job = client.query(curr_query)
+        result_rows = query_job.result()
+        for result_row in result_rows:
+            try:
                 article_text = extract_article_text_from_url(result_row[0])
 
                 # now, we need to figure out how to save the article text so we know what row it corresponds to
                 # let's use the ID, yeah? given by dhs_label_row[0]
                 articles[dhs_label_row[0]] = article_text
+            except Exception as e:
+                print(f"Got exception getting article text for url {result_row[0]} and exception {e}")
+
 
     dhs_labels_csv.close()
 
@@ -272,6 +283,29 @@ BigQuery lets us use regular expressions, so that could be our starting point.
 The only thing is, now we still need to run one query per lat/long value, which is obviously not ideal.
 Another idea would be to just take all the queries for whatever the year is and just use those.
 Let's just write some code to do the querying with arbitrary partitioned dates and with a single lat/long value.
+
+
+
+
+
+
+SELECT DOCUMENTIDENTIFIER, V2LOCATIONS
+FROM `gdelt-bq.gdeltv2.gkg_partitioned`
+WHERE _PARTITIONTIME >= "2020-12-30 00:00:00" AND
+      _PARTITIONTIME < "2021-01-01 00:00:00" AND
+      SOURCECOLLECTIONIDENTIFIER = 1 AND
+      REGEXP_CONTAINS(V2LOCATIONS, r'.#(30\.?.*|31\.?.*)#-93.2174#.')
+      -- REGEXP_CONTAINS(V2LOCATIONS, r'.#30\.+#-93.2174#.') --
+    -- REGEXP_CONTAINS(V2LOCATIONS, r'.#(30\.?|31\.?)#-93.2174#.') --
+      -- REGEXP_CONTAINS(V2LOCATIONS, r'.#(30\.2266|22)#-93.2174#.') --
+
+
+      SELECT DOCUMENTIDENTIFIER, DATE
+FROM `gdelt-bq.gdeltv2.gkg_partitioned`
+WHERE _PARTITIONTIME >= "2016-01-01 00:00:00" AND
+_PARTITIONTIME < "2016-02-01 00:00:00" AND
+SOURCECOLLECTIONIDENTIFIER = 1 AND
+REGEXP_CONTAINS(V2LOCATIONS, r'.#(36\.?.*)#.')
 """
 
 
