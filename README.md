@@ -1,8 +1,11 @@
 # Multimodal-deep-learning-for-poverty-prediction
-#### TODOs
-See (here)[https://docs.google.com/spreadsheets/d/17CHcM3IwEVwuU1_t8eH-G13271RGbywtcusSSUAz6ZA/edit?usp=sharing].
+### Motivation
+Compare performance of different text sources (Wikipedia, GDELT) and embedding extraction methods (document, targeted sentence, and overall sentence embeddings) for prediction of targets related to sustainable development.
 
-#### Data
+### TODOs
+See [here](https://docs.google.com/spreadsheets/d/17CHcM3IwEVwuU1_t8eH-G13271RGbywtcusSSUAz6ZA/edit?usp=sharing).
+
+### Data
 From the SustainBench dataset, we have 117644 survey results from the years 1996-2019. These survey results cover 6 targets:
 - sanitation index
 - water index
@@ -14,16 +17,18 @@ From the SustainBench dataset, we have 117644 survey results from the years 1996
 For each data source of:
 - Wikipedia
 - GDELT
-we have the following embeddings:
+
+We have the following embeddings:
 - Doc2Vec document embedding
 - Sentence embedding for each target, gathered by extracting target-relevant sentences (sentences with words related to each target)
 - Overall average sentence embedding (average or concat the separate sentence embeddings for the 6 targets)
 
-#### Models
+### Models
 For the following models:
 - Ridge regression
 - Random forest?
 - Feedforward DL regression
+
 Train for the following (feature, target pairs):
 - (Wikipedia Doc2Vec document embedding, each of the targets)
 - (GDELT Doc2Vec document embedding, each of the targets)
