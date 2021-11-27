@@ -4,6 +4,7 @@ This file queries for GDELT articles relating to the articles we're given
 IMPORTANT NOTE: Before using this script, you must follow the instructions given at the top of
 configure_google_service_account.sh and you should probably run that script as well
 """
+from Utility import *
 from google.cloud import bigquery
 import csv
 from urllib.request import urlopen
