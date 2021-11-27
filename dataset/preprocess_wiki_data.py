@@ -1,12 +1,11 @@
-# the purpose of this file is to:
-# 1) get only those wiki articles whose lat/lon coordinates have a corresponding image in the database
-# 2) doc2vec encode those articles
-
 from Utility import *
 import os
 import zipfile
 import json
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
+import csv
+import numpy as np
+
 
 def clean(text):
     """
@@ -101,37 +100,77 @@ def get_lat_lon_from_wiki_coord_tag(coord_tag):
 
     return (latitude,longitude)
 
+class WikiInitializer:
+    def __init__(self, acceptable_radius = 4):
+        self.dhs_ids = None
+        self.dhs_lat_long_np_array = None
+        if not self.all_files_ready():
+            self.dhs_ids, self.dhs_lat_long_np_array = self.read_in_dhs_data()
+        self.acceptable_radius=4
+        self.id_counter = 0
 
-
-
-
-class GensimDocumentsIterator():
-    def __init__(self):
-        self.first_pass = True
-
-    def __iter__(self):
-        # reset the generator
-        self.generator = self.load()
-        return self
-
-    def __next__(self):
-        result = next(self.generator)
-        if result is None:
-            raise StopIteration
-        else:
-            return result
-
-    def initialize_preprocessed_data(self, verbose=False):
+    def all_files_ready(self):
         """
 
-        :param verbose:
-        :return: This function will preprocess the data and write to files if it doesn't already exist
+        :return: (bool) indicates whether or not all the preprocessed wiki files are created already or not.
         """
         # get all the zip files in the Wikipedia outputs directory
         zip_file_names = [file_name for file_name in os.listdir(PATH_TO_WIKIPEDIA_OUTPUTS) if
                           os.path.splitext(file_name)[1] == ".zip"]
-        num_exceptions = 0
+        for i, zip_file_name in enumerate(zip_file_names):
+            zip_file = zipfile.ZipFile(os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, zip_file_name))
+            file_names = zip_file.namelist()
+            for j, file_name in enumerate(file_names):
+                if not os.path.isfile(output_file_path):
+                    return False
 
+        return True
+
+
+    def read_in_dhs_data(self):
+        """
+
+        :return: (list, nparray) list of ids and their corresponding lat-long values in an np array.
+          to be used to find the correct id corresponding to each wiki article's geolocation
+        """
+        dhs_labels_csv = open(PATH_TO_DHS_LABELS, 'r')
+        dhs_labels_csv_reader = csv.reader(dhs_labels_csv, delimiter=',')
+
+        lat_long_list = list()
+        ids_list = list()
+
+        for i, dhs_label_row in enumerate(dhs_labels_csv_reader):
+            id = dhs_label_row[0]
+            lat = float(dhs_label_row[3])
+            long = float(dhs_label_row[4])
+
+            ids_list.append(id)
+            lat_long_list.append([lat,long])
+
+        return ids_list, np.array(lat_long_list)
+
+    def get_tag(self, latitude, longitude):
+        """
+        :param latitude:
+        :param longitude:
+        :return: search through the dhs labels and find label with closest latitude,longitude values.
+         Then, make the tag for the document embedding that row's ID.
+        """
+        lat_long_vector = np.array([latitude, longitude]).reshape(1,-1)
+        norms = np.linalg.norm(self.dhs_lat_long_np_array - lat_long_vector)
+        min_index = np.argmin(norms)
+        if norms[min_index] <= self.acceptable_radius:
+            return f"{self.dhs_ids[min_index]}-wiki" # we add wiki to the end to diffferentiate the wiki and gdelt data
+
+        self.id_counter += 1
+        return f"no_id_{self.id_counter}-wiki" # these doc vectors won't be matched with an article
+
+
+    def init_wiki_data(self, verbose=False):
+        # get all the zip files in the Wikipedia outputs directory
+        zip_file_names = [file_name for file_name in os.listdir(PATH_TO_WIKIPEDIA_OUTPUTS) if
+                          os.path.splitext(file_name)[1] == ".zip"]
+        num_exceptions = 0
         for i, zip_file_name in enumerate(zip_file_names):
             # read the zip files without actually extracting them
             print("***working on ZIP file {} out of {} total***".format(i, len(zip_file_names) - 1))
@@ -142,12 +181,12 @@ class GensimDocumentsIterator():
             output_json = list()
 
             # create the file if we need to only.
-            #if not os.path.is_file(output_file_path):
+            # if not os.path.is_file(output_file_path):
             for j, file_name in enumerate(file_names):
-                print("working on file {} out of {} total".format(j, len(file_names) - 1))
+                # print("working on file {} out of {} total".format(j, len(file_names) - 1))
                 output_file_path = os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS,
                                                 "preprocessed_{}_{}.json".format(zip_file_name.split(".")[0], j))
-                if not os.path.is_file(output_file_path):
+                if not os.path.isfile(output_file_path):
                     file = zip_file.read(file_name)
                     file_json = json.loads(file.decode())  # call decode because file.read() is just bytes
 
@@ -161,14 +200,9 @@ class GensimDocumentsIterator():
                             clean_page_text = clean(document["page_text"])
 
 
-
-                            # NOTE: we use the value document_latitude-document_longitude as the document tag!
-                            # this is VERY IMPORTANT! The tag is what is used to obtain the desired document vector later on
-                            # (i.e., to obtain a document at latitude,longitude value -30,40, we would use model.dv["-30-40"]
-                            # yield TaggedDocument(words=clean_page_text.split(), tags=["{}-{}".format(latitude, longitude)])
                             output_json.append({
                                 "clean_text": clean_page_text,
-                                "tag": "{}-{}".format(latitude, longitude)
+                                "tag": self.get_tag(latitude, longitude)
                             })
                         except Exception as e:
                             num_exceptions += 1
@@ -178,58 +212,8 @@ class GensimDocumentsIterator():
                                     "----\ngot exception: {} \n for coordinate tag: {} \n for page_loc: {} \n\n\n----".format(
                                         e, coord_tag, document["page_location"]))
 
-                    file.close()
+                    # file.close()
 
                     writeToJsonFile(output_json, output_file_path)
 
-        zip_file.close()
-
-    def load(self, verbose=False):
-        """
-
-        :return: This function yields a SINGLE article each time
-        This function will basically read in all Wiki articles that are geolocated (the ones we
-        obtained by scraping) and then use these articles to train a Doc2Vec model.
-        Then, we can use the Doc2Vec embeddings as features in our late fusion model.
-        For now, I think I'll try and train on ALL the Wiki articles, and we can decide later how we want
-        to actually associate those articles with data points.
-
-        For now, only load files from Wikipedia (can add in GDELT later)
-        """
-
-        # only try and build the actual files from the raw, scraped data the first time through the iterator
-        if self.first_pass:
-            self.initialize_preprocessed_data(verbose)
-            self.first_pass = False
-
-        # now, just read in the data
-        file_names = [file_name for file_name in os.listdir(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS)]
-        for i, file_name in enumerate(file_names):
-            # read the zip files without actually extracting them
-            print("***working on INPUT FILE file {} out of {} total***".format(i, len(file_names) - 1))
-            file_json = readFromJsonFile(file_name)
-            for document in file_json:
-                yield TaggedDocument(words=document["clean_text"].split(), tags=[document["tag"]])
-
-
-def doc2vec_encode():
-    """
-    :return: In this function, we'll train the doc2vec model on the relevant articles (Those with matching lat/long values in the dataset
-    Then, we'll save the resulting doc2vec model and, essentially, use that for the dataloader stuff
-    """
-    data_iter = GensimDocumentsIterator()
-    model = Doc2Vec(documents=data_iter, vector_size=300, window=8, min_count=1, workers=4, epochs=10)
-
-    print("training doc2vec model...")
-    model.train(data_iter, total_examples=model.corpus_count, epochs=2)
-    print("finished training doc2vec model.")
-
-    # now, we'll save it
-    model.save(os.path.join(PATH_TO_DOC2VEC_MODEL, "wiki_trained_doc2vec_model.model"))
-
-
-if __name__ == "__main__":
-    doc2vec_encode()
-
-
-
+            zip_file.close()

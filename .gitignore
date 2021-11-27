@@ -1,4 +1,6 @@
 # 
+dataset/doc2vec_model
+dataset/doc2vec_inputs
 dataset/dhs_labels
 dataset/service_account_keys
 dataset/wiki_outputs

@@ -9,6 +9,7 @@ from google.cloud import bigquery
 import csv
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
+import os
 
 
 LAT_AND_LONG_SQUARE_LENGTH = 4
@@ -107,7 +108,11 @@ def query_for_whole_dataset():
     dhs_labels_csv.close()
 
     # write the articles
-    writeToJsonFile(articles, os.path.join(PATH_TO_GDELT_OUTPUTS, "articles.json"))
+    writeToJsonFile(articles, os.path.join(PATH_TO_GDELT_OUTPUTS, "gdelt_articles.json"))
+
+    #zip it
+    os.system("zip {} {}", os.path.join(PATH_TO_GDELT_OUTPUTS, "gdelt_articles.zip"), os.path.join(PATH_TO_GDELT_OUTPUTS, "gdelt_articles.json"))
+    os.system("rm {}", os.path.join(PATH_TO_GDELT_OUTPUTS, "gdelt_articles.json"))
 
 
 
