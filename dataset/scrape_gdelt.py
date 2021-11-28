@@ -83,6 +83,9 @@ def query_gdelt_values(dhs_label_rows, out_file_path):
     # get a bigquery client
     client = bigquery.Client()
 
+
+    out_file_path_without_extension = os.path.splitext(out_file_path)[0]
+    out_file_counter = 0
     articles = dict()
 
     for i,dhs_label_row in enumerate(dhs_label_rows):
@@ -102,6 +105,10 @@ def query_gdelt_values(dhs_label_rows, out_file_path):
             except Exception as e:
                 print(f"Got exception getting article text for url {result_row[0]} and exception {e}")
 
+        if len(articles) > 1000 == 0:
+            writeToJsonFile(articles, out_file_path_without_extension + f"_{out_file_counter}.json") # prematurely write the articles to file
+            articles = dict()
+
 
     dhs_labels_csv.close()
 
@@ -109,8 +116,8 @@ def query_gdelt_values(dhs_label_rows, out_file_path):
     writeToJsonFile(articles, out_file_path)
 
     #zip it
-    os.system("zip {} {}", out_file_path + ".zip",out_file_path)
-    os.system("rm {}", out_file_path)
+    os.system("zip {} {}", out_file_path + ".zip",out_file_path_without_extension + "*.json")
+    os.system("rm {}", out_file_path_without_extension + "*.json")
 
 
 
@@ -132,7 +139,7 @@ if __name__ == '__main__':
     rows_to_process = dhs_labels_rows[len(dhs_labels_rows)//(args.total_num_processes) * args.process_number : len(dhs_labels_rows)//(args.total_num_processes) * (args.process_number+1)]
 
     # complete the workload for this process
-    out_file_path = os.path.join(PATH_TO_GDELT_OUTPUTS, f"articles_{args.process_number}")
+    out_file_path = os.path.join(PATH_TO_GDELT_OUTPUTS, f"articles_{args.process_number}.json")
     query_gdelt_values(rows_to_process, out_file_path)
 
 
