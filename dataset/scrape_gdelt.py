@@ -10,6 +10,7 @@ import csv
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import os
+import argparse
 
 
 LAT_AND_LONG_SQUARE_LENGTH = 4
@@ -78,16 +79,13 @@ def extract_article_text_from_url(url):
     return clean_article(soup.get_text())
 
 
-def query_for_whole_dataset():
+def query_gdelt_values(dhs_label_rows, out_file_path):
     # get a bigquery client
     client = bigquery.Client()
 
-    dhs_labels_csv = open(PATH_TO_DHS_LABELS, 'r')
-    dhs_labels_csv_reader = csv.reader(dhs_labels_csv, delimiter=',')
-
     articles = dict()
 
-    for i,dhs_label_row in enumerate(dhs_labels_csv_reader):
+    for i,dhs_label_row in enumerate(dhs_label_rows):
         if i==0:
             continue # this is because hte first row is just the column names.
         curr_query = get_query_string(float(dhs_label_row[3]), float(dhs_label_row[4]), int(dhs_label_row[2]))
@@ -108,17 +106,35 @@ def query_for_whole_dataset():
     dhs_labels_csv.close()
 
     # write the articles
-    writeToJsonFile(articles, os.path.join(PATH_TO_GDELT_OUTPUTS, "gdelt_articles.json"))
+    writeToJsonFile(articles, out_file_path)
 
     #zip it
-    os.system("zip {} {}", os.path.join(PATH_TO_GDELT_OUTPUTS, "gdelt_articles.zip"), os.path.join(PATH_TO_GDELT_OUTPUTS, "gdelt_articles.json"))
-    os.system("rm {}", os.path.join(PATH_TO_GDELT_OUTPUTS, "gdelt_articles.json"))
+    os.system("zip {} {}", out_file_path + ".zip",out_file_path)
+    os.system("rm {}", out_file_path)
 
 
 
 
 if __name__ == '__main__':
-    query_for_whole_dataset()
+    # get args
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--process_number', nargs='?', type=int, default=0)
+    parser.add_argument('--total_num_processes', nargs='?', type=int, default=1)
+    args = parser.parse_args()
+
+
+    # get the dhs labels
+    dhs_labels_csv = open(PATH_TO_DHS_LABELS, 'r')
+    dhs_labels_csv_reader = csv.reader(dhs_labels_csv, delimiter=',')
+    dhs_labels_rows = [row for row in dhs_labels_csv_reader]
+
+    # split the workload among processes
+    rows_to_process = dhs_labels_rows[len(dhs_labels_rows)//(args.total_num_processes) * args.process_number : len(dhs_labels_rows)//(args.total_num_processes) * (args.process_number+1)]
+
+    # complete the workload for this process
+    out_file_path = os.path.join(PATH_TO_GDELT_OUTPUTS, f"articles_{args.process_number}")
+    query_gdelt_values(rows_to_process, out_file_path)
+
 
 
 
