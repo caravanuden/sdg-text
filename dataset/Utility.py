@@ -7,6 +7,8 @@ PATH_TO_WIKIPEDIA_OUTPUTS = "./wiki_outputs"
 PATH_TO_GDELT_OUTPUTS = "./gdelt_outputs"
 PATH_TO_PREPROCESSED_DOC2VEC_INPUTS = "./doc2vec_inputs"
 PATH_TO_DOC2VEC_MODEL = "./doc2vec_model"
+PATH_TO_TWITTER_API_KEYS = "./twitter_api_keys"
+PATH_TO_TWITTER_API_BEARER_TOKEN = os.path.join(PATH_TO_TWITTER_API_KEYS, "bearer_token.txt")
 
 
 def readFromJsonFile(infile_path):

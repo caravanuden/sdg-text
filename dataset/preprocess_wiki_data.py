@@ -121,6 +121,8 @@ class WikiInitializer:
             zip_file = zipfile.ZipFile(os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, zip_file_name))
             file_names = zip_file.namelist()
             for j, file_name in enumerate(file_names):
+                output_file_path = os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS,
+                                                "preprocessed_{}_{}.json".format(zip_file_name.split(".")[0], j))
                 if not os.path.isfile(output_file_path):
                     return False
 
@@ -140,12 +142,14 @@ class WikiInitializer:
         ids_list = list()
 
         for i, dhs_label_row in enumerate(dhs_labels_csv_reader):
-            id = dhs_label_row[0]
-            lat = float(dhs_label_row[3])
-            long = float(dhs_label_row[4])
+            if i == 0:
+                continue # skip the row giving the column titles
+            curr_id = dhs_label_row[0]
+            latitude = float(dhs_label_row[3])
+            longitude = float(dhs_label_row[4])
 
-            ids_list.append(id)
-            lat_long_list.append([lat,long])
+            ids_list.append(curr_id)
+            lat_long_list.append([latitude,longitude])
 
         return ids_list, np.array(lat_long_list)
 
@@ -157,7 +161,7 @@ class WikiInitializer:
          Then, make the tag for the document embedding that row's ID.
         """
         lat_long_vector = np.array([latitude, longitude]).reshape(1,-1)
-        norms = np.linalg.norm(self.dhs_lat_long_np_array - lat_long_vector)
+        norms = np.linalg.norm(self.dhs_lat_long_np_array - lat_long_vector, axis=1)
         min_index = np.argmin(norms)
         if norms[min_index] <= self.acceptable_radius:
             return f"{self.dhs_ids[min_index]}-wiki" # we add wiki to the end to diffferentiate the wiki and gdelt data
