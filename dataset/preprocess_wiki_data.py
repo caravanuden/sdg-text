@@ -5,6 +5,7 @@ import json
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 import csv
 import numpy as np
+from dhs_reader import DHSReader
 
 
 def clean(text):
@@ -102,12 +103,8 @@ def get_lat_lon_from_wiki_coord_tag(coord_tag):
 
 class WikiInitializer:
     def __init__(self, acceptable_radius = 4):
-        self.dhs_ids = None
-        self.dhs_lat_long_np_array = None
-        if not self.all_files_ready():
-            self.dhs_ids, self.dhs_lat_long_np_array = self.read_in_dhs_data()
-        self.acceptable_radius=4
-        self.id_counter = 0
+        self.dhs_reader = DHSReader(acceptable_radius)
+        self.ids_counter = dict()
 
     def all_files_ready(self):
         """
@@ -129,30 +126,6 @@ class WikiInitializer:
         return True
 
 
-    def read_in_dhs_data(self):
-        """
-
-        :return: (list, nparray) list of ids and their corresponding lat-long values in an np array.
-          to be used to find the correct id corresponding to each wiki article's geolocation
-        """
-        dhs_labels_csv = open(PATH_TO_DHS_LABELS, 'r')
-        dhs_labels_csv_reader = csv.reader(dhs_labels_csv, delimiter=',')
-
-        lat_long_list = list()
-        ids_list = list()
-
-        for i, dhs_label_row in enumerate(dhs_labels_csv_reader):
-            if i == 0:
-                continue # skip the row giving the column titles
-            curr_id = dhs_label_row[0]
-            latitude = float(dhs_label_row[3])
-            longitude = float(dhs_label_row[4])
-
-            ids_list.append(curr_id)
-            lat_long_list.append([latitude,longitude])
-
-        return ids_list, np.array(lat_long_list)
-
     def get_tag(self, latitude, longitude):
         """
         :param latitude:
@@ -160,14 +133,14 @@ class WikiInitializer:
         :return: search through the dhs labels and find label with closest latitude,longitude values.
          Then, make the tag for the document embedding that row's ID.
         """
-        lat_long_vector = np.array([latitude, longitude]).reshape(1,-1)
-        norms = np.linalg.norm(self.dhs_lat_long_np_array - lat_long_vector, axis=1)
-        min_index = np.argmin(norms)
-        if norms[min_index] <= self.acceptable_radius:
-            return f"{self.dhs_ids[min_index]}-wiki" # we add wiki to the end to diffferentiate the wiki and gdelt data
+        dhs_id = self.dhs_reader.get_closest_dhs_ids_to_lat_lon(latitude, longitude)
+        if dhs_id in self.ids_counter:
+            self.ids_counter[dhs_id] = 0
+        else:
+            self.ids_counter[dhs_id] += 1
+        id_number = self.ids_counter[dhs_id]
 
-        self.id_counter += 1
-        return f"no_id_{self.id_counter}-wiki" # these doc vectors won't be matched with an article
+        return f"{dhs_id}-{id_number}-wiki" # these doc vectors won't be matched with an article
 
 
     def init_wiki_data(self, verbose=False):

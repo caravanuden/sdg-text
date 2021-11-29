@@ -1,4 +1,4 @@
-#!/bin/sh#
+#!/bin/sh
 # Before running this script, you need to:
 # 1) download gcloud cli
 # 2) call gcloud auth login <your_google_account_name>
