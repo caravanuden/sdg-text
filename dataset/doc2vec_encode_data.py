@@ -76,7 +76,6 @@ class GensimDocumentsIterator():
         # now, just read in the data
         file_names = [file_name for file_name in os.listdir(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS)]
         for i, file_name in enumerate(file_names):
-            # read the zip files without actually extracting them
             if i == 0 or i % 10 == 0 or i == len(file_names)-1:
                 print("***working on INPUT FILE file {} out of {} total***".format(i, len(file_names) - 1))
             file_json = readFromJsonFile(os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, file_name))

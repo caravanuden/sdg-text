@@ -135,9 +135,9 @@ class WikiInitializer:
         """
         dhs_id = self.dhs_reader.get_closest_dhs_ids_to_lat_lon(latitude, longitude)
         if dhs_id in self.ids_counter:
-            self.ids_counter[dhs_id] = 0
-        else:
             self.ids_counter[dhs_id] += 1
+        else:
+            self.ids_counter[dhs_id] = 0
         id_number = self.ids_counter[dhs_id]
 
         return f"{dhs_id}-{id_number}-wiki" # these doc vectors won't be matched with an article
@@ -192,5 +192,9 @@ class WikiInitializer:
                     # file.close()
 
                     writeToJsonFile(output_json, output_file_path)
+
+            os.system("zip {} {}".format(os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, "preprocessed_{}.zip".format(zip_file_name.split(".")[0])),
+                os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, "preprocessed_{}*.json".format(zip_file_name.split(".")[0]))))
+            os.system("rm {}".format(os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, "preprocessed_{}*.json".format(zip_file_name.split(".")[0]))))
 
             zip_file.close()

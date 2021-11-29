@@ -1,3 +1,7 @@
+"""Note: large portions of this code file are publicly available under a repo I created for a prior research project (called Towards-Understanding-Gender-Bias-In-Neural-Relation-Extraction
+The functions in this file which are also in that file are functions I use in all my Python projects; hence, I
+included those functions below as well."""
+
 import json
 import os
 from pathlib import Path

@@ -21,7 +21,7 @@ class DHSReader:
         lat_long_list = list()
         ids_list = list()
 
-        for i, dhs_label_row in enumerate(dhs_labelnps_csv_reader):
+        for i, dhs_label_row in enumerate(dhs_labels_csv_reader):
             if i == 0:
                 continue # skip the row giving the column titles
             curr_id = dhs_label_row[0]
