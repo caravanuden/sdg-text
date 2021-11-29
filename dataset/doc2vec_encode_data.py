@@ -74,13 +74,18 @@ class GensimDocumentsIterator():
             self.initialize_preprocessed_data(verbose)
 
         # now, just read in the data
-        file_names = [file_name for file_name in os.listdir(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS)]
-        for i, file_name in enumerate(file_names):
-            if i == 0 or i % 10 == 0 or i == len(file_names)-1:
-                print("***working on INPUT FILE file {} out of {} total***".format(i, len(file_names) - 1))
-            file_json = readFromJsonFile(os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, file_name))
-            for document in file_json:
-                yield TaggedDocument(words=document["clean_text"].split(), tags=[document["tag"]])
+        zip_file_names = [file_name for file_name in os.listdir(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS) if
+                          os.path.splitext(file_name)[1] == ".zip"]
+        for i,zip_file_name in enumerate(zip_file_names):
+            print("***training on ZIP FILE file {} out of {} total***".format(i, len(zip_file_names) - 1))
+            zip_file = zipfile.ZipFile(os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, zip_file_name))
+            file_names = zip_file.namelist()
+            for file_name in file_names:
+                file = zip_file.read(file_name)
+                file_json = json.loads(file.decode())  # call decode because file.read() is just bytes
+                for document in file_json:
+                    yield TaggedDocument(words=document["clean_text"].split(), tags=[document["tag"]])
+
 
 
 def doc2vec_encode():

@@ -115,14 +115,8 @@ class WikiInitializer:
         zip_file_names = [file_name for file_name in os.listdir(PATH_TO_WIKIPEDIA_OUTPUTS) if
                           os.path.splitext(file_name)[1] == ".zip"]
         for i, zip_file_name in enumerate(zip_file_names):
-            zip_file = zipfile.ZipFile(os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, zip_file_name))
-            file_names = zip_file.namelist()
-            for j, file_name in enumerate(file_names):
-                output_file_path = os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS,
-                                                "preprocessed_{}_{}.json".format(zip_file_name.split(".")[0], j))
-                if not os.path.isfile(output_file_path):
-                    return False
-
+            if not os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, "preprocessed_{}.zip".format(zip_file_name.split(".")[0])):
+                return False
         return True
 
 
@@ -159,42 +153,43 @@ class WikiInitializer:
 
             # create the file if we need to only.
             # if not os.path.is_file(output_file_path):
-            for j, file_name in enumerate(file_names):
-                # print("working on file {} out of {} total".format(j, len(file_names) - 1))
-                output_file_path = os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS,
-                                                "preprocessed_{}_{}.json".format(zip_file_name.split(".")[0], j))
-                if not os.path.isfile(output_file_path):
-                    file = zip_file.read(file_name)
-                    file_json = json.loads(file.decode())  # call decode because file.read() is just bytes
+            if not os.path.is_file(os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, "preprocessed_{}.zip".format(zip_file_name.split(".")[0]))):
+                for j, file_name in enumerate(file_names):
+                    # print("working on file {} out of {} total".format(j, len(file_names) - 1))
+                    output_file_path = os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS,
+                                                    "preprocessed_{}_{}.json".format(zip_file_name.split(".")[0], j))
+                    if not os.path.is_file(output_file_path):
+                        file = zip_file.read(file_name)
+                        file_json = json.loads(file.decode())  # call decode because file.read() is just bytes
 
-                    for document in file_json:
-                        coord_tag = document["page_location"].split(",")[0][
-                                    3:-1]  # ugly, but necessary because of how the page_location tuple is json encoded. Oops!
-                        try:
-                            latitude, longitude = get_lat_lon_from_wiki_coord_tag(coord_tag)
+                        for document in file_json:
+                            coord_tag = document["page_location"].split(",")[0][
+                                        3:-1]  # ugly, but necessary because of how the page_location tuple is json encoded. Oops!
+                            try:
+                                latitude, longitude = get_lat_lon_from_wiki_coord_tag(coord_tag)
 
-                            # also clean the wiki page text
-                            clean_page_text = clean(document["page_text"])
+                                # also clean the wiki page text
+                                clean_page_text = clean(document["page_text"])
 
 
-                            output_json.append({
-                                "clean_text": clean_page_text,
-                                "tag": self.get_tag(latitude, longitude)
-                            })
-                        except Exception as e:
-                            num_exceptions += 1
+                                output_json.append({
+                                    "clean_text": clean_page_text,
+                                    "tag": self.get_tag(latitude, longitude)
+                                })
+                            except Exception as e:
+                                num_exceptions += 1
 
-                            if verbose:
-                                print(
-                                    "----\ngot exception: {} \n for coordinate tag: {} \n for page_loc: {} \n\n\n----".format(
-                                        e, coord_tag, document["page_location"]))
+                                if verbose:
+                                    print(
+                                        "----\ngot exception: {} \n for coordinate tag: {} \n for page_loc: {} \n\n\n----".format(
+                                            e, coord_tag, document["page_location"]))
 
                     # file.close()
 
                     writeToJsonFile(output_json, output_file_path)
 
-            os.system("zip {} {}".format(os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, "preprocessed_{}.zip".format(zip_file_name.split(".")[0])),
-                os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, "preprocessed_{}*.json".format(zip_file_name.split(".")[0]))))
-            os.system("rm {}".format(os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, "preprocessed_{}*.json".format(zip_file_name.split(".")[0]))))
+                os.system("zip {} {}".format(os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, "preprocessed_{}.zip".format(zip_file_name.split(".")[0])),
+                    os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, "preprocessed_{}*.json".format(zip_file_name.split(".")[0]))))
+                os.system("rm {}".format(os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, "preprocessed_{}*.json".format(zip_file_name.split(".")[0]))))
 
             zip_file.close()
