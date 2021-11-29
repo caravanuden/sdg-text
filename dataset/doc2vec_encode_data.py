@@ -127,7 +127,7 @@ def doc2vec_encode():
     model = Doc2Vec(documents=data_iter, vector_size=300, window=8, min_count=1, workers=4, epochs=args.epochs)
 
     print("training doc2vec model...")
-    model.train(data_iter, total_examples=model.corpus_count)
+    model.train(data_iter, total_examples=model.corpus_count, epochs=args.epochs)
     print("finished training doc2vec model.")
 
     # now, we'll save it
