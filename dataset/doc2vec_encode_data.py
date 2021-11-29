@@ -78,7 +78,7 @@ class GensimDocumentsIterator():
                           os.path.splitext(file_name)[1] == ".zip"]
         for i,zip_file_name in enumerate(zip_file_names):
             print("***training on ZIP FILE file {} out of {} total***".format(i, len(zip_file_names) - 1))
-            zip_file = zipfile.ZipFile(os.path.join(PATH_TO_WIKIPEDIA_OUTPUTS, zip_file_name))
+            zip_file = zipfile.ZipFile(os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, zip_file_name))
             file_names = zip_file.namelist()
             for file_name in file_names:
                 file = zip_file.read(file_name)

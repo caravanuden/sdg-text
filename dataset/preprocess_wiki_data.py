@@ -115,7 +115,7 @@ class WikiInitializer:
         zip_file_names = [file_name for file_name in os.listdir(PATH_TO_WIKIPEDIA_OUTPUTS) if
                           os.path.splitext(file_name)[1] == ".zip"]
         for i, zip_file_name in enumerate(zip_file_names):
-            if not os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, "preprocessed_{}.zip".format(zip_file_name.split(".")[0])):
+            if not os.path.isfile(os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, "preprocessed_{}.zip".format(zip_file_name.split(".")[0]))):
                 return False
         return True
 
@@ -152,13 +152,13 @@ class WikiInitializer:
             output_json = list()
 
             # create the file if we need to only.
-            # if not os.path.is_file(output_file_path):
-            if not os.path.is_file(os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, "preprocessed_{}.zip".format(zip_file_name.split(".")[0]))):
+            # if not os.path.isfile(output_file_path):
+            if not os.path.isfile(os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS, "preprocessed_{}.zip".format(zip_file_name.split(".")[0]))):
                 for j, file_name in enumerate(file_names):
                     # print("working on file {} out of {} total".format(j, len(file_names) - 1))
                     output_file_path = os.path.join(PATH_TO_PREPROCESSED_DOC2VEC_INPUTS,
                                                     "preprocessed_{}_{}.json".format(zip_file_name.split(".")[0], j))
-                    if not os.path.is_file(output_file_path):
+                    if not os.path.isfile(output_file_path):
                         file = zip_file.read(file_name)
                         file_json = json.loads(file.decode())  # call decode because file.read() is just bytes
 
