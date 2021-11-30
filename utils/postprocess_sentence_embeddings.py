@@ -49,7 +49,7 @@ def _embed_sentences_by_row(x, sentence_embed_model):
     return np.mean(sentence_embed_model.encode(x), axis=0) if x else None
 
 
-def write_metadata_and_embeddings(metadata, embeddings, output_data_dir):
+def write_metadata_and_embeddings(df, metadata_cols, embedding_cols, output_data_dir):
     metadata_output_data_path = os.path.join(output_data_dir, "metadata.csv")
     embeddings_output_data_path = os.path.join(output_data_dir, "embeddings.npy")
 
@@ -57,14 +57,9 @@ def write_metadata_and_embeddings(metadata, embeddings, output_data_dir):
         os.makedirs(output_data_dir)
 
     with open(metadata_output_data_path, "a") as f:
-        metadata.to_csv(f, header=f.tell() == 0, index=False)
-
-    if os.path.exists(embeddings_output_data_path):
-        embeddings_old = np.load(embeddings_output_data_path)
-        embeddings = np.concatenate([embeddings_old, embeddings])
-    print(f"Embeddings shape: {embeddings.shape}")
+        df[metadata_cols].to_csv(f, header=f.tell() == 0, index=False)
     np.save(
-        embeddings_output_data_path, embeddings,
+        embeddings_output_data_path, df[embedding_cols].to_numpy(),
     )
 
 
@@ -103,47 +98,40 @@ def embed_sentences(
         df[f"clean_text_{target}"] = df["clean_text"].apply(
             lambda x: _extract_relevant_sentences_by_row(x, keywords, lemmatize_model)
         )
-        df_for_target = df[~df[f"clean_text_{target}"].isna()]
+        df_for_target = df[~df[f"clean_text_{target}"].isna()].reset_index(drop=True)
 
         print(f"Found relevant sentences for {df_for_target.shape[0]} examples")
 
-        embeddings = np.zeros((df_for_target.shape[0], 384))
-        for i, text in enumerate(df_for_target[f"clean_text_{target}"]):
-            embeddings[i, :] = _embed_sentences_by_row(text, sentence_embed_model)
-
-        print(
-            f"Writing embeddings for target {target} and countries {df_for_target.cname.unique()}"
+        df_for_target["embedding"] = df_for_target[f"clean_text_{target}"].apply(
+            lambda x: _embed_sentences_by_row(x, sentence_embed_model)
         )
 
-        df_for_target = df_for_target.reset_index(drop=True)
         for country in df_for_target.cname.unique():
-            country_idx = df_for_target[df_for_target.cname == country].index.values
+            print(f"Writing embeddings for target {target} and country {country}")
             write_metadata_and_embeddings(
-                metadata=df_for_target.loc[country_idx, "DHSID_EA"],
-                embeddings=embeddings[country_idx, :],
-                output_data_dir=os.path.join(output_data_dir, country, target),
+                df=df_for_target[df_for_target.cname == country],
+                metadata_cols=["DHSID_EA"],
+                embedding_cols=["embedding"],
+                output_data_dir=os.path.join(
+                    output_data_dir, country, f"{target}_sentence_embedding"
+                ),
             )
 
 
 if __name__ == "__main__":
-    input_data_dir = "data/wikipedia"
-    output_data_dir = "data/intermediate_embeddings"
+    data_dir = "data"
+    input_data_dir = os.path.join(data_dir, "intermediate_embeddings")
+    output_data_dir = os.path.join(data_dir, "embeddings")
 
-    lemmatize_model = WordNetLemmatizer()
+    for country in countries:
+        for target in targets:
+            ids = pd.read_csv(
+                os.path.join(input_data_dir, country, target, "metadata.csv")
+            )
+            metadata = pd.read_csv(os.path.join(data_dir, "dhs_final_labels.csv"))
+            metadata = metadata.merge(ids, on="DHSID_EA")[
+                ["DHSID_EA", "lat", "lon", target]
+            ]
+            locations = metadata.groupby(["lat", "lon"])["DHSID_EA"].apply(list)
 
-    # good mixture of small size and high sentence embedding performance from sentence-transformers
-    # learn more here: https://huggingface.co/sentence-transformers/all-MiniLM-L12-v2
-    sentence_embed_model = SentenceTransformer("all-MiniLM-L12-v2")
-
-    files_embedded = []
-    for file in os.listdir(input_data_dir):
-        print(f"Starting to embed {file}")
-        embed_sentences(
-            input_data_path=os.path.join(input_data_dir, file),
-            output_data_dir=output_data_dir,
-            sentence_embed_model=sentence_embed_model,
-            keywords_dict=CHARMELEON_KEYWORDS_DICT,
-            # lemmatize_model=lemmatize_model,
-        )
-        files_embedded.append(file)
-        print(f"Have embedded {files_embedded}\n")
+            for location in locations:
