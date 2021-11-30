@@ -6,6 +6,7 @@ from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 import csv
 import numpy as np
 from dhs_reader import DHSReader
+import mwparserfromhell
 
 
 def clean(text):
@@ -14,8 +15,8 @@ def clean(text):
     :param text (string): supposed to be text from a Wiki article
     :return: the text cleaned up.
     """
-
-    # temporary
+    parsed_wikicode = mwparserfromhell.parse(text)
+    text = parsed_wikicode.strip_code()
     return text
 
 
