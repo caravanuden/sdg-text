@@ -135,24 +135,20 @@ class FeedforwardNewtork(ModelInterface):
         #self.model.configure_architecture(x.shape[-1])
 
         # now, fit the model
-        iter = 0
-        for epoch in range(self.num_epochs):
-            # construct the batches
+        #mini_batch_range = trange(x.shape[0] // self.batch_size)
 
-            input_data_loop_range = trange(x.shape[0])
-            for i in range(input_data_loop_range):
-                self.optimizer.zero_grad()  # zero the gradient buffers
-                output = self.model(input)
-                loss = self.criterion(output, y[i])
-                loss.backward()
-                self.optimizer.step()
+        batch_start = 0
+        while batch_start + self.batch_size < x.shape[0]:
+            batch_X = x[batch_start : batch_start + self.batch_size]
+            batch_y = y[batch_start : batch_start + self.batch_size]
 
-                input_data_loop_range.set_postfix(loss=loss.item())
+            self.optimizer.zero_grad()  # zero the gradient buffers
+            outputs = self.model(batch_X)
+            loss = self.criterion(outputs, batch_y)
+            loss.backward()
 
-                # Print Loss
-                #print('Iteration: {}. Loss: {}. Accuracy: {}'.format(iter, loss.item(), accuracy))
-
-            input_data_loop_range.close()
+            # Iterate minibatch
+            batch_start += self.TRAINING_MINIBATCH_SIZE
 
 
 
