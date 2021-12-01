@@ -116,8 +116,8 @@ def query_gdelt_values(dhs_label_rows, out_file_path):
     writeToJsonFile(articles, out_file_path)
 
     #zip it
-    os.system("zip {} {}", out_file_path + ".zip",out_file_path_without_extension + "*.json")
-    os.system("rm {}", out_file_path_without_extension + "*.json")
+    os.system("zip {} {}".format(out_file_path + ".zip",out_file_path_without_extension + "*.json"))
+    os.system("rm {}".format(out_file_path_without_extension + "*.json"))
 
 
 
