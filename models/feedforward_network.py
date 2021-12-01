@@ -37,11 +37,8 @@ class FeedforwardNetworkModule(nn.Module):
 
         # self.layers is what we'll use when we call forward.
         self.layers = list()
-        self.architecture_configured = False
 
     def configure_architecture(self, input_dim):
-        self.architecture_configured = True
-
         # set up layer dims
         layer_dims = [input_dim]
         layer_dims.extend(self.hidden_dims)
@@ -69,18 +66,6 @@ class FeedforwardNetworkModule(nn.Module):
             raise NotImplementedError
         self.activations.append(final_activation)
 
-        """
-        if len(self.hidden_dims) == 0:
-            self.layers = [nn.Linear(input_dim, self.output_dim)]
-        else:
-            for i in range(len(self.hidden_dims)):
-                if i == 0:
-                    self.layers.append(nn.Linear(input_dim, self.hidden_dims[i]))
-                else:
-                    self.layers.append(nn.Linear(self.hidden_dims[i-1], self.hidden_dims[i]))
-
-        """
-
 
     def forward(self, x):
         """
@@ -98,18 +83,29 @@ class FeedforwardNetworkModule(nn.Module):
 
 class FeedforwardNewtork(ModelInterface):
     def __init__(self, hidden_dims: List[int], output_dim=1, activations: List[object] = list(),
-                 model_type: ModelType = ModelType.regression, default_hidden_activation=nn.Sigmoid(),
-                 num_epochs=10, optimizer=torch.optim.SGD, criterion=None, learning_rate=0.05):
+                 model_type: ModelType = ModelType.regression, default_hidden_activation: object = nn.Sigmoid(),
+                 batch_size: int = 32, num_epochs: int = 10, optimizer: object = torch.optim.SGD,
+                 criterion: object = None, learning_rate: float = 0.05):
         """
         For description of parameters not listed here, see FeedforwardNetworkModule
 
+        :param batch_size: the batch size for trainig
         :param num_epochs: the number of training epochs to use when fitting the model to the data.
         :param optimizer: optimizer to use for training
         :param criterion: the type of loss to use
         :param learning_rate: the learning rate to use for training.
         """
-        self.model = FeedforwardNetworkModule(hidden_dims, output_dim, activations, model_type, default_hidden_activation)
+        self.hidden_dims = hidden_dims
+        self.output_dim = output_dim
+        # self.hidden_layer_activation = activation
+        self.activations = activations
+        self.model_type = model_type
+        self.default_hidden_activation = default_hidden_activation
+
+        self.model = FeedforwardNetworkModule(self.hidden_dims, self.output_dim, self.activations,
+                                              self.model_type, self.default_hidden_activation)
         self.optimizer = optimizer(self.model.parameters(), learning_rate)
+        self.batch_size = batch_size
         self.num_epochs = num_epochs
         self.criterion = criterion
         if criterion is None:
@@ -130,12 +126,19 @@ class FeedforwardNewtork(ModelInterface):
         :param y: their corresponding labels of shape (num_inputs,)
         :return: nothing. just fit the model
         """
-        # first, configure the architecture.
+        # first, re-configure the architecture.
+        self.model = FeedforwardNetworkModule(self.hidden_dims, self.output_dim, self.activations,
+                                              self.model_type, self.default_hidden_activation)
         self.model.configure_architecture(x.shape[-1])
+        #self.model.layers=list()
+        #self.model.activations=self.activations
+        #self.model.configure_architecture(x.shape[-1])
 
         # now, fit the model
         iter = 0
         for epoch in range(self.num_epochs):
+            # construct the batches
+
             input_data_loop_range = trange(x.shape[0])
             for i in range(input_data_loop_range):
                 self.optimizer.zero_grad()  # zero the gradient buffers
@@ -151,15 +154,7 @@ class FeedforwardNewtork(ModelInterface):
 
             input_data_loop_range.close()
 
-            for i, input in enumerate(x):
-                self.optimizer.zero_grad()  # zero the gradient buffers
-                output = self.model(input)
-                loss = self.criterion(output, y[i])
-                loss.backward()
-                self.optimizer.step()  # Does the update
 
-                    # Print Loss
-                    print('Iteration: {}. Loss: {}. Accuracy: {}'.format(iter, loss.item(), accuracy))
 
 
 
