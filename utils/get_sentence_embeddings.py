@@ -120,8 +120,10 @@ def embed_sentences(
     df = pd.read_json(input_data_path)
     df["DHSID_EA"] = df["tag"].apply(lambda x: x[:-5])
     df["cname"] = df["DHSID_EA"].apply(lambda x: x[:2])
+
+    # important because have amny articles that aren't associated with a real DHSID_EA
     df = df[df["cname"] != "no"]
-    df = df[df["cname"].isin(["UG", "SL"])]
+
     df = df[["DHSID_EA", "cname", "clean_text"]]
 
     print(f"Evaluating {df.shape[0]} examples")
@@ -179,7 +181,7 @@ if __name__ == "__main__":
     sentence_embed_model = SentenceTransformer("all-MiniLM-L12-v2")
 
     files_embedded = []
-    for file in os.listdir(input_data_dir)[:2]:
+    for file in os.listdir(input_data_dir):
         print(f"Starting to embed {file}")
         embed_sentences(
             input_data_path=os.path.join(input_data_dir, file),
