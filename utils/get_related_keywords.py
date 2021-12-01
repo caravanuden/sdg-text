@@ -59,7 +59,6 @@ def get_related_keywords(
 
 
 if __name__ == "__main__":
-    output_data_dir = "data/keywords"
     lemmatize_model = WordNetLemmatizer()
 
     # chose this model bc pretrained on wikipedia and news data - exactly like our dataset
