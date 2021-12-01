@@ -12,10 +12,14 @@ import numpy as np
 import pdb
 
 
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+
+
 class FeedforwardNetworkModule(nn.Module):
-    def __init__(self, hidden_dims: List[int], output_dim=1, activations: List[object]=list(),
+    def __init__(self, input_dim, hidden_dims: List[int], output_dim=1, activations: List[object]=list(),
                  model_type: ModelType = ModelType.regression, default_hidden_activation=nn.Sigmoid()):
         """
+        :param input_dim: the input data dimension
         :param hidden_dims: list of hidden units for each hidden dimension
         :param output_dim
         :param activatiosn: the activations to be used in each hidden layer of the network; activations[i] is the
@@ -35,10 +39,12 @@ class FeedforwardNetworkModule(nn.Module):
         self.model_type = model_type
         self.default_hidden_activation = default_hidden_activation
 
-        # self.layers is what we'll use when we call forward.
-        self.layers = list()
+        # Configure the architecture
+        self.configure_architecture(input_dim)
 
     def configure_architecture(self, input_dim):
+        self.layers = list()
+
         # set up layer dims
         layer_dims = [input_dim]
         layer_dims.extend(self.hidden_dims)
@@ -49,11 +55,10 @@ class FeedforwardNetworkModule(nn.Module):
         if len(self.activations) == 0:
             build_activations = True
 
-
         # create all layers and activations
         for i in range(1, len(layer_dims)):
-            self.layers.append(nn.Linear(layer_dims[i-1], layer_dims[i]))
-            if build_activations and i != len(layer_dims)-1:
+            self.layers.append(nn.Linear(layer_dims[i - 1], layer_dims[i]))
+            if build_activations and i != len(layer_dims) - 1:
                 self.activations.append(self.default_hidden_activation)
 
         # the last activation is specified by the task at hand!
@@ -61,10 +66,18 @@ class FeedforwardNetworkModule(nn.Module):
         if self.model_type == ModelType.classification:
             final_activation = nn.Sigmoid()
         elif self.model_type == ModelType.regression:
-            final_activation = None # keep it at None for regression model
+            final_activation = None  # keep it at None for regression model
         else:
             raise NotImplementedError
         self.activations.append(final_activation)
+
+        # make sure that torch nn module registers the layers we added
+        # so that it'll automatically populate model.modules() and model.parameters()
+        self.layers = nn.ModuleList(self.layers)
+
+
+
+
 
 
     def forward(self, x):
@@ -104,8 +117,6 @@ class FeedforwardNewtork(ModelInterface):
         self.default_hidden_activation = default_hidden_activation
         self.user_specified_optimizer = optimizer
         self.learning_rate = learning_rate
-        self.model = FeedforwardNetworkModule(self.hidden_dims, self.output_dim, self.activations,
-                                              self.model_type, self.default_hidden_activation)
         self.batch_size = batch_size
         self.num_epochs = num_epochs
         self.criterion = criterion
@@ -117,8 +128,25 @@ class FeedforwardNewtork(ModelInterface):
             else:
                 raise NotImplementedError
 
+        # these will be configured in fit()
+        # the model needs the input dims to be initialized correctly
+        self.model = None
+        self.optimizer = None
 
 
+    def reset(self, input_dim: int):
+        """
+
+        :param input_dim: the dimensions of the inputs
+        :return:
+        """
+        # first, re-configure the architecture.
+        #pdb.set_trace()
+        self.model = FeedforwardNetworkModule(input_dim, self.hidden_dims, self.output_dim, self.activations,
+                                              self.model_type, self.default_hidden_activation).to(DEVICE)
+        #self.model.configure_architecture(input_dims)
+        #self.model = self.model.to(DEVICE)
+        self.optimizer = self.user_specified_optimizer(self.model.parameters(), self.learning_rate)
 
     def fit(self,x,y):
         """
@@ -128,14 +156,7 @@ class FeedforwardNewtork(ModelInterface):
         :return: nothing. just fit the model
         """
         # first, re-configure the architecture.
-        self.model = FeedforwardNetworkModule(self.hidden_dims, self.output_dim, self.activations,
-                                              self.model_type, self.default_hidden_activation)
-        self.model.configure_architecture(x.shape[-1])
-        pdb.set_trace()
-        optimizer = self.user_specified_optimizer(self.model.parameters(), self.learning_rate)
-        #self.model.layers=list()
-        #self.model.activations=self.activations
-        #self.model.configure_architecture(x.shape[-1])
+        self.reset(x.shape[-1])
 
         # now, fit the model
         mini_batch_range = trange(x.shape[0] // self.batch_size + 1)
@@ -145,11 +166,11 @@ class FeedforwardNewtork(ModelInterface):
             # get batches
             batch_X = x[i*self.batch_size : end_range]
             batch_y = y[i*self.batch_size : end_range]
-            batch_X = torch.from_numpy(batch_X)
-            batch_y = torch.from_numpy(batch_y)
+            batch_X = torch.from_numpy(batch_X).float()
+            batch_y = torch.from_numpy(batch_y).float()
 
             # get the loss and do backprop
-            optimizer.zero_grad()  # zero the gradient buffers
+            self.optimizer.zero_grad()  # zero the gradient buffers
             outputs = self.model(batch_X)
             loss = self.criterion(outputs, batch_y)
             loss.backward()
@@ -176,18 +197,9 @@ class FeedforwardNewtork(ModelInterface):
 
                 # get batches
                 batch_X = test_x[i * self.batch_size: end_range]
-                batch_X = torch.from_numpy(batch_X)
+                batch_X = torch.from_numpy(batch_X).float()
 
-                predictions = self.model.predict(batch_X)
+                predictions = self.model(batch_X)
                 outputs[i * self.batch_size: end_range] = predictions.cpu().numpy()
 
         return outputs
-
-
-
-
-
-
-
-
-
