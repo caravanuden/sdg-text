@@ -126,7 +126,7 @@ class Experiment:
         for model,model_type in zip(self.models, self.model_types):
             for target in self.targets:
                 for feature_type in self.feature_types:
-                    experiment_name = self.get_experiment_name(model, model_type, target, feature_type)
+                    experiment_name = self.get_experiment_name(model, model_type, feature_type, target)
                     try:
                         ds = SustainBenchTextDataset(
                             data_dir=PATH_TO_DATA_DIR,
@@ -150,7 +150,7 @@ class Experiment:
                         for metric in self.metrics[model_type]:
                             results[metric.__name__] = metric(test_y, predicted_test_y)
 
-                        writeToJsonFile(os.path.join(PATH_TO_RESULTS_DIRECTORY, f"{experiment_name}.json"))
+                        writeToJsonFile(results, os.path.join(PATH_TO_RESULTS_DIRECTORY, f"{experiment_name}.json"))
                     except Exception as e:
                         print(f"Got exception {e} for experiment {experiment_name}.\nFull stack trace: {traceback.print_exc()}")
 

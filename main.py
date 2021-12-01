@@ -23,5 +23,7 @@ if __name__ == "__main__":
     }
 
 
-    experiment = Experiment(classification_cutoff_dict, TARGETS, feature_types, model_types, models, metrics)
+    experiment = Experiment(classification_cutoff_dict=classification_cutoff_dict,
+                            targets=TARGETS, feature_types=feature_types, model_types=model_types,
+                            models=models, metrics=metrics)
     experiment.run_experiments()
