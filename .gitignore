@@ -1,3 +1,15 @@
+# 
+dataset/geolocated_tweets
+dataset/twitter_api_keys
+dataset/doc2vec_model
+dataset/doc2vec_inputs
+dataset/dhs_labels
+dataset/service_account_keys
+dataset/wiki_outputs
+dataset/outputs
+./dataset/outputs
+.idea/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
