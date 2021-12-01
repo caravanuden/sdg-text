@@ -11,6 +11,7 @@ import time # Just to compare fit times
 from sklearn.metrics import r2_score, classification_report
 
 from typing import List, Dict
+import pdb
 
 
 from enum import Enum
@@ -138,6 +139,8 @@ class Experiment:
 
                         train_X, train_y = ds.get_data('train')
                         test_X, test_y = ds.get_data('test')
+
+                        pdb.set_trace()
 
                         start = time.time()
                         model.fit(train_X, train_y)

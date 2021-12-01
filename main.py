@@ -1,6 +1,6 @@
 from experiments.experiment import *
 from sklearn.linear_model import Ridge, LogisticRegression
-from sklearn.metrics import r2_score, classification_report
+from sklearn.metrics import r2_score, classification_report, confusion_matrix
 
 
 
@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
     metrics = {
         ModelType.regression: {r2_score},
-        ModelType.classification: {classification_report}
+        ModelType.classification: {classification_report, confusion_matrix}
     }
 
 
