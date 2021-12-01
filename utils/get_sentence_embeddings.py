@@ -37,6 +37,9 @@ def _extract_relevant_sentences_by_row(sentences, keywords):
     Returns:
         List of sentences that contain at least one of the keywords.
     """
+    if not sentences:
+        return None, None, None
+
     relevant_sentences = {}
 
     for sentence in sentences:
@@ -121,17 +124,17 @@ def embed_sentences(
     df["DHSID_EA"] = df["tag"].apply(lambda x: x[:-5])
     df["cname"] = df["DHSID_EA"].apply(lambda x: x[:2])
 
-    # important because have amny articles that aren't associated with a real DHSID_EA
+    # important because have many articles that aren't associated with a real DHSID_EA
     df = df[df["cname"] != "no"]
 
     df = df[["DHSID_EA", "cname", "clean_text"]]
 
     print(f"Evaluating {df.shape[0]} examples")
 
-    df[f"clean_sentences"] = df["clean_text"].apply(
+    df["clean_sentences"] = df["clean_text"].apply(
         lambda x: mwparserfromhell.parse(x).strip_code().replace("\n", " ")
     )
-    df[f"clean_sentences"] = df["clean_sentences"].apply(sent_tokenize)
+    df["clean_sentences"] = df["clean_sentences"].apply(sent_tokenize)
 
     keywords = keywords_dict[target]
     print(f"Creating embeddings for target {target}")
