@@ -87,7 +87,3 @@ def makeDirs(path, is_file=False):
         Path('/'.join(path.split('/')[:-1])).mkdir(parents=True, exist_ok=True)  # create directory if necessary
     else:
         Path(path).mkdir(parents=True, exist_ok=True)
-© 2021 GitHub, Inc.
-Terms
-Privacy
-Security

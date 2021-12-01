@@ -10,13 +10,13 @@ import numpy as np
 import time # Just to compare fit times
 from sklearn.metrics import r2_score, classification_report
 
-from typing import List
+from typing import List, Dict
 
 
 from enum import Enum
 
 import traceback
-from file_utils import *
+from utils.file_utils import *
 
 
 
@@ -65,7 +65,7 @@ class MetricFunction:
 class Experiment:
 
     def __init__(self, classification_cutoff_dict: dict, targets: List[str], feature_types: List[FeatureType],
-                 model_types: List[ModelType], models: List[ModelInterface], metrics: dict[ModelType, List[MetricFunction]]):
+                 model_types: List[ModelType], models: List[ModelInterface], metrics: Dict[ModelType, List[MetricFunction]]):
         """
 
         :param classification_cutoff_dict:
