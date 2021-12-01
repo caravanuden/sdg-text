@@ -2,8 +2,11 @@ import os
 
 DATA_DIR = "data"
 INPUT_DATA_DIR = os.path.join(DATA_DIR, "wikipedia")
-INTERMEDIATE_DATA_DIR = os.path.join(DATA_DIR, "intermediate_embeddings")
-OUTPUT_DATA_DIR = os.path.join(DATA_DIR, "consolidated_embeddings")
+INTERMEDIATE_SENTENCE_DATA_DIR = os.path.join(
+    DATA_DIR, "intermediate_sentence_embeddings"
+)
+OUTPUT_SENTENCE_DATA_DIR = os.path.join(DATA_DIR, "sentence_embeddings")
+OUTPUT_DOCUMENT_DATA_DIR = os.path.join(DATA_DIR, "document_embeddings")
 
 LABEL_METADATA_PATH = os.path.join(DATA_DIR, "dhs_final_labels.csv")
 
@@ -65,4 +68,4 @@ COUNTRIES = [
     "RW",
     "SZ",
 ]
-TARGETS = ["asset_index", "sanitation_index", "women_edu"]
+TARGETS = ["asset_index", "sanitation_index", "water_index", "women_edu"]
