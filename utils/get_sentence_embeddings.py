@@ -180,8 +180,8 @@ if __name__ == "__main__":
     input_data_dir = "data/wikipedia"
 
     # good mixture of small size and high sentence embedding performance from sentence-transformers
-    # learn more here: https://huggingface.co/sentence-transformers/all-MiniLM-L12-v2
-    sentence_embed_model = SentenceTransformer("all-MiniLM-L12-v2")
+    # learn more here: https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2
+    sentence_embed_model = SentenceTransformer("all-MiniLM-L6-v2")
 
     files_embedded = []
     for file in os.listdir(input_data_dir):
