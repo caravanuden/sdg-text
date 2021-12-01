@@ -6,10 +6,11 @@ inputs differs; for some it's 300 dimensional, for others 384 dimensional.)
 from typing import List
 import torch
 import torch.nn as nn
-from experiments.experiment import ModelType
+from experiments.experiment import ModelType, ModelInterface
+from tqdm import trange
 
 
-class FeedforwardNN(nn.Module):
+class FeedforwardNetworkModule(nn.Module):
     def __init__(self, hidden_dims: List[int], output_dim=1, activations: List[object]=list(),
                  model_type: ModelType = ModelType.regression, default_hidden_activation=nn.Sigmoid(),
                  num_epochs=10):
@@ -22,11 +23,11 @@ class FeedforwardNN(nn.Module):
         In that case, we just use the default activation at each layer.
         :param output_dim: the number of outputs. In our case, as long as we're only doing binary classification
         and regression, this should always be 1. But, if we switch to multi-class, then it could be more than one.
-        :param num_epochs: the number of training epochs to use when fitting the model to the data.
+
 
         NOTE: the input dimension must be inferred when fit() is called.
         """
-        super(FeedforwardNN, self).__init__()
+        super(FeedforwardNetworkModule, self).__init__()
         self.hidden_dims = hidden_dims
         self.output_dim = output_dim
         #self.hidden_layer_activation = activation
@@ -95,6 +96,33 @@ class FeedforwardNN(nn.Module):
         return output
 
 
+class FeedforwardNewtork(ModelInterface):
+    def __init__(self, hidden_dims: List[int], output_dim=1, activations: List[object] = list(),
+                 model_type: ModelType = ModelType.regression, default_hidden_activation=nn.Sigmoid(),
+                 num_epochs=10, optimizer=torch.optim.SGD, criterion=None, learning_rate=0.05):
+        """
+        For description of parameters not listed here, see FeedforwardNetworkModule
+
+        :param num_epochs: the number of training epochs to use when fitting the model to the data.
+        :param optimizer: optimizer to use for training
+        :param criterion: the type of loss to use
+        :param learning_rate: the learning rate to use for training.
+        """
+        self.model = FeedforwardNetworkModule(hidden_dims, output_dim, activations, model_type, default_hidden_activation)
+        self.optimizer = optimizer(self.model.parameters(), learning_rate)
+        self.num_epochs = num_epochs
+        self.criterion = criterion
+        if criterion is None:
+            if model_type == ModelType.classification:
+                self.criterion = torch.nn.CrossEntropyLoss()
+            elif model_type == ModelType.regression:
+                self.criterion = torch.nn.MSELoss()
+            else:
+                raise NotImplementedError
+
+
+
+
     def fit(self,x,y):
         """
 
@@ -103,63 +131,32 @@ class FeedforwardNN(nn.Module):
         :return: nothing. just fit the model
         """
         # first, configure the architecture.
-        self.configure_architecture(x.shape[-1])
+        self.model.configure_architecture(x.shape[-1])
 
         # now, fit the model
-
         iter = 0
         for epoch in range(self.num_epochs):
+            input_data_loop_range = trange(x.shape[0])
+            for i in range(input_data_loop_range):
+                self.optimizer.zero_grad()  # zero the gradient buffers
+                output = self.model(input)
+                loss = self.criterion(output, y[i])
+                loss.backward()
+                self.optimizer.step()
+
+                input_data_loop_range.set_postfix(loss=loss.item())
+
+                # Print Loss
+                #print('Iteration: {}. Loss: {}. Accuracy: {}'.format(iter, loss.item(), accuracy))
+
+            input_data_loop_range.close()
+
             for i, input in enumerate(x):
-                optimizer.zero_grad()  # zero the gradient buffers
-                output = net(input)
-                loss = criterion(output, target)
+                self.optimizer.zero_grad()  # zero the gradient buffers
+                output = self.model(input)
+                loss = self.criterion(output, y[i])
                 loss.backward()
-                optimizer.step()  # Does the update
-
-
-            for i, (images, labels) in enumerate(train_loader):
-                # Load images with gradient accumulation capabilities
-                images = images.view(-1, 28 * 28).requires_grad_()
-
-                # Clear gradients w.r.t. parameters
-                optimizer.zero_grad()
-
-                # Forward pass to get output/logits
-                outputs = model(images)
-
-                # Calculate Loss: softmax --> cross entropy loss
-                loss = criterion(outputs, labels)
-
-                # Getting gradients w.r.t. parameters
-                loss.backward()
-
-                # Updating parameters
-                optimizer.step()
-
-                iter += 1
-
-                if iter % 500 == 0:
-                    # Calculate Accuracy
-                    correct = 0
-                    total = 0
-                    # Iterate through test dataset
-                    for images, labels in test_loader:
-                        # Load images with gradient accumulation capabilities
-                        images = images.view(-1, 28 * 28).requires_grad_()
-
-                        # Forward pass only to get logits/output
-                        outputs = model(images)
-
-                        # Get predictions from the maximum value
-                        _, predicted = torch.max(outputs.data, 1)
-
-                        # Total number of labels
-                        total += labels.size(0)
-
-                        # Total correct predictions
-                        correct += (predicted == labels).sum()
-
-                    accuracy = 100 * correct / total
+                self.optimizer.step()  # Does the update
 
                     # Print Loss
                     print('Iteration: {}. Loss: {}. Accuracy: {}'.format(iter, loss.item(), accuracy))
