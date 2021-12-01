@@ -8,6 +8,7 @@ import torch
 import torch.nn as nn
 from experiments.experiment import ModelType, ModelInterface
 from tqdm import trange
+import numpy as np
 
 
 class FeedforwardNetworkModule(nn.Module):
@@ -71,6 +72,7 @@ class FeedforwardNetworkModule(nn.Module):
         """
 
         :param x: the input to compute the forward pass on
+        should be of shape (batch_size, input_shape)
         :return: the output. Could be an array or a number depending on the architecture definition.
         """
         output = x
@@ -110,7 +112,7 @@ class FeedforwardNewtork(ModelInterface):
         self.criterion = criterion
         if criterion is None:
             if model_type == ModelType.classification:
-                self.criterion = torch.nn.CrossEntropyLoss()
+                self.criterion = torch.nn.BCELoss()
             elif model_type == ModelType.regression:
                 self.criterion = torch.nn.MSELoss()
             else:
@@ -135,20 +137,53 @@ class FeedforwardNewtork(ModelInterface):
         #self.model.configure_architecture(x.shape[-1])
 
         # now, fit the model
-        #mini_batch_range = trange(x.shape[0] // self.batch_size)
+        mini_batch_range = trange(x.shape[0] // self.batch_size + 1)
+        for i in mini_batch_range:
+            end_range = min((i + 1) * self.batch_size, x.shape[0])
 
-        batch_start = 0
-        while batch_start + self.batch_size < x.shape[0]:
-            batch_X = x[batch_start : batch_start + self.batch_size]
-            batch_y = y[batch_start : batch_start + self.batch_size]
+            # get batches
+            batch_X = x[i*self.batch_size : end_range]
+            batch_y = y[i*self.batch_size : end_range]
+            batch_X = torch.from_numpy(batch_X)
+            batch_y = torch.from_numpy(batch_y)
 
+            # get the loss and do backprop
             self.optimizer.zero_grad()  # zero the gradient buffers
             outputs = self.model(batch_X)
             loss = self.criterion(outputs, batch_y)
             loss.backward()
 
-            # Iterate minibatch
-            batch_start += self.TRAINING_MINIBATCH_SIZE
+            # output tqdm thing
+            mini_batch_range.set_postfix(loss=loss.item())
+
+
+    def predict(self, test_x):
+        """
+
+        :param test_x: the points to predict on.
+        should have shape (train_set_size, input_dims)
+        :return: the predictions.
+        Will be an array of shape (train_set_size, output_dims), where output_dims will not be one only for
+        multi-class classification.
+        """
+        outputs = np.zeros((test_x.shape[0], self.output_dim))
+
+        with torch.no_grad():
+            mini_batch_range = trange(test_x.shape[0] // self.batch_size + 1)
+            for i in mini_batch_range:
+                end_range = min((i + 1) * self.batch_size, test_x.shape[0])
+
+                # get batches
+                batch_X = test_x[i * self.batch_size: end_range]
+                batch_X = torch.from_numpy(batch_X)
+
+                predictions = self.model.predict(batch_X)
+                outputs[i * self.batch_size: end_range] = predictions.cpu().numpy()
+
+        return outputs
+
+
+
 
 
 
