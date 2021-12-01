@@ -2,6 +2,34 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8c383fdb-433b-4ff8-835e-f01d9376a2b4" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_all_sentence_asset_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_all_sentence_document_asset_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_all_sentence_document_sanitation_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_all_sentence_document_water_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_all_sentence_document_women_edu.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_all_sentence_sanitation_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_all_sentence_water_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_all_sentence_women_edu.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_document_asset_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_document_sanitation_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_document_water_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_document_women_edu.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_all_sentence_asset_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_all_sentence_sanitation_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_all_sentence_water_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_all_sentence_women_edu.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_sentence_asset_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_sentence_document_asset_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_sentence_document_sanitation_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_sentence_document_water_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_sentence_document_women_edu.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_sentence_sanitation_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_sentence_water_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_sentence_women_edu.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/Ridge_regression_all_sentence_asset_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/Ridge_regression_target_sentence_asset_index.json" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/feedforward_network.py" afterPath="$PROJECT_DIR$/models/feedforward_network.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,102 +45,26 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="FeedforwardNewtork_regression_document_asset_index.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_document_asset_index.json">
+      <file leaf-file-name="feedforward_network.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/models/feedforward_network.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="60">
+              <caret line="170" column="0" lean-forward="true" selection-start-line="170" selection-start-column="0" selection-end-line="170" selection-end-column="0" />
+              <folding>
+                <element signature="e#277#300#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FeedforwardNewtork_regression_document_sanitation_index.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_document_sanitation_index.json">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FeedforwardNewtork_regression_target_all_sentence_asset_index.json" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_all_sentence_asset_index.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FeedforwardNewtork_regression_target_all_sentence_sanitation_index.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_all_sentence_sanitation_index.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FeedforwardNewtork_regression_target_sentence_asset_index.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_sentence_asset_index.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FeedforwardNewtork_regression_target_sentence_document_asset_index.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_sentence_document_asset_index.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FeedforwardNewtork_regression_target_sentence_document_sanitation_index.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_sentence_document_sanitation_index.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FeedforwardNewtork_regression_target_sentence_sanitation_index.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_sentence_sanitation_index.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Ridge_regression_all_sentence_asset_index.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/experiment_results/Ridge_regression_all_sentence_asset_index.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="33" lean-forward="false" selection-start-line="0" selection-start-column="33" selection-end-line="0" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Ridge_regression_target_sentence_asset_index.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/experiment_results/Ridge_regression_target_sentence_asset_index.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="285">
+              <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#36#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -164,8 +116,8 @@
         <option value="$PROJECT_DIR$/dataset/preprocess_wiki_data.py" />
         <option value="$PROJECT_DIR$/dataset/scrape_gdelt.py" />
         <option value="$PROJECT_DIR$/utils/file_utils.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/experiments/experiment.py" />
+        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/models/feedforward_network.py" />
       </list>
     </option>
@@ -230,24 +182,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="models" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Multimodal-deep-learning-for-poverty-prediction" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Multimodal-deep-learning-for-poverty-prediction" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="experiments" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="experiment.py" />
-              <option name="myItemType" value="com.jetbrains.python.projectView.PyFileNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -448,9 +382,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="141" y="54" width="1152" height="760" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2281167" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2281167" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -733,16 +667,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="17" column="40" lean-forward="true" selection-start-line="17" selection-start-column="40" selection-end-line="17" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/experiments/experiment.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -750,32 +674,6 @@
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/feedforward_network.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="194" column="38" lean-forward="true" selection-start-line="194" selection-start-column="38" selection-end-line="194" selection-end-column="38" />
-          <folding>
-            <element signature="e#277#300#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_all_sentence_asset_index.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_all_sentence_document_asset_index.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -788,38 +686,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_all_sentence_sanitation_index.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_document_asset_index.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_document_sanitation_index.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_sentence_asset_index.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_sentence_sanitation_index.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -851,7 +717,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_sentence_document_asset_index.json">
+    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_all_sentence_sanitation_index.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -859,7 +725,57 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_all_sentence_sanitation_index.json">
+    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_all_sentence_document_asset_index.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_document_sanitation_index.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_sentence_sanitation_index.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_sentence_asset_index.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_all_sentence_asset_index.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_document_asset_index.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -872,6 +788,24 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_regression_target_sentence_document_asset_index.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/feedforward_network.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="170" column="0" lean-forward="true" selection-start-line="170" selection-start-column="0" selection-end-line="170" selection-end-column="0" />
+          <folding>
+            <element signature="e#277#300#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

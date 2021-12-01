@@ -14,7 +14,8 @@ if __name__ == "__main__":
                      FeatureType.all_sentence_document]
 
     #models = [Ridge(), LogisticRegression()]
-    models = [FeedforwardNewtork(hidden_dims=[100], output_dim=1)]
+    models = [FeedforwardNewtork(hidden_dims=[100], output_dim=1,
+                                 num_epochs=50, learning_rate=0.5)]
     model_types = [ModelType.regression]
 
     #model_types = [ModelType.regression, ModelType.classification]

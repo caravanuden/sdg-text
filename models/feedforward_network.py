@@ -167,7 +167,7 @@ class FeedforwardNewtork(ModelInterface):
             batch_X = x[i*self.batch_size : end_range]
             batch_y = y[i*self.batch_size : end_range]
             batch_X = torch.from_numpy(batch_X).float()
-            batch_y = torch.from_numpy(batch_y).float()
+            batch_y = torch.from_numpy(batch_y.reshape(-1,1)).float()
 
             # get the loss and do backprop
             self.optimizer.zero_grad()  # zero the gradient buffers
