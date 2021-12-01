@@ -9,12 +9,12 @@ import torch.nn as nn
 from experiments.experiment import ModelType, ModelInterface
 from tqdm import trange
 import numpy as np
+import pdb
 
 
 class FeedforwardNetworkModule(nn.Module):
     def __init__(self, hidden_dims: List[int], output_dim=1, activations: List[object]=list(),
-                 model_type: ModelType = ModelType.regression, default_hidden_activation=nn.Sigmoid(),
-                 num_epochs=10):
+                 model_type: ModelType = ModelType.regression, default_hidden_activation=nn.Sigmoid()):
         """
         :param hidden_dims: list of hidden units for each hidden dimension
         :param output_dim
@@ -31,7 +31,6 @@ class FeedforwardNetworkModule(nn.Module):
         super(FeedforwardNetworkModule, self).__init__()
         self.hidden_dims = hidden_dims
         self.output_dim = output_dim
-        #self.hidden_layer_activation = activation
         self.activations = activations
         self.model_type = model_type
         self.default_hidden_activation = default_hidden_activation
@@ -103,10 +102,10 @@ class FeedforwardNewtork(ModelInterface):
         self.activations = activations
         self.model_type = model_type
         self.default_hidden_activation = default_hidden_activation
-
+        self.user_specified_optimizer = optimizer
+        self.learning_rate = learning_rate
         self.model = FeedforwardNetworkModule(self.hidden_dims, self.output_dim, self.activations,
                                               self.model_type, self.default_hidden_activation)
-        self.optimizer = optimizer(self.model.parameters(), learning_rate)
         self.batch_size = batch_size
         self.num_epochs = num_epochs
         self.criterion = criterion
@@ -132,6 +131,8 @@ class FeedforwardNewtork(ModelInterface):
         self.model = FeedforwardNetworkModule(self.hidden_dims, self.output_dim, self.activations,
                                               self.model_type, self.default_hidden_activation)
         self.model.configure_architecture(x.shape[-1])
+        pdb.set_trace()
+        optimizer = self.user_specified_optimizer(self.model.parameters(), self.learning_rate)
         #self.model.layers=list()
         #self.model.activations=self.activations
         #self.model.configure_architecture(x.shape[-1])
@@ -148,7 +149,7 @@ class FeedforwardNewtork(ModelInterface):
             batch_y = torch.from_numpy(batch_y)
 
             # get the loss and do backprop
-            self.optimizer.zero_grad()  # zero the gradient buffers
+            optimizer.zero_grad()  # zero the gradient buffers
             outputs = self.model(batch_X)
             loss = self.criterion(outputs, batch_y)
             loss.backward()

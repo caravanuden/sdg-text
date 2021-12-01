@@ -1,7 +1,7 @@
 from experiments.experiment import *
 from sklearn.linear_model import Ridge, LogisticRegression
 from sklearn.metrics import r2_score, classification_report, confusion_matrix
-
+from models.feedforward_network import FeedforwardNewtork
 
 
 if __name__ == "__main__":
@@ -13,9 +13,12 @@ if __name__ == "__main__":
                      FeatureType.target_all_sentence, FeatureType.target_sentence_document,
                      FeatureType.all_sentence_document]
 
-    models = [Ridge(), LogisticRegression()]
+    #models = [Ridge(), LogisticRegression()]
+    models = [FeedforwardNewtork(hidden_dims=[100], output_dim=1)]
+    model_types = [ModelType.regression]
 
-    model_types = [ModelType.regression, ModelType.classification]
+    #model_types = [ModelType.regression, ModelType.classification]
+
 
     metrics = {
         ModelType.regression: {r2_score},
