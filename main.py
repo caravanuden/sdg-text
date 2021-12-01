@@ -15,8 +15,11 @@ if __name__ == "__main__":
 
     #models = [Ridge(), LogisticRegression()]
     models = [FeedforwardNewtork(hidden_dims=[100], output_dim=1,
-                                 num_epochs=50, learning_rate=0.5)]
-    model_types = [ModelType.regression]
+                                 num_epochs=50, learning_rate=0.15),
+              FeedforwardNewtork(hidden_dims=[100], output_dim=1,
+                                 num_epochs=50, learning_rate=0.15, model_type=ModelType.classification)
+              ]
+    model_types = [ModelType.regression, ModelType.classification]
 
     #model_types = [ModelType.regression, ModelType.classification]
 
