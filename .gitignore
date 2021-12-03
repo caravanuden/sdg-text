@@ -131,3 +131,8 @@ dmypy.json
 
 # Mac
 *.DS_Store
+
+# Ignore large data files
+data/wikipedia
+data/clean_sentences
+data/intermediate_sentence_embeddings
