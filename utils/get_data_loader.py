@@ -4,6 +4,7 @@ import pickle
 
 import numpy as np
 import pandas as pd
+from imblearn.over_sampling import SMOTE
 
 from utils.constants import (
     OUTPUT_SENTENCE_DATA_DIR,
@@ -84,25 +85,27 @@ def split_by_countries(idxs, ood_countries, metadata):
 class SustainBenchTextDataset:
     def __init__(
         self,
-        feature_type,
+        feature,
         target,
         model_type,
-        classification_cutoff=None,
         data_dir=OUTPUT_SENTENCE_DATA_DIR,
         split_scheme="countries",
+        classification_threshold=None,
+        use_smote=False,
     ):
         self.data_dir = data_dir
-        # feature_type in ['target_sentence', 'all_sentence', 'target_all_sentence', 'target_sentence_doc', 'all_sentence_doc',]
-        self.feature_type = feature_type
+        # feature in ['target_sentence', 'all_sentence', 'target_all_sentence', 'target_sentence_doc', 'all_sentence_doc',]
+        self.feature = feature
 
-        # feature_type in ['asset_index', 'sanitation_index', 'water_index', 'women_education',]
+        # target in ['asset_index', 'sanitation_index', 'water_index', 'women_education',]
         self.target = target
 
         # model_type in ['classification', 'regression']
         self.model_type = model_type
 
-        self.classification_cutoff = classification_cutoff
+        self.classification_threshold = classification_threshold
         self.split_scheme = split_scheme
+        self.use_smote = use_smote
 
     def get_data(self, split):
         if split not in ["train", "test"]:
@@ -110,7 +113,7 @@ class SustainBenchTextDataset:
         embeddings = []
         labels = []
         for country in SPLITS[split]:
-            if self.feature_type == "target_sentence":
+            if self.feature == "target_sentence":
                 country_metadata = pd.read_csv(
                     os.path.join(
                         self.data_dir,
@@ -129,7 +132,7 @@ class SustainBenchTextDataset:
                         "embeddings.npy",
                     )
                 )
-            if self.feature_type == "all_sentence":
+            if self.feature == "all_sentence":
                 country_metadata = pd.read_csv(
                     os.path.join(
                         self.data_dir,
@@ -148,7 +151,7 @@ class SustainBenchTextDataset:
                         "embeddings.npy",
                     )
                 )
-            if self.feature_type == "document":
+            if self.feature == "document":
                 country_metadata = pd.read_csv(
                     os.path.join(
                         self.data_dir, "document_embeddings", country, "metadata.csv"
@@ -159,7 +162,7 @@ class SustainBenchTextDataset:
                         self.data_dir, "document_embeddings", country, "embeddings.npy"
                     )
                 )
-            if self.feature_type == "target_all_sentence":
+            if self.feature == "target_all_sentence":
                 country_metadata = pd.read_csv(
                     os.path.join(
                         self.data_dir,
@@ -211,7 +214,7 @@ class SustainBenchTextDataset:
                     country_embeddings[i, :] = np.concatenate(
                         [target_embedding_for_loc, all_embedding_for_loc], axis=1
                     )
-            if self.feature_type == "target_sentence_document":
+            if self.feature == "target_sentence_document":
                 country_metadata = pd.read_csv(
                     os.path.join(
                         self.data_dir,
@@ -267,7 +270,7 @@ class SustainBenchTextDataset:
                         [target_embedding_for_loc, document_embedding_for_loc], axis=1
                     )
 
-            if self.feature_type == "all_sentence_document":
+            if self.feature == "all_sentence_document":
                 country_metadata = pd.read_csv(
                     os.path.join(
                         self.data_dir,
@@ -330,10 +333,15 @@ class SustainBenchTextDataset:
         embeddings = np.concatenate(embeddings, axis=0)
 
         non_nan_idxs = [~np.isnan(label) for label in labels]
-        labels = labels[non_nan_idxs]
-        if self.model_type == "classification":
-            labels = labels < self.classification_cutoff
-            labels = labels.astype(int)
         embeddings = embeddings[non_nan_idxs, :]
+        labels = labels[non_nan_idxs]
+
+        if self.model_type == "classification":
+            labels = labels < self.classification_threshold
+            labels = labels.astype(int)
+
+            if self.use_smote:
+                smote = SMOTE()
+                embeddings, labels = smote.fit_resample(embeddings, labels)
 
         return embeddings, labels
