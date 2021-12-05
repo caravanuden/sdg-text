@@ -29,10 +29,6 @@ def post_process_document_embeddings(model_path, output_dir, key="DHSID_EA"):
     metadata = pd.read_csv(LABEL_METADATA_PATH)
     for country in COUNTRIES:
         country_ids = pd.DataFrame(countries_ids[country], columns=["DHSID_EA"])
-        country_metadata = country_ids.merge(metadata, on=key, how="left")[
-            [key, *TARGETS]
-        ]
-
         country_vectors = np.stack(countries_vectors[country])
         print(country)
         print(country_vectors.shape)
@@ -42,7 +38,7 @@ def post_process_document_embeddings(model_path, output_dir, key="DHSID_EA"):
         if not os.path.isdir(output_dir_for_country):
             os.makedirs(output_dir_for_country)
 
-        country_metadata.to_csv(
+        country_ids.to_csv(
             os.path.join(output_dir_for_country, "metadata.csv"), index=False
         )
 

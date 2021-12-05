@@ -326,7 +326,11 @@ class SustainBenchTextDataset:
                         [all_embedding_for_loc, document_embedding_for_loc], axis=1
                     )
 
-            labels += list(country_metadata[self.target])
+            metadata_and_labels = pd.read_csv(LABEL_METADATA_PATH)
+            country_metadata_and_labels = country_metadata.merge(
+                metadata_and_labels, on=key, how="left"
+            )[[key, self.target]]
+            labels += list(country_metadata_and_labels[self.target])
             embeddings.append(country_embeddings)
 
         labels = np.array(labels)
