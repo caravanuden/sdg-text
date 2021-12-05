@@ -26,24 +26,35 @@ def post_process_document_embeddings(model_path, output_dir, key="DHSID_EA"):
         countries_ids[country].append(id)
         countries_vectors[country].append(document_vectors[document_key])
 
-    metadata = pd.read_csv(LABEL_METADATA_PATH)
     for country in COUNTRIES:
         country_ids = pd.DataFrame(countries_ids[country], columns=["DHSID_EA"])
         country_vectors = np.stack(countries_vectors[country])
         print(country)
         print(country_vectors.shape)
 
+        consolidated_metadata = country_ids.drop_duplicates(subset=[key])
+        locations = consolidated_metadata[key].unique()
+
+        consolidated_embeddings = np.zeros((len(locations), country_vectors.shape[1]))
+        print(consolidated_embeddings.shape)
+
+        for i, location in enumerate(locations):
+            consolidated_embeddings[i, :] = np.mean(
+                country_vectors[country_ids[key] == location], axis=0
+            )
+
         output_dir_for_country = os.path.join(output_dir, country)
 
         if not os.path.isdir(output_dir_for_country):
             os.makedirs(output_dir_for_country)
 
-        country_ids.to_csv(
+        consolidated_metadata.to_csv(
             os.path.join(output_dir_for_country, "metadata.csv"), index=False
         )
 
         np.save(
-            os.path.join(output_dir_for_country, "embeddings.npy"), country_vectors,
+            os.path.join(output_dir_for_country, "embeddings.npy"),
+            consolidated_embeddings,
         )
 
 
