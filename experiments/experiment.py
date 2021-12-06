@@ -151,8 +151,11 @@ class Experiment:
 
                         results = dict()
                         for metric in self.metrics[model_type]:
-                            results[metric.__name__] = metric(test_y, predicted_test_y)
-
+                            #pdb.set_trace()
+                            metric_result = metric(test_y, predicted_test_y)
+                            if type(metric_result) is np.ndarray:
+                                metric_result = metric_result.tolist()
+                            results[metric.__name__] = metric_result
                         writeToJsonFile(results, os.path.join(PATH_TO_RESULTS_DIRECTORY, f"{experiment_name}.json"))
                     except Exception as e:
                         print(f"Got exception {e} for experiment {experiment_name}.\nFull stack trace: {traceback.print_exc()}")

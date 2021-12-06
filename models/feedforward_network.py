@@ -178,8 +178,7 @@ class FeedforwardNewtork(ModelInterface):
             # output tqdm thing
             mini_batch_range.set_postfix(loss=loss.item())
 
-
-    def predict(self, test_x):
+    def predict_proba(self, test_x):
         """
 
         :param test_x: the points to predict on.
@@ -203,3 +202,18 @@ class FeedforwardNewtork(ModelInterface):
                 outputs[i * self.batch_size: end_range] = predictions.cpu().numpy()
 
         return outputs
+
+
+    def predict(self, test_x):
+        """
+
+        :param test_x: the points to predict on.
+        should have shape (train_set_size, input_dims)
+        :return: the predictions.
+        Will be an array of shape (train_set_size,) with the classification deciosn
+        """
+        output_probs = self.predict_proba(test_x)
+        probs = np.copy(output_probs)
+        probs[probs<0.5] = 0
+        probs[probs>=0.5] = 1
+        return probs
