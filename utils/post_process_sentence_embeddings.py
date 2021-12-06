@@ -7,24 +7,23 @@ from constants import (
     LABEL_METADATA_PATH,
     COUNTRIES,
     TARGETS,
+    SENTENCE_EMBEDDING_SIZE,
 )
 
 
 def post_process_sentence_embeddings(input_dir, output_dir, key="DHSID_EA"):
     ids = pd.read_csv(os.path.join(input_dir, "metadata.csv"))
-    metadata = pd.read_csv(LABEL_METADATA_PATH)
-    metadata = ids.merge(metadata, on=key, how="left")[[key, target]]
+    consolidated_metadata = ids.drop_duplicates(subset=[key])
+    locations = consolidated_metadata[key].unique()
 
-    locations = metadata.DHSID_EA.unique()
     intermediate_embeddings = np.load(os.path.join(input_dir, "embeddings.npy"))
 
-    consolidated_metadata = metadata.drop_duplicates(subset=[key])
     consolidated_embeddings = np.zeros(
         (len(locations), intermediate_embeddings.shape[1])
     )
     for i, location in enumerate(locations):
         consolidated_embeddings[i, :] = np.mean(
-            intermediate_embeddings[metadata[key] == location], axis=0
+            intermediate_embeddings[ids[key] == location], axis=0
         )
 
     print(intermediate_embeddings.shape, consolidated_embeddings.shape)
@@ -39,41 +38,60 @@ def post_process_sentence_embeddings(input_dir, output_dir, key="DHSID_EA"):
     )
 
 
-def post_process_sentence_embeddings_all(input_dir, output_dir, key="DHSID_EA"):
-    ids = [
-        pd.read_csv(os.path.join(input_dir, target, "metadata.csv"))
-        for target in TARGETS
-    ]
-    ids = pd.concat(ids)[key].to_frame()
+def get_concatenated_sentence_embeddings(input_dir, output_dir, key="DHSID_EA"):
+    intermediate_metadata = []
+    intermediate_embeddings = []
+    for target in TARGETS:
+        if os.path.exists(os.path.join(input_dir, target)):
+            target_metadata = pd.read_csv(
+                os.path.join(input_dir, target, "metadata.csv")
+            )
+            target_embeddings = np.load(
+                os.path.join(input_dir, target, "embeddings.npy")
+            )
+        else:
+            target_metadata = pd.DataFrame(columns=[key])
+            target_embeddings = []
 
-    metadata = pd.read_csv(LABEL_METADATA_PATH)
-    metadata = ids.merge(metadata, on=key, how="left")[[key] + TARGETS]
+        intermediate_metadata.append(target_metadata)
+        intermediate_embeddings.append(target_embeddings)
 
-    locations = metadata.DHSID_EA.unique()
-    consolidated_metadata = metadata.drop_duplicates(subset=[key])
-
-    intermediate_embeddings = [
-        np.load(os.path.join(input_dir, target, "embeddings.npy")) for target in TARGETS
-    ]
-    intermediate_embeddings = np.concatenate(intermediate_embeddings, axis=0)
-    consolidated_embeddings = np.zeros(
-        (len(locations), intermediate_embeddings.shape[1])
-    )
+    metadata = pd.concat(intermediate_metadata, axis=0).drop_duplicates(subset=[key])
+    locations = metadata[key].unique()
+    idxs = np.empty((len(locations), len(TARGETS)))
     for i, location in enumerate(locations):
-        j = metadata[key] == location
-        consolidated_embeddings[i, :] = np.mean(
-            intermediate_embeddings[metadata[key] == location], axis=0
-        )
+        for j in range(len(TARGETS)):
+            target_metadata = intermediate_metadata[j]
+            if target_metadata.shape[0] > 0:
+                matching_idxs = target_metadata[
+                    target_metadata[key] == location
+                ].index.values
+                idxs[i, j] = matching_idxs[0] if matching_idxs else np.nan
 
-    print(intermediate_embeddings.shape, consolidated_embeddings.shape)
+    embeddings = np.zeros((len(locations), SENTENCE_EMBEDDING_SIZE * len(TARGETS),))
+    for i, location in enumerate(locations):
+        embeddings_for_loc = []
+        for j in range(len(TARGETS)):
+            if np.isnan(idxs[i, j]):
+                embedding_for_target_and_loc = np.zeros((SENTENCE_EMBEDDING_SIZE))
+            else:
+                target_embeddings = intermediate_embeddings[j]
+                embedding_for_target_and_loc = target_embeddings[int(idxs[i, j]), :]
+            embedding_for_target_and_loc = np.expand_dims(
+                embedding_for_target_and_loc, 0
+            )
+            embeddings_for_loc.append(embedding_for_target_and_loc)
+        embeddings[i, :] = np.concatenate(embeddings_for_loc, axis=1)
+
+    print(embeddings.shape)
 
     if not os.path.isdir(output_dir):
         os.makedirs(output_dir)
 
-    consolidated_metadata.to_csv(os.path.join(output_dir, "metadata.csv"), index=False)
+    metadata.to_csv(os.path.join(output_dir, "metadata.csv"), index=False)
 
     np.save(
-        os.path.join(output_dir, "embeddings.npy"), consolidated_embeddings,
+        os.path.join(output_dir, "embeddings.npy"), embeddings,
     )
 
 
@@ -91,9 +109,7 @@ if __name__ == "__main__":
                     output_dir=os.path.join(OUTPUT_SENTENCE_DATA_DIR, country, target),
                 )
 
-        if os.path.exists(os.path.join(OUTPUT_SENTENCE_DATA_DIR, country)):
-            print(country, "all")
-            post_process_sentence_embeddings_all(
-                input_dir=os.path.join(OUTPUT_SENTENCE_DATA_DIR, country),
-                output_dir=os.path.join(OUTPUT_SENTENCE_DATA_DIR, country, "all"),
-            )
+        get_concatenated_sentence_embeddings(
+            input_dir=os.path.join(OUTPUT_SENTENCE_DATA_DIR, country),
+            output_dir=os.path.join(OUTPUT_SENTENCE_DATA_DIR, country, "concatenated"),
+        )
