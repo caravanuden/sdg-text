@@ -42,7 +42,7 @@ def run_experiments():
 def nas_experiment():
     """For now, just make the experiment super basic. Pick a target and feature and use those"""
     target = "asset_index"
-    features = [FeatureType.all_sentence.name]
+    features = ["all_sentence"]
     print(run_nas(FeedforwardNetworkModuleForNAS, target, features))
 
 

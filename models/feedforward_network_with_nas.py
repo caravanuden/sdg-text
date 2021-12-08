@@ -24,7 +24,6 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-
 class FeedforwardNetworkModuleForNAS(nn.Module):
     def __init__(self, input_dim, hidden_dims_values_to_try: List[List[int]]=None, output_dim=1, activations: List[object]=list(),
                  model_type: ModelType = ModelType.classification, default_hidden_activation=nn.Sigmoid()):
@@ -56,24 +55,32 @@ class FeedforwardNetworkModuleForNAS(nn.Module):
 
 
         self.fc1 = self.get_fc_block([self.hidden_dims_1, input_dim], HIDDEN_ACTIVATIONS)
-        last_layer_size = self.hidden_dims_1
-        if self.hidden_dims_2 > 0:
-            self.fc2 = self.get_fc_block([self.hidden_dims_2, self.hidden_dims_1], HIDDEN_ACTIVATIONS)
-            last_layer_size = self.hidden_dims_2
-        if self.hidden_dims_3 > 0:
-            self.fc3 = self.get_fc_block([self.hidden_dims_3, self.hidden_dims_2], HIDDEN_ACTIVATIONS)
-            last_layer_size = self.hidden_dims_3
-        if self.hidden_dims_4 > 0:
-            self.fc4 = self.get_fc_block([self.hidden_dims_4, self.hidden_dims_3], HIDDEN_ACTIVATIONS)
-            last_layer_size = self.hidden_dims_4
-        if self.hidden_dims_5 > 0:
-            self.fc5 = self.get_fc_block([self.hidden_dims_5, self.hidden_dims_4], HIDDEN_ACTIVATIONS)
-            last_layer_size = self.hidden_dims_5
+        self.fc2 = self.get_fc_block([self.hidden_dims_2, self.hidden_dims_1], HIDDEN_ACTIVATIONS)
+        self.fc3 = self.get_fc_block([self.hidden_dims_3, self.hidden_dims_2], HIDDEN_ACTIVATIONS)
+        self.fc4 = self.get_fc_block([self.hidden_dims_4, self.hidden_dims_3], HIDDEN_ACTIVATIONS)
 
-        self.final_layer = nn.Sequential(
-            nn.Linear(output_dim, last_layer_size),
+        # we need four of these to be able to select between the layer architectures.
+        # see the forward function and self.input_choice
+        self.final_layer_1 = nn.Sequential(
+            nn.Linear(output_dim, self.hidden_dims_1),
             nn.Sigmoid() # apply sigmoid to the output to get the probability
         )
+        self.final_layer_2 = nn.Sequential(
+            nn.Linear(output_dim, self.hidden_dims_2),
+            nn.Sigmoid()  # apply sigmoid to the output to get the probability
+        )
+        self.final_layer_3 = nn.Sequential(
+            nn.Linear(output_dim, self.hidden_dims_3),
+            nn.Sigmoid()  # apply sigmoid to the output to get the probability
+        )
+        self.final_layer_4 = nn.Sequential(
+            nn.Linear(output_dim, self.hidden_dims_4),
+            nn.Sigmoid()  # apply sigmoid to the output to get the probability
+        )
+
+        # for choosing between number of layers in architecture
+        self.input_choice = nn.InputChoice(n_candidates=4, choose_from=["one layer","two layers","three layers","four layers"],
+                                           n_chosen=1, reduction="none")
 
 
         # for now, just assume it's classification
@@ -98,20 +105,19 @@ class FeedforwardNetworkModuleForNAS(nn.Module):
         should be of shape (batch_size, input_shape)
         :return: the output. Could be an array or a number depending on the architecture definition.
         """
-        output = x
-        output = self.fc1(output)
-        if self.hidden_dims_2 > 0:
-            output = self.fc2(output)
-        if self.hidden_dims_3 > 0:
-            output = self.fc3(output)
-        if self.hidden_dims_4 > 0:
-            output = self.fc4(output)
-        if self.hidden_dims_5 > 0:
-            output = self.fc5(output)
+        output1 = self.fc1(x)
+        output1 = self.final_layer_1(output1)
 
-        output = self.final_layer(output)
+        output2 = self.fc2(output1)
+        output2 = self.final_layer_2(output2)
 
-        return output
+        output3 = self.fc3(output2)
+        output3 = self.final_layer_3(output3)
+
+        output4 = self.fc4(output3)
+        output4 = self.final_layer_4(output4)
+
+        return self.input_choice(output1, output2, output3, output4)
 
 
 
