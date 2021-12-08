@@ -5,7 +5,7 @@ NOTE: I got inspiration from https://github.com/jing-IG/nni-function-approximato
 
 from typing import List
 import torch
-import torch.nn as nn
+import nni.retiarii.nn.pytorch as nn
 from experiments.experiment import ModelType, ModelInterface
 from tqdm import trange
 import numpy as np
@@ -84,7 +84,7 @@ class FeedforwardNetworkModuleForNAS(nn.Module):
 
     def get_fc_block(self, dims, activation_choices):
         return nn.Sequential(
-            nn.linear(dims[0], dims[1]),
+            nn.Linear(dims[0], dims[1]),
             nn.LayerChoice(activation_choices)
         )
 

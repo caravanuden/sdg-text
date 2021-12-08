@@ -14,11 +14,23 @@ def run_nas(model_class, target,features, model_batch_size=32, model_epochs=10, 
     Mutation Primitives (see here: https://nni.readthedocs.io/en/stable/NAS/MutationPrimitives.html)
     :return:
     """
-    raw_train_dataset = SustainBenchTextTorchDataset(target=target, features=features, data_split="train",
-                                                     model_type=model_type, data_dir=DATA_DIR)
-    raw_test_dataset = SustainBenchTextTorchDataset(data_split="test")
+    #ds =
+    raw_train_dataset = SustainBenchTextTorchDataset(
+        data_dir=DATA_DIR,
+        features=features,
+        target=target,
+        model_type=model_type,
+        data_split="train"
+    )
+    raw_test_dataset =SustainBenchTextTorchDataset(
+        data_dir=DATA_DIR,
+        features=features,
+        target=target,
+        model_type=model_type,
+        data_split="test"
+    )
 
-    model = model_class(intput_dim=len(raw_train_dataset), model_type = model_type)
+    model = model_class(input_dim=len(raw_train_dataset), model_type = model_type)
 
     train_dataset = serialize(raw_train_dataset, train=True, download=True)
     test_dataset = serialize(raw_test_dataset, train=False, download=True)
