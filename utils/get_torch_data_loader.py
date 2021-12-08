@@ -15,7 +15,7 @@ from utils.constants import (
 class SustainBenchTextTorchDataset(Dataset):
     def __init__(
             self,
-            feature_type,
+            features,
             target,
             model_type,
             classification_cutoff=None,
@@ -23,7 +23,7 @@ class SustainBenchTextTorchDataset(Dataset):
             split_scheme="countries",
             data_split="train" # should be either train or test
     ):
-        dataset = SustainBenchTextDataset(feature_type, target, model_type, classification_cutoff, data_dir, split_scheme)
+        dataset = SustainBenchTextDataset(features, target, model_type, classification_cutoff, data_dir, split_scheme)
         self.embeddings,self.labels = dataset.get_data(data_split)
 
     def __len__(self):

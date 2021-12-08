@@ -131,10 +131,10 @@ class Experiment:
                     try:
                         ds = SustainBenchTextDataset(
                             data_dir=PATH_TO_DATA_DIR,
-                            feature_type=feature_type.name,
+                            features=[feature_type.name],
                             target=target,
                             model_type=model_type.name,
-                            classification_cutoff=self.classification_cutoff_dict[target]
+                            classification_threshold=self.classification_cutoff_dict[target]
                         )
 
                         train_X, train_y = ds.get_data('train')
