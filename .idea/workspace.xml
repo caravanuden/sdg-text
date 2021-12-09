@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8c383fdb-433b-4ff8-835e-f01d9376a2b4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS/run_nas.py" afterPath="$PROJECT_DIR$/NAS/run_nas.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/feedforward_network_with_nas.py" afterPath="$PROJECT_DIR$/models/feedforward_network_with_nas.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/get_torch_data_loader.py" afterPath="$PROJECT_DIR$/utils/get_torch_data_loader.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -117,8 +113,8 @@
       <file leaf-file-name="get_torch_data_loader.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/utils/get_torch_data_loader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="28" column="66" lean-forward="true" selection-start-line="28" selection-start-column="66" selection-end-line="28" selection-end-column="66" />
+            <state relative-caret-position="375">
+              <caret line="30" column="51" lean-forward="false" selection-start-line="30" selection-start-column="51" selection-end-line="30" selection-end-column="51" />
               <folding>
                 <element signature="e#0#47#0" expanded="true" />
               </folding>
@@ -837,8 +833,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/get_torch_data_loader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="28" column="66" lean-forward="true" selection-start-line="28" selection-start-column="66" selection-end-line="28" selection-end-column="66" />
+        <state relative-caret-position="375">
+          <caret line="30" column="51" lean-forward="false" selection-start-line="30" selection-start-column="51" selection-end-line="30" selection-end-column="51" />
           <folding>
             <element signature="e#0#47#0" expanded="true" />
           </folding>
