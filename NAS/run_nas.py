@@ -1,6 +1,7 @@
 from utils.get_torch_data_loader import *
 from utils.get_data_loader import *
 import nni.retiarii.evaluator.pytorch.lightning as pl
+import nni.retiarii.nn.pytorch as nn
 from nni.retiarii import serialize
 import nni.retiarii.strategy as strategy
 from nni.retiarii.experiment.pytorch import RetiariiExeConfig, RetiariiExperiment, debug_mutated_model
@@ -95,7 +96,7 @@ def run_nas(model_class, target,features, model_batch_size=32, model_epochs=10, 
         data_split="test")
     trainer = pl.Classification(train_dataloader=pl.DataLoader(train_dataset, batch_size=model_batch_size),
                                 val_dataloaders=pl.DataLoader(test_dataset, batch_size=model_batch_size),
-                                max_epochs=model_epochs)
+                                max_epochs=model_epochs)#, criterion=nn.BCELoss)
     simple_strategy = strategy.Random()
 
     exp = RetiariiExperiment(model, trainer, [], simple_strategy)
@@ -106,7 +107,7 @@ def run_nas(model_class, target,features, model_batch_size=32, model_epochs=10, 
     exp_config.max_trial_number = 20
     exp_config.training_service.use_active_gpu = False
     exp_config.execution_engine="base"
-    export_formatter = 'dict'
+    export_formatter = 'code'
 
     # uncomment this for graph-based execution engine
     # exp_config.execution_engine = 'base'

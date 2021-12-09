@@ -24,8 +24,9 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
+
 class FeedforwardNetworkModuleForNAS(nn.Module):
-    def __init__(self, input_dim, hidden_dims_values_to_try: List[List[int]]=None, output_dim=1, activations: List[object]=list(),
+    def __init__(self, input_dim, hidden_dims_values_to_try: List[List[int]]=None, output_dim=2, activations: List[object]=list(),
                  model_type: ModelType = ModelType.classification, default_hidden_activation=nn.Sigmoid()):
         """
         :param input_dim: the input data dimension
@@ -43,48 +44,31 @@ class FeedforwardNetworkModuleForNAS(nn.Module):
         """
         super(FeedforwardNetworkModuleForNAS, self).__init__()
 
-        NUM_HIDDEN_UNITS_LIST = [50,100,150,200,250,input_dim]
+        NUM_HIDDEN_UNITS_LIST = [16,32,64,128,256,512]
+        NUM_HIDDEN_UNITS_LIST_WITH_ZERO = [0,16,32,64,128,256,512]
         HIDDEN_ACTIVATIONS = [nn.ReLU(), nn.LeakyReLU(), nn.Sigmoid(), nn.Tanh()]
 
         self.hidden_dims_1 = nn.ValueChoice(NUM_HIDDEN_UNITS_LIST)
-        self.hidden_dims_2 = nn.ValueChoice(NUM_HIDDEN_UNITS_LIST)
-        self.hidden_dims_3 = nn.ValueChoice(NUM_HIDDEN_UNITS_LIST)
-        self.hidden_dims_4 = nn.ValueChoice(NUM_HIDDEN_UNITS_LIST)
-        self.hidden_dims_5 = nn.ValueChoice(NUM_HIDDEN_UNITS_LIST)
+        self.hidden_dims_2 = nn.ValueChoice(NUM_HIDDEN_UNITS_LIST_WITH_ZERO)
+        self.hidden_dims_3 = nn.ValueChoice(NUM_HIDDEN_UNITS_LIST_WITH_ZERO)
+        self.hidden_dims_4 = nn.ValueChoice(NUM_HIDDEN_UNITS_LIST_WITH_ZERO)
+        self.hidden_dims_5 = nn.ValueChoice(NUM_HIDDEN_UNITS_LIST_WITH_ZERO)
 
         self.fc1 = self.get_fc_block([input_dim, self.hidden_dims_1], HIDDEN_ACTIVATIONS)
         self.fc2 = self.get_fc_block([self.hidden_dims_1, self.hidden_dims_2], HIDDEN_ACTIVATIONS)
         self.fc3 = self.get_fc_block([self.hidden_dims_2, self.hidden_dims_3], HIDDEN_ACTIVATIONS)
         self.fc4 = self.get_fc_block([self.hidden_dims_3, self.hidden_dims_4], HIDDEN_ACTIVATIONS)
 
-        # we need four of these to be able to select between the layer architectures.
-        # see the forward function and self.input_choice
-        self.final_layer_1 = nn.Sequential(
-            nn.Linear(self.hidden_dims_1, output_dim),
-            nn.Sigmoid() # apply sigmoid to the output to get the probability
-        )
-        self.final_layer_2 = nn.Sequential(
-            nn.Linear(self.hidden_dims_2, output_dim),
-            nn.Sigmoid()  # apply sigmoid to the output to get the probability
-        )
-        self.final_layer_3 = nn.Sequential(
-            nn.Linear(self.hidden_dims_3, output_dim),
-            nn.Sigmoid()  # apply sigmoid to the output to get the probability
-        )
-        self.final_layer_4 = nn.Sequential(
+        self.final_layer = nn.Sequential(
             nn.Linear(self.hidden_dims_4, output_dim),
-            nn.Sigmoid()  # apply sigmoid to the output to get the probability
+            nn.Softmax()  # apply sigmoid to the output to get the probability
         )
 
-        # for choosing between number of layers in architecture
-        self.input_choice = nn.InputChoice(n_candidates=4, choose_from=["one layer","two layers","three layers","four layers"],
-                                           n_chosen=1, reduction="sum") #reduction="none")
 
 
         # for now, just assume it's classification
         if model_type == ModelType.regression:
             raise NotImplementedError("NAS model can only do classification right now")
-
 
 
     def get_fc_block(self, dims, activation_choices):
@@ -103,29 +87,13 @@ class FeedforwardNetworkModuleForNAS(nn.Module):
         should be of shape (batch_size, input_shape)
         :return: the output. Could be an array or a number depending on the architecture definition.
         """
-        output1_before_final_layer = self.fc1(x)
-        output1 = self.final_layer_1(output1_before_final_layer)
+        output = self.fc1(x)
+        output = self.fc2(output)
+        output = self.fc3(output)
+        output = self.fc4(output)
+        output = self.final_layer(output)
 
-        output2_before_final_layer = self.fc2(output1_before_final_layer)
-        output2 = self.final_layer_2(output2_before_final_layer)
-
-        output3_before_final_layer = self.fc3(output2_before_final_layer)
-        output3 = self.final_layer_3(output3_before_final_layer)
-
-        output4_before_final_layer = self.fc4(output3_before_final_layer)
-        output4 = self.final_layer_4(output4_before_final_layer)
-
-        outputs = self.input_choice(output1, output2, output3, output4)
-        """
-        if type(outputs) is list:
-            print("LISTTTTT")
-            print(outputs)
-            outputs = outputs[0]
-        """
-
-        return outputs
-        #return self.input_choice(output1, output2, output3, output4)
-
+        return output
 
 """
 NOTE: we don't even need the interface for NAS because the framework is so good!
