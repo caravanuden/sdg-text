@@ -13,7 +13,7 @@ from utils.file_utils import *
 
 
 def run_nas(model_class, target,features, num_hidden_layers_in_network_doing_nas=4, model_batch_size=32, model_epochs=10,
-            model_type=ModelType.classification):
+            model_type=ModelType.classification, classification_threshold=0):
     """
 
     :param model: should be the class inheriting from nni.retiarii.nn.pytorch.Module which has some
@@ -29,9 +29,10 @@ def run_nas(model_class, target,features, num_hidden_layers_in_network_doing_nas
         features=features,
         target=target,
         model_type=model_type,
-        data_split="test"
+        data_split="test",
+        classification_threshold = classification_threshold
     )
-    input_dim = raw_test_dataset[0].shape[0]
+    input_dim = raw_test_dataset.embeddings[0].shape[0]
     model = model_class(input_dim=input_dim, model_type=model_type,
                         num_hidden_layers=num_hidden_layers_in_network_doing_nas)
 
@@ -40,12 +41,14 @@ def run_nas(model_class, target,features, num_hidden_layers_in_network_doing_nas
         features=features,
         target=target,
         model_type=model_type,
-        data_split="train")
+        data_split="train",
+        classification_threshold=classification_threshold)
     test_dataset = serialize(SustainBenchTextTorchDataset, data_dir=DATA_DIR,
         features=features,
         target=target,
         model_type=model_type,
-        data_split="test")
+        data_split="test",
+        classification_threshold = classification_threshold)
     trainer = None
     if model_type == model_type.classification:
         trainer = pl.Classification(train_dataloader=pl.DataLoader(train_dataset, batch_size=model_batch_size),

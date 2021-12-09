@@ -17,7 +17,7 @@ feature_types = [FeatureType.target_sentence, FeatureType.all_sentence, FeatureT
 
 features = ['target_sentence', 'all_sentence', 'document']
 
-model_types = [ModelType.classification, ModelType.regression]
+model_types = [ModelType.regression, ModelType.classification]
 
 def powerset(iterable):
     "powerset([1,2,3]) --> () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)"
@@ -56,8 +56,9 @@ def nas_experiment():
         for target in TARGETS:
             for feature_combo in powerset(features):
                 feature_combo = list(feature_combo)
-                if len(feature_combo > 0):
-                    run_nas(model_class=FeedforwardNetworkModuleForNAS, target=target, features=feature_combo, model_type=model_type)
+                if len(feature_combo) > 0:
+                    run_nas(model_class=FeedforwardNetworkModuleForNAS, target=target, features=feature_combo, model_type=model_type,
+                            classification_threshold = classification_cutoff_dict['target'])
 
 
 if __name__ == "__main__":

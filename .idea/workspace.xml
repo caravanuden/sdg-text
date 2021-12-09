@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8c383fdb-433b-4ff8-835e-f01d9376a2b4" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/nohup.out" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS/run_nas.py" afterPath="$PROJECT_DIR$/NAS/run_nas.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/feedforward_network_with_nas.py" afterPath="$PROJECT_DIR$/models/feedforward_network_with_nas.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/get_torch_data_loader.py" afterPath="$PROJECT_DIR$/utils/get_torch_data_loader.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,11 +21,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="63" column="20" lean-forward="true" selection-start-line="63" selection-start-column="20" selection-end-line="63" selection-end-column="20" />
+            <state relative-caret-position="420">
+              <caret line="60" column="52" lean-forward="false" selection-start-line="60" selection-start-column="28" selection-end-line="60" selection-end-column="52" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -59,8 +59,8 @@
       <file leaf-file-name="feedforward_network_with_nas.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/feedforward_network_with_nas.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-507">
-              <caret line="28" column="51" lean-forward="false" selection-start-line="28" selection-start-column="34" selection-end-line="28" selection-end-column="51" />
+            <state relative-caret-position="-207">
+              <caret line="53" column="102" lean-forward="true" selection-start-line="53" selection-start-column="102" selection-end-line="53" selection-end-column="102" />
               <folding>
                 <element signature="e#162#185#0" expanded="true" />
               </folding>
@@ -81,7 +81,7 @@
       <file leaf-file-name="get_data_loader.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/get_data_loader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-959">
+            <state relative-caret-position="1605">
               <caret line="107" column="73" lean-forward="false" selection-start-line="107" selection-start-column="26" selection-end-line="107" selection-end-column="73" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
@@ -105,8 +105,8 @@
       <file leaf-file-name="run_nas.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/NAS/run_nas.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1170">
-              <caret line="78" column="21" lean-forward="true" selection-start-line="78" selection-start-column="21" selection-end-line="78" selection-end-column="21" />
+            <state relative-caret-position="225">
+              <caret line="51" column="18" lean-forward="true" selection-start-line="51" selection-start-column="18" selection-end-line="51" selection-end-column="18" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -114,11 +114,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="get_torch_data_loader.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="get_torch_data_loader.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/utils/get_torch_data_loader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="600">
-              <caret line="53" column="31" lean-forward="false" selection-start-line="53" selection-start-column="31" selection-end-line="53" selection-end-column="31" />
+            <state relative-caret-position="345">
+              <caret line="28" column="66" lean-forward="true" selection-start-line="28" selection-start-column="66" selection-end-line="28" selection-end-column="66" />
               <folding>
                 <element signature="e#0#47#0" expanded="true" />
               </folding>
@@ -171,6 +171,7 @@
       <find>data_dir</find>
       <find>intput</find>
       <find>loss</find>
+      <find>feature_com</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -196,10 +197,10 @@
         <option value="$PROJECT_DIR$/models/feedforward_network.py" />
         <option value="$PROJECT_DIR$/experiments/experiment.py" />
         <option value="$PROJECT_DIR$/utils/get_data_loader.py" />
-        <option value="$PROJECT_DIR$/utils/get_torch_data_loader.py" />
         <option value="$PROJECT_DIR$/models/feedforward_network_with_nas.py" />
-        <option value="$PROJECT_DIR$/NAS/run_nas.py" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/NAS/run_nas.py" />
+        <option value="$PROJECT_DIR$/utils/get_torch_data_loader.py" />
       </list>
     </option>
   </component>
@@ -778,41 +779,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/get_torch_data_loader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="53" column="31" lean-forward="false" selection-start-line="53" selection-start-column="31" selection-end-line="53" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#47#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/feedforward_network.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="141">
           <caret line="122" column="27" lean-forward="true" selection-start-line="122" selection-start-column="27" selection-end-line="122" selection-end-column="27" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/feedforward_network_with_nas.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-507">
-          <caret line="28" column="51" lean-forward="false" selection-start-line="28" selection-start-column="34" selection-end-line="28" selection-end-column="51" />
-          <folding>
-            <element signature="e#162#185#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/get_data_loader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-959">
-          <caret line="107" column="73" lean-forward="false" selection-start-line="107" selection-start-column="26" selection-end-line="107" selection-end-column="73" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -824,22 +795,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/NAS/run_nas.py">
+    <entry file="file://$PROJECT_DIR$/utils/get_data_loader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1170">
-          <caret line="78" column="21" lean-forward="true" selection-start-line="78" selection-start-column="21" selection-end-line="78" selection-end-column="21" />
+        <state relative-caret-position="1605">
+          <caret line="107" column="73" lean-forward="false" selection-start-line="107" selection-start-column="26" selection-end-line="107" selection-end-column="73" />
           <folding>
-            <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/feedforward_network_with_nas.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-207">
+          <caret line="53" column="102" lean-forward="true" selection-start-line="53" selection-start-column="102" selection-end-line="53" selection-end-column="102" />
+          <folding>
+            <element signature="e#162#185#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="63" column="20" lean-forward="true" selection-start-line="63" selection-start-column="20" selection-end-line="63" selection-end-column="20" />
+        <state relative-caret-position="420">
+          <caret line="60" column="52" lean-forward="false" selection-start-line="60" selection-start-column="28" selection-end-line="60" selection-end-column="52" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/NAS/run_nas.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="51" column="18" lean-forward="true" selection-start-line="51" selection-start-column="18" selection-end-line="51" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/get_torch_data_loader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="28" column="66" lean-forward="true" selection-start-line="28" selection-start-column="66" selection-end-line="28" selection-end-column="66" />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
           </folding>
         </state>
       </provider>

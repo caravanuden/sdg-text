@@ -30,6 +30,8 @@ class FeedforwardNetworkModuleForNAS(nn.Module):
                  model_type: ModelType = ModelType.classification):
         super(FeedforwardNetworkModuleForNAS, self).__init__()
 
+        self.num_hidden_layers = num_hidden_layers
+
         NUM_HIDDEN_UNITS_LIST = [16,32,64,128,256,512]
         NUM_HIDDEN_UNITS_LIST_WITH_ZERO = [0,16,32,64,128,256,512]
         HIDDEN_ACTIVATIONS = [nn.ReLU(), nn.LeakyReLU(), nn.Sigmoid(), nn.Tanh()]
@@ -48,7 +50,7 @@ class FeedforwardNetworkModuleForNAS(nn.Module):
         if num_hidden_layers >= 3:
             self.fc3 = self.get_fc_block([self.hidden_dims_2, self.hidden_dims_3], HIDDEN_ACTIVATIONS)
             last_hidden_layer_dims = self.hidden_dims_3
-        else:
+        if num_hidden_layers >= 4:
             self.fc4 = self.get_fc_block([self.hidden_dims_3, self.hidden_dims_4], HIDDEN_ACTIVATIONS)
             last_hidden_layer_dims = self.hidden_dims_4
 
@@ -83,9 +85,12 @@ class FeedforwardNetworkModuleForNAS(nn.Module):
         :return: the output. Could be an array or a number depending on the architecture definition.
         """
         output = self.fc1(x)
-        output = self.fc2(output)
-        output = self.fc3(output)
-        output = self.fc4(output)
+        if self.num_hidden_layers >= 2:
+            output = self.fc2(output)
+        if self.num_hidden_layers >= 3:
+            output = self.fc3(output)
+        if self.num_hidden_layers >= 4:
+            output = self.fc4(output)
         output = self.final_layer(output)
 
         return output
