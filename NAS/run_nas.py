@@ -82,7 +82,7 @@ def run_nas(model_class, target,features, model_batch_size=32, model_epochs=10, 
         data_split="test"
     )
     #model = model_class(input_dim=len(raw_train_dataset), model_type=model_type)
-    model = model_class(input_dim=300, model_type=model_type)
+    model = model_class(input_dim=384, model_type=model_type)
     train_dataset = serialize(SustainBenchTextTorchDataset, data_dir=DATA_DIR,
         features=features,
         target=target,

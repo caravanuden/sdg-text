@@ -44,43 +44,41 @@ class FeedforwardNetworkModuleForNAS(nn.Module):
         super(FeedforwardNetworkModuleForNAS, self).__init__()
 
         NUM_HIDDEN_UNITS_LIST = [50,100,150,200,250,input_dim]
-        NUM_HIDDEN_UNITS_LIST_WITH_ZERO = [0, 50,100,150,200,250,input_dim]
         HIDDEN_ACTIVATIONS = [nn.ReLU(), nn.LeakyReLU(), nn.Sigmoid(), nn.Tanh()]
 
         self.hidden_dims_1 = nn.ValueChoice(NUM_HIDDEN_UNITS_LIST)
-        self.hidden_dims_2 = nn.ValueChoice(NUM_HIDDEN_UNITS_LIST_WITH_ZERO)
-        self.hidden_dims_3 = nn.ValueChoice(NUM_HIDDEN_UNITS_LIST_WITH_ZERO)
-        self.hidden_dims_4 = nn.ValueChoice(NUM_HIDDEN_UNITS_LIST_WITH_ZERO)
-        self.hidden_dims_5 = nn.ValueChoice(NUM_HIDDEN_UNITS_LIST_WITH_ZERO)
+        self.hidden_dims_2 = nn.ValueChoice(NUM_HIDDEN_UNITS_LIST)
+        self.hidden_dims_3 = nn.ValueChoice(NUM_HIDDEN_UNITS_LIST)
+        self.hidden_dims_4 = nn.ValueChoice(NUM_HIDDEN_UNITS_LIST)
+        self.hidden_dims_5 = nn.ValueChoice(NUM_HIDDEN_UNITS_LIST)
 
-
-        self.fc1 = self.get_fc_block([self.hidden_dims_1, input_dim], HIDDEN_ACTIVATIONS)
-        self.fc2 = self.get_fc_block([self.hidden_dims_2, self.hidden_dims_1], HIDDEN_ACTIVATIONS)
-        self.fc3 = self.get_fc_block([self.hidden_dims_3, self.hidden_dims_2], HIDDEN_ACTIVATIONS)
-        self.fc4 = self.get_fc_block([self.hidden_dims_4, self.hidden_dims_3], HIDDEN_ACTIVATIONS)
+        self.fc1 = self.get_fc_block([input_dim, self.hidden_dims_1], HIDDEN_ACTIVATIONS)
+        self.fc2 = self.get_fc_block([self.hidden_dims_1, self.hidden_dims_2], HIDDEN_ACTIVATIONS)
+        self.fc3 = self.get_fc_block([self.hidden_dims_2, self.hidden_dims_3], HIDDEN_ACTIVATIONS)
+        self.fc4 = self.get_fc_block([self.hidden_dims_3, self.hidden_dims_4], HIDDEN_ACTIVATIONS)
 
         # we need four of these to be able to select between the layer architectures.
         # see the forward function and self.input_choice
         self.final_layer_1 = nn.Sequential(
-            nn.Linear(output_dim, self.hidden_dims_1),
+            nn.Linear(self.hidden_dims_1, output_dim),
             nn.Sigmoid() # apply sigmoid to the output to get the probability
         )
         self.final_layer_2 = nn.Sequential(
-            nn.Linear(output_dim, self.hidden_dims_2),
+            nn.Linear(self.hidden_dims_2, output_dim),
             nn.Sigmoid()  # apply sigmoid to the output to get the probability
         )
         self.final_layer_3 = nn.Sequential(
-            nn.Linear(output_dim, self.hidden_dims_3),
+            nn.Linear(self.hidden_dims_3, output_dim),
             nn.Sigmoid()  # apply sigmoid to the output to get the probability
         )
         self.final_layer_4 = nn.Sequential(
-            nn.Linear(output_dim, self.hidden_dims_4),
+            nn.Linear(self.hidden_dims_4, output_dim),
             nn.Sigmoid()  # apply sigmoid to the output to get the probability
         )
 
         # for choosing between number of layers in architecture
         self.input_choice = nn.InputChoice(n_candidates=4, choose_from=["one layer","two layers","three layers","four layers"],
-                                           n_chosen=1, reduction="none")
+                                           n_chosen=1, reduction="sum") #reduction="none")
 
 
         # for now, just assume it's classification
@@ -105,20 +103,28 @@ class FeedforwardNetworkModuleForNAS(nn.Module):
         should be of shape (batch_size, input_shape)
         :return: the output. Could be an array or a number depending on the architecture definition.
         """
-        output1 = self.fc1(x)
-        output1 = self.final_layer_1(output1)
+        output1_before_final_layer = self.fc1(x)
+        output1 = self.final_layer_1(output1_before_final_layer)
 
-        output2 = self.fc2(output1)
-        output2 = self.final_layer_2(output2)
+        output2_before_final_layer = self.fc2(output1_before_final_layer)
+        output2 = self.final_layer_2(output2_before_final_layer)
 
-        output3 = self.fc3(output2)
-        output3 = self.final_layer_3(output3)
+        output3_before_final_layer = self.fc3(output2_before_final_layer)
+        output3 = self.final_layer_3(output3_before_final_layer)
 
-        output4 = self.fc4(output3)
-        output4 = self.final_layer_4(output4)
+        output4_before_final_layer = self.fc4(output3_before_final_layer)
+        output4 = self.final_layer_4(output4_before_final_layer)
 
-        return self.input_choice(output1, output2, output3, output4)
+        outputs = self.input_choice(output1, output2, output3, output4)
+        """
+        if type(outputs) is list:
+            print("LISTTTTT")
+            print(outputs)
+            outputs = outputs[0]
+        """
 
+        return outputs
+        #return self.input_choice(output1, output2, output3, output4)
 
 
 """
@@ -197,6 +203,10 @@ class FeedforwardNewtorkForNAS(ModelInterface):
             # get the loss and do backprop
             self.optimizer.zero_grad()  # zero the gradient buffers
             outputs = self.model(batch_X)
+            if type(outputs) is list:
+                print("LISTTTTT")
+                print(outputs)
+                outputs = outputs[0]
             loss = self.criterion(outputs, batch_y)
             loss.backward()
 

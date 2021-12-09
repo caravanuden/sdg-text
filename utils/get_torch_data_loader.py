@@ -27,6 +27,9 @@ class SustainBenchTextTorchDataset(Dataset):
     ):
         dataset = SustainBenchTextDataset(features=features, target=target, model_type=model_type, classification_threshold=classification_threshold, data_dir=data_dir, split_scheme=split_scheme)
         self.embeddings,self.labels = dataset.get_data(data_split)
+        self.embeddings=torch.from_numpy(self.embeddings).float()
+        self.labels = torch.from_numpy(self.labels)
+
 
     def __len__(self):
         return self.embeddings.shape[0]
