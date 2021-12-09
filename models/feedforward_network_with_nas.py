@@ -26,22 +26,8 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 class FeedforwardNetworkModuleForNAS(nn.Module):
-    def __init__(self, input_dim, hidden_dims_values_to_try: List[List[int]]=None, output_dim=2, activations: List[object]=list(),
-                 model_type: ModelType = ModelType.classification, default_hidden_activation=nn.Sigmoid()):
-        """
-        :param input_dim: the input data dimension
-        :param hidden_dims_values_to_try: list of lists of ints.
-        :param output_dim
-        :param activatiosn: the activations to be used in each hidden layer of the network; activations[i] is the
-        activation to be used at layer i
-        :param default_hidden_activation: this is used only if activations list is not specified.
-        In that case, we just use the default activation at each layer.
-        :param output_dim: the number of outputs. In our case, as long as we're only doing binary classification
-        and regression, this should always be 1. But, if we switch to multi-class, then it could be more than one.
-
-
-        NOTE: the input dimension must be inferred when fit() is called.
-        """
+    def __init__(self, input_dim, num_hidden_layers: int = 4, output_dim=1,
+                 model_type: ModelType = ModelType.classification):
         super(FeedforwardNetworkModuleForNAS, self).__init__()
 
         NUM_HIDDEN_UNITS_LIST = [16,32,64,128,256,512]
@@ -55,20 +41,29 @@ class FeedforwardNetworkModuleForNAS(nn.Module):
         self.hidden_dims_5 = nn.ValueChoice(NUM_HIDDEN_UNITS_LIST_WITH_ZERO)
 
         self.fc1 = self.get_fc_block([input_dim, self.hidden_dims_1], HIDDEN_ACTIVATIONS)
-        self.fc2 = self.get_fc_block([self.hidden_dims_1, self.hidden_dims_2], HIDDEN_ACTIVATIONS)
-        self.fc3 = self.get_fc_block([self.hidden_dims_2, self.hidden_dims_3], HIDDEN_ACTIVATIONS)
-        self.fc4 = self.get_fc_block([self.hidden_dims_3, self.hidden_dims_4], HIDDEN_ACTIVATIONS)
+        last_hidden_layer_dims = self.hidden_dims_1
+        if num_hidden_layers >= 2:
+            self.fc2 = self.get_fc_block([self.hidden_dims_1, self.hidden_dims_2], HIDDEN_ACTIVATIONS)
+            last_hidden_layer_dims = self.hidden_dims_2
+        if num_hidden_layers >= 3:
+            self.fc3 = self.get_fc_block([self.hidden_dims_2, self.hidden_dims_3], HIDDEN_ACTIVATIONS)
+            last_hidden_layer_dims = self.hidden_dims_3
+        else:
+            self.fc4 = self.get_fc_block([self.hidden_dims_3, self.hidden_dims_4], HIDDEN_ACTIVATIONS)
+            last_hidden_layer_dims = self.hidden_dims_4
 
-        self.final_layer = nn.Sequential(
-            nn.Linear(self.hidden_dims_4, output_dim),
-            nn.Softmax()  # apply sigmoid to the output to get the probability
-        )
-
-
-
-        # for now, just assume it's classification
         if model_type == ModelType.regression:
-            raise NotImplementedError("NAS model can only do classification right now")
+            self.final_layer = nn.Sequential(
+                nn.Linear(last_hidden_layer_dims, output_dim),
+            )
+        elif model_type == ModelType.classification:
+            output_dim = 2 # we do this and use softmax below because BCE loss is not supported by nni pl.Classification
+            self.final_layer = nn.Sequential(
+                nn.Linear(last_hidden_layer_dims, output_dim),
+                nn.Softmax()  # apply sigmoid to the output to get the probability
+            )
+        else:
+            raise NotImplementedError("Only supports regression and classification")
 
 
     def get_fc_block(self, dims, activation_choices):
@@ -94,129 +89,3 @@ class FeedforwardNetworkModuleForNAS(nn.Module):
         output = self.final_layer(output)
 
         return output
-
-"""
-NOTE: we don't even need the interface for NAS because the framework is so good!
-"""
-class FeedforwardNewtorkForNAS(ModelInterface):
-    # for now, this will be pretty bare-bones. I'm only going to allow hyperparams as inputs; we'll just let the NAS do
-    # the work.
-    def __init__(self, batch_size: int = 32, num_epochs: int = 10, optimizer: object = torch.optim.SGD,
-                 criterion: object = None, learning_rate: float = 0.05):
-        """
-        For description of parameters not listed here, see FeedforwardNetworkModule
-
-        :param batch_size: the batch size for trainig
-        :param num_epochs: the number of training epochs to use when fitting the model to the data.
-        :param optimizer: optimizer to use for training
-        :param criterion: the type of loss to use
-        :param learning_rate: the learning rate to use for training.
-        """
-        model_type = ModelType.classification
-
-        self.user_specified_optimizer = optimizer
-        self.learning_rate = learning_rate
-        self.batch_size = batch_size
-        self.num_epochs = num_epochs
-        self.criterion = criterion
-        if criterion is None:
-            if model_type == ModelType.classification:
-                self.criterion = torch.nn.BCELoss()
-            elif model_type == ModelType.regression:
-                raise NotImplementedError("NAS doesn't support regression right now.")
-            else:
-                raise NotImplementedError
-
-        # these will be configured in fit()
-        # the model needs the input dims to be initialized correctly
-        self.model = None
-        self.optimizer = None
-
-
-    def reset(self, input_dim: int):
-        """
-
-        :param input_dim: the dimensions of the inputs
-        :return:
-        """
-        # first, re-configure the architecture.
-        #pdb.set_trace()
-        self.model = FeedforwardNetworkModule(input_dim, self.hidden_dims, self.output_dim, self.activations,
-                                              self.model_type, self.default_hidden_activation).to(DEVICE)
-        #self.model.configure_architecture(input_dims)
-        #self.model = self.model.to(DEVICE)
-        self.optimizer = self.user_specified_optimizer(self.model.parameters(), self.learning_rate)
-
-    def fit(self,x,y):
-        """
-
-        :param x: the inputs of shape (num_inputs, input_shape)
-        :param y: their corresponding labels of shape (num_inputs,)
-        :return: nothing. just fit the model
-        """
-        # first, re-configure the architecture.
-        self.reset(x.shape[-1])
-
-        # now, fit the model
-        mini_batch_range = trange(x.shape[0] // self.batch_size + 1)
-        for i in mini_batch_range:
-            end_range = min((i + 1) * self.batch_size, x.shape[0])
-
-            # get batches
-            batch_X = x[i*self.batch_size : end_range]
-            batch_y = y[i*self.batch_size : end_range]
-            batch_X = torch.from_numpy(batch_X).float()
-            batch_y = torch.from_numpy(batch_y.reshape(-1,1)).float()
-
-            # get the loss and do backprop
-            self.optimizer.zero_grad()  # zero the gradient buffers
-            outputs = self.model(batch_X)
-            if type(outputs) is list:
-                print("LISTTTTT")
-                print(outputs)
-                outputs = outputs[0]
-            loss = self.criterion(outputs, batch_y)
-            loss.backward()
-
-            # output tqdm thing
-            mini_batch_range.set_postfix(loss=loss.item())
-
-    def predict_proba(self, test_x):
-        """
-
-        :param test_x: the points to predict on.
-        should have shape (train_set_size, input_dims)
-        :return: the predictions.
-        Will be an array of shape (train_set_size, output_dims), where output_dims will not be one only for
-        multi-class classification.
-        """
-        outputs = np.zeros((test_x.shape[0], self.output_dim))
-
-        with torch.no_grad():
-            mini_batch_range = trange(test_x.shape[0] // self.batch_size + 1)
-            for i in mini_batch_range:
-                end_range = min((i + 1) * self.batch_size, test_x.shape[0])
-
-                # get batches
-                batch_X = test_x[i * self.batch_size: end_range]
-                batch_X = torch.from_numpy(batch_X).float()
-
-                predictions = self.model(batch_X)
-                outputs[i * self.batch_size: end_range] = predictions.cpu().numpy()
-
-        return outputs
-
-
-    def predict(self, test_x):
-        """
-
-        :param test_x: the points to predict on.
-        should have shape (train_set_size, input_dims)
-        :return: the predictions.
-        Will be an array of shape (train_set_size,) with the classification deciosn
-        """
-        output_probs = self.predict_proba(test_x)
-        probs = np.copy(output_probs)
-        probs[probs<0.5] = 0
-        probs[probs>=0.5] = 1
-        return probs

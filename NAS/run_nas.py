@@ -8,73 +8,22 @@ from nni.retiarii.experiment.pytorch import RetiariiExeConfig, RetiariiExperimen
 from utils.constants import DATA_DIR
 import random
 import pdb
+from experiments.experiment import ModelType
+from utils.file_utils import *
 
 
-def run_nas(model_class, target,features, model_batch_size=32, model_epochs=10,  model_type="classification"):
+def run_nas(model_class, target,features, num_hidden_layers_in_network_doing_nas=4, model_batch_size=32, model_epochs=10,
+            model_type=ModelType.classification):
     """
 
     :param model: should be the class inheriting from nni.retiarii.nn.pytorch.Module which has some
     Mutation Primitives (see here: https://nni.readthedocs.io/en/stable/NAS/MutationPrimitives.html)
     :return:
     """
-    """
-    #ds =
-    raw_train_dataset = SustainBenchTextTorchDataset(
-        data_dir=DATA_DIR,
-        features=features,
-        target=target,
-        model_type=model_type,
-        data_split="train"
-    )
-    raw_test_dataset =SustainBenchTextTorchDataset(
-        data_dir=DATA_DIR,
-        features=features,
-        target=target,
-        model_type=model_type,
-        data_split="test"
-    )
-
-    ds = SustainBenchTextDataset(features=features, target=target, model_type=model_type, classification_threshold=0, data_dir=DATA_DIR)
-    train_x, train_y = ds.get_data("train")
-    test_x, test_y = ds.get_data("test")
+    features_string = ",".join(features)
+    outfile_name = f"{model_type.name}_{features_string}_{target}_{str(num_hidden_layers_in_network_doing_nas)}.model"
 
 
-    model = model_class(input_dim=len(raw_train_dataset), model_type = model_type)
-
-    #pdb.set_trace()
-    """
-    """
-    train_dataset = serialize(raw_train_dataset, data_dir=DATA_DIR,
-        features=features,
-        target=target,
-        model_type=model_type,
-        data_split="train", train=True, download=True)
-    test_dataset = serialize(raw_test_dataset, data_dir=DATA_DIR,
-        features=features,
-        target=target,
-        model_type=model_type,
-        data_split="test", train=False, download=True)
-    #train_dataset = raw_train_dataset
-    #test_dataset = raw_test_dataset
-    #train_dataset = serialize(raw_test_dataset)
-    #test_dataset = serialize(test_dataset)
-    train_dataset=serialize(train_x, train_y)
-    test_dataset = serialize(test_x,test_y)
-    trainer = pl.Classification(train_dataloader=pl.DataLoader(train_dataset, batch_size=model_batch_size),
-                                val_dataloaders=pl.DataLoader(test_dataset, batch_size=model_batch_size),
-                                max_epochs=model_epochs)
-    """
-    #raw_train_dataset = SustainBenchTextTorchTrainDatasetForNAS()
-    #model = model_class(input_dim=len(raw_train_dataset), model_type=model_type)
-    #train_dataset = serialize()
-    #test_dataset = serialize(SustainBenchTextTorchTestDatasetForNAS())
-    raw_train_dataset = SustainBenchTextTorchDataset(
-        data_dir=DATA_DIR,
-        features=features,
-        target=target,
-        model_type=model_type,
-        data_split="train"
-    )
     raw_test_dataset = SustainBenchTextTorchDataset(
         data_dir=DATA_DIR,
         features=features,
@@ -82,8 +31,11 @@ def run_nas(model_class, target,features, model_batch_size=32, model_epochs=10, 
         model_type=model_type,
         data_split="test"
     )
-    #model = model_class(input_dim=len(raw_train_dataset), model_type=model_type)
-    model = model_class(input_dim=384, model_type=model_type)
+    input_dim = raw_test_dataset[0].shape[0]
+    model = model_class(input_dim=input_dim, model_type=model_type,
+                        num_hidden_layers=num_hidden_layers_in_network_doing_nas)
+
+
     train_dataset = serialize(SustainBenchTextTorchDataset, data_dir=DATA_DIR,
         features=features,
         target=target,
@@ -94,15 +46,26 @@ def run_nas(model_class, target,features, model_batch_size=32, model_epochs=10, 
         target=target,
         model_type=model_type,
         data_split="test")
-    trainer = pl.Classification(train_dataloader=pl.DataLoader(train_dataset, batch_size=model_batch_size),
-                                val_dataloaders=pl.DataLoader(test_dataset, batch_size=model_batch_size),
-                                max_epochs=model_epochs)#, criterion=nn.BCELoss)
+    trainer = None
+    if model_type == model_type.classification:
+        trainer = pl.Classification(train_dataloader=pl.DataLoader(train_dataset, batch_size=model_batch_size),
+                                    val_dataloaders=pl.DataLoader(test_dataset, batch_size=model_batch_size),
+                                    max_epochs=model_epochs)#, criterion=nn.BCELoss)
+    elif model_type == model_type.regression:
+        trainer = pl.Regression(train_dataloader=pl.DataLoader(train_dataset, batch_size=model_batch_size),
+                                    val_dataloaders=pl.DataLoader(test_dataset, batch_size=model_batch_size),
+                                    max_epochs=model_epochs)
+    else:
+        raise NotImplementedError
+
+
+
     simple_strategy = strategy.Random()
 
     exp = RetiariiExperiment(model, trainer, [], simple_strategy)
 
     exp_config = RetiariiExeConfig('local')
-    exp_config.experiment_name = 'NAS_search_random_strategy'
+    exp_config.experiment_name = 'NAS_search_random_strategy_' + model_type.name
     exp_config.trial_concurrency = 2
     exp_config.max_trial_number = 20
     exp_config.training_service.use_active_gpu = False
@@ -113,7 +76,9 @@ def run_nas(model_class, target,features, model_batch_size=32, model_epochs=10, 
     # exp_config.execution_engine = 'base'
     # export_formatter = 'code'
 
+    final_models = []
     exp.run(exp_config, 8081 + random.randint(0, 100))
-    print('Final model:')
     for model_code in exp.export_top_models(formatter=export_formatter):
-        print(model_code)
+        final_models.append(model_code)
+
+    writeToJsonFile(final_models, os.path.join("NAS_SELECTED_MODELS", outfile_name))

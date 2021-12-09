@@ -5,14 +5,26 @@ from models.feedforward_network import FeedforwardNewtork
 from models.feedforward_network_with_nas import FeedforwardNetworkModuleForNAS
 from NAS.run_nas import run_nas
 
+import itertools
+
+classification_cutoff_dict = {'asset_index': 0, 'sanitation_index': 3, 'water_index': 3, 'women_edu': 5}
+
+TARGETS = ['asset_index', 'sanitation_index', 'water_index', 'women_edu']
+
+feature_types = [FeatureType.target_sentence, FeatureType.all_sentence, FeatureType.document,
+                 FeatureType.target_all_sentence, FeatureType.target_sentence_document,
+                 FeatureType.all_sentence_document]
+
+features = ['target_sentence', 'all_sentence', 'document']
+
+model_types = [ModelType.classification, ModelType.regression]
+
+def powerset(iterable):
+    "powerset([1,2,3]) --> () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)"
+    s = list(iterable)
+    return itertools.chain.from_iterable(itertools.combinations(s, r) for r in range(len(s)+1))
+
 def run_experiments():
-    classification_cutoff_dict = {'asset_index': 0, 'sanitation_index': 3, 'water_index': 3, 'women_edu': 5}
-
-    TARGETS = ['asset_index', 'sanitation_index', 'water_index', 'women_edu']
-
-    feature_types = [FeatureType.target_sentence, FeatureType.all_sentence, FeatureType.document,
-                     FeatureType.target_all_sentence, FeatureType.target_sentence_document,
-                     FeatureType.all_sentence_document]
 
     # models = [Ridge(), LogisticRegression()]
     """models = [FeedforwardNewtork(hidden_dims=[100], output_dim=1,
@@ -40,11 +52,12 @@ def run_experiments():
 
 
 def nas_experiment():
-    """For now, just make the experiment super basic. Pick a target and feature and use those"""
-    target = "asset_index"
-    features = ["all_sentence"]
-    print(run_nas(FeedforwardNetworkModuleForNAS, target, features))
-
+    for model_type in model_types:
+        for target in TARGETS:
+            for feature_combo in powerset(features):
+                feature_combo = list(feature_combo)
+                if len(feature_combo > 0):
+                    run_nas(model_class=FeedforwardNetworkModuleForNAS, target=target, features=feature_combo, model_type=model_type)
 
 
 if __name__ == "__main__":
