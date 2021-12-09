@@ -5,6 +5,8 @@ from models.feedforward_network import FeedforwardNewtork
 from models.feedforward_network_with_nas import FeedforwardNetworkModuleForNAS
 from NAS.run_nas import run_nas
 
+import argparse
+
 import itertools
 
 classification_cutoff_dict = {'asset_index': 0, 'sanitation_index': 3, 'water_index': 3, 'women_edu': 5}
@@ -52,14 +54,46 @@ def run_experiments():
 
 
 def nas_experiment():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--feature_combo', nargs='1', type=str)
+    parser.add_argument('--target', nargs='1', type=str)
+    parser.add_argument('--model_type', nargs='1', type=str)
+    args = parser.parse_args()
+
+    model_type = None
+    if args.model_type == "classification":
+        model_type = ModelType.classification
+    if args.model_type == "regression":
+        model_type = ModelType.regression
+
+    feature_combo=None
+    if args.feature_combo == "target_sentence":
+        feature_combo = ["target_sentence"]
+    elif args.feature_combo == "all_sentence":
+        feature_combo = ["all_sentence"]
+    elif args.feature_combo == "document":
+        feature_combo = ["document"]
+    elif args.feature_combo == "target_all_sentence":
+        feature_combo = ["target_sentence", "all_sentence"]
+    elif args.feature_combo == "target_sentence_document":
+        feature_combo = ["target_sentence", "document"]
+    elif args.feature_combo == "all_sentence_document":
+        feature_combo = ["all_sentence", "document"]
+    elif args.feature_combo == "all":
+        feature_combo = features
+
+    run_nas(model_class=FeedforwardNetworkModuleForNAS, target=args.target, features=feature_combo, model_type=model_type,
+            classification_threshold=classification_cutoff_dict[args.target])
+
+    """
     for model_type in model_types:
         for target in TARGETS:
             for feature_combo in powerset(features):
                 feature_combo = list(feature_combo)
                 if len(feature_combo) > 0:
                     run_nas(model_class=FeedforwardNetworkModuleForNAS, target=target, features=feature_combo, model_type=model_type,
-                            classification_threshold = classification_cutoff_dict['target'])
-
+                            classification_threshold = classification_cutoff_dict[target])
+    """
 
 if __name__ == "__main__":
     nas_experiment()

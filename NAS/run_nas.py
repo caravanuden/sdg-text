@@ -21,7 +21,7 @@ def run_nas(model_class, target,features, num_hidden_layers_in_network_doing_nas
     :return:
     """
     features_string = ",".join(features)
-    outfile_name = f"{model_type.name}_{features_string}_{target}_{str(num_hidden_layers_in_network_doing_nas)}.model"
+    outfile_name = f"{model_type.name}_{features_string}_{target}_{str(num_hidden_layers_in_network_doing_nas)}.py"
 
 
     raw_test_dataset = SustainBenchTextTorchDataset(
@@ -79,9 +79,9 @@ def run_nas(model_class, target,features, num_hidden_layers_in_network_doing_nas
     # exp_config.execution_engine = 'base'
     # export_formatter = 'code'
 
-    final_models = []
+    final_models = ""
     exp.run(exp_config, 8081 + random.randint(0, 100))
     for model_code in exp.export_top_models(formatter=export_formatter):
-        final_models.append(model_code)
+        final_models = model_code
 
-    writeToJsonFile(final_models, os.path.join("NAS_SELECTED_MODELS", outfile_name))
+    writeToAnyFile(final_models, os.path.join("NAS_SELECTED_MODELS", outfile_name))
