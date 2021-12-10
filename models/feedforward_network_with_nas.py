@@ -6,10 +6,11 @@ NOTE: I got inspiration from https://github.com/jing-IG/nni-function-approximato
 from typing import List
 import torch
 import nni.retiarii.nn.pytorch as nn
-from experiments.experiment import ModelType, ModelInterface
+from experiments.experiment import *
 from tqdm import trange
 import numpy as np
 import pdb
+
 
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -94,3 +95,99 @@ class FeedforwardNetworkModuleForNAS(nn.Module):
         output = self.final_layer(output)
 
         return output
+
+
+
+class FeedforwardNetworkForNASModelInterface(ModelInterface):
+    def __init__(self, model_module, name="NAS_selected_model", model_type: ModelType = ModelType.regression,
+                 batch_size: int = 32, num_epochs: int = 10, optimizer: object = torch.optim.SGD,
+                 criterion: object = None, learning_rate: float = 0.001):
+
+
+        self.name = name
+
+        self.model_type = model_type
+
+        self.user_specified_optimizer = optimizer
+        self.learning_rate = learning_rate
+        self.batch_size = batch_size
+        self.num_epochs = num_epochs
+        self.criterion = criterion
+        if criterion is None:
+            if model_type == ModelType.classification:
+                self.criterion = torch.nn.CrossEntropyLoss()
+            elif model_type == ModelType.regression:
+                self.criterion = torch.nn.MSELoss()
+            else:
+                raise NotImplementedError
+
+        if model_type == ModelType.classification:
+            self.output_dim=2
+        else:
+            self.output_dim=1
+
+        # these will be configured in fit()
+        # the model needs the input dims to be initialized correctly
+        self.model_module = model_module
+        self.model = model_module()
+        self.optimizer = None
+
+    def reset(self):
+        self.model = self.model_module()
+        self.optimizer = self.user_specified_optimizer(self.model.parameters(), self.learning_rate)
+
+    def fit(self, x, y):
+        """
+
+        :param x: the inputs of shape (num_inputs, input_shape)
+        :param y: their corresponding labels of shape (num_inputs,)
+        :return: nothing. just fit the model
+        """
+        # first, re-configure the architecture.
+        self.reset()
+
+        # now, fit the model
+        mini_batch_range = trange(x.shape[0] // self.batch_size + 1)
+        for i in mini_batch_range:
+            end_range = min((i + 1) * self.batch_size, x.shape[0])
+
+            # get batches
+            batch_X = x[i * self.batch_size: end_range]
+            batch_y = y[i * self.batch_size: end_range]
+            batch_X = torch.from_numpy(batch_X).float()
+            batch_y = torch.from_numpy(batch_y).long()
+            #batch_y = batch_y.reshape()
+
+            # get the loss and do backprop
+            self.optimizer.zero_grad()  # zero the gradient buffers
+            outputs = self.model(batch_X)
+            #pdb.set_trace()
+            loss = self.criterion(outputs, batch_y)
+            loss.backward()
+
+            # output tqdm thing
+            mini_batch_range.set_postfix(loss=loss.item())
+
+    def predict(self, test_x):
+        """
+
+        :param test_x: the points to predict on.
+        should have shape (train_set_size, input_dims)
+        :return: the predictions.
+        """
+        outputs = np.zeros((test_x.shape[0], 1))
+
+        with torch.no_grad():
+            mini_batch_range = trange(test_x.shape[0] // self.batch_size + 1)
+            for i in mini_batch_range:
+                end_range = min((i + 1) * self.batch_size, test_x.shape[0])
+
+                # get batches
+                batch_X = test_x[i * self.batch_size: end_range]
+                batch_X = torch.from_numpy(batch_X).float()
+
+                predictions = self.model(batch_X).cpu().numpy()
+                if self.model_type == ModelType.classification:
+                    predictions = np.argmax(predictions, axis=1).reshape(-1,1)
+                outputs[i * self.batch_size: end_range] = predictions
+        return outputs

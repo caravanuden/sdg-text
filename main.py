@@ -1,8 +1,20 @@
+"""
+Next up is to programmatically import the files so we can run the experiments without heinous amounts of manual
+intervention.
+To do that, use the factory function at this link: https://stackoverflow.com/questions/41678073/import-class-from-module-dynamically
+Basically, we jsut need a new modelInterfact that will take this _model as a module and then we can run the usual
+training and testing code.
+
+Almost there!
+
+"""
+
+
 from experiments.experiment import *
 from sklearn.linear_model import Ridge, LogisticRegression
-from sklearn.metrics import r2_score, classification_report, confusion_matrix, roc_auc_score
+from sklearn.metrics import r2_score, classification_report, confusion_matrix, roc_auc_score, accuracy_score
 from models.feedforward_network import FeedforwardNewtork
-from models.feedforward_network_with_nas import FeedforwardNetworkModuleForNAS
+from models.feedforward_network_with_nas import FeedforwardNetworkModuleForNAS, FeedforwardNetworkForNASModelInterface
 from NAS.run_nas import run_nas
 
 import argparse
@@ -20,6 +32,11 @@ feature_types = [FeatureType.target_sentence, FeatureType.all_sentence, FeatureT
 features = ['target_sentence', 'all_sentence', 'document']
 
 model_types = [ModelType.regression, ModelType.classification]
+
+metrics = {
+    ModelType.regression: {r2_score},
+    ModelType.classification: {classification_report, confusion_matrix, roc_auc_score, accuracy_score}
+}
 
 def powerset(iterable):
     "powerset([1,2,3]) --> () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)"
@@ -42,18 +59,25 @@ def run_experiments():
     # model_types = [ModelType.regression, ModelType.classification]
 
 
-    metrics = {
-        ModelType.regression: {r2_score},
-        ModelType.classification: {classification_report, confusion_matrix, roc_auc_score}
-    }
-
     experiment = Experiment(classification_cutoff_dict=classification_cutoff_dict,
                             targets=TARGETS, feature_types=feature_types, model_types=model_types,
                             models=models, metrics=metrics)
     experiment.run_experiments()
 
 
-def nas_experiment():
+def run_nas_experiments():
+    """
+    This function trains and evals the models whose architecture was selected by NAS to see how they perform.
+    :return:
+    """
+    exp = Experiment(classification_cutoff_dict=classification_cutoff_dict,
+                            targets=TARGETS, features=features, metrics=metrics,
+                     nas_model_interface=FeedforwardNetworkForNASModelInterface)
+
+    exp.run_experiments_with_nas_selected_models()
+
+
+def get_nas_selected_models():
     parser = argparse.ArgumentParser()
     parser.add_argument('--feature_combo', nargs='1', type=str)
     parser.add_argument('--target', nargs='1', type=str)
@@ -96,4 +120,5 @@ def nas_experiment():
     """
 
 if __name__ == "__main__":
-    nas_experiment()
+    #nas_experiment()
+    run_nas_experiments()

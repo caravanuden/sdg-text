@@ -11,6 +11,7 @@ from pathlib import Path
 # fro mthe Multimodal-deep-learning-for-poverty-prediction directory.
 PATH_TO_RESULTS_DIRECTORY="./experiment_results"
 PATH_TO_DATA_DIR = "./data"
+PATH_TO_NAS_MODELS = "NAS_SELECTED_MODELS"
 
 
 def readFromJsonFile(infile_path):

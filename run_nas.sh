@@ -10,7 +10,7 @@ do
    do
         for k in "${feature_combos[@]}"
         do
-            nohup python3 -u main.py &
+            nohup python3 -u main.py --feature_combo=$k --target=$j --model_type=$i &
             wait
         done
    done
