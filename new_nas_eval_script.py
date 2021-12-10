@@ -9,11 +9,13 @@ from sklearn.metrics import r2_score, classification_report, confusion_matrix, r
 from experiments.experiment import ModelType
 
 from utils.get_data_loader import *
-from utils.file_utils import PATH_TO_DATA_DIR, PATH_TO_NAS_MODELS
+from utils.file_utils import *
 
 import numpy as np
 import itertools
 from importlib import import_module
+
+import pdb
 
 
 import time
@@ -26,7 +28,8 @@ CLASSIFICATION_THRESHOLD_DICT = {'asset_index': 0, 'sanitation_index': 3, 'water
 TARGETS = ['asset_index', 'sanitation_index', 'water_index', 'women_edu']
 
 
-features = ['target_sentence', 'all_sentence', 'document']
+#features = ['target_sentence', 'all_sentence', 'document']
+features = ['target_sentence', 'document']
 
 
 
@@ -105,15 +108,14 @@ def powerset(iterable):
 
 if __name__ == '__main__':
     FEATURE_INPUT_SIZE_DICT = {'target_sentence': 384, 'all_sentence': 384, 'document': 300}
-    scores = np.zeros((len(TARGETS), len(features)))
+    feature_combos = [list(combo) for combo in powerset(features) if len(combo) > 0]
+    scores = np.zeros((len(TARGETS), len(feature_combos)))
+
     model_type = ModelType.classification
     for i,target in enumerate(TARGETS):
-        feature_combos = [list(combo) for combo in powerset(features) if len(combo) > 0]
         for j,feature_combo in enumerate(feature_combos):
             input_size = sum([FEATURE_INPUT_SIZE_DICT[feature] for feature in feature_combo])
             #hidden_size = int(input_size / 2)
-
-
             train_loader, test_loader = get_data_loader(feature_combo, target, rebalance=True)
             features_string = ",".join(feature_combo)
             model_file_name = f"{model_type.name}_{features_string}_{target}_4"
@@ -134,3 +136,6 @@ if __name__ == '__main__':
             curr_score = evaluate(test_loader, net, end - start)
             scores[i, j] = evaluate(test_loader, net, end - start)
             print("CURRENT SCORE: {}".format(curr_score))
+
+    writeToJsonFile(scores, "AUC_ROC_SCORES_NAS.json")
+

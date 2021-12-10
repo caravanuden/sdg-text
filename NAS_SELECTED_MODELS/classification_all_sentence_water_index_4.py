@@ -11,18 +11,18 @@ import torch
 class _model__fc1__1(nn.Module):
     def __init__(self):
         super().__init__()
-        self.layerchoice__mutation_6_3 = torch.nn.modules.activation.Tanh()
+        self.layerchoice__mutation_6_2 = torch.nn.modules.activation.Sigmoid()
 
     def forward(self, *_inputs):
-        layerchoice__mutation_6_3 = self.layerchoice__mutation_6_3(_inputs[0])
-        return layerchoice__mutation_6_3
+        layerchoice__mutation_6_2 = self.layerchoice__mutation_6_2(_inputs[0])
+        return layerchoice__mutation_6_2
 
 
 
 class _model__fc1(nn.Module):
     def __init__(self):
         super().__init__()
-        self.__0 = torch.nn.modules.linear.Linear(in_features=384, out_features=256)
+        self.__0 = torch.nn.modules.linear.Linear(in_features=384, out_features=512)
         self.__1 = _model__fc1__1()
 
     def forward(self, input__1):
@@ -35,18 +35,18 @@ class _model__fc1(nn.Module):
 class _model__fc2__1(nn.Module):
     def __init__(self):
         super().__init__()
-        self.layerchoice__mutation_7_1 = torch.nn.modules.activation.LeakyReLU()
+        self.layerchoice__mutation_7_3 = torch.nn.modules.activation.Tanh()
 
     def forward(self, *_inputs):
-        layerchoice__mutation_7_1 = self.layerchoice__mutation_7_1(_inputs[0])
-        return layerchoice__mutation_7_1
+        layerchoice__mutation_7_3 = self.layerchoice__mutation_7_3(_inputs[0])
+        return layerchoice__mutation_7_3
 
 
 
 class _model__fc2(nn.Module):
     def __init__(self):
         super().__init__()
-        self.__0 = torch.nn.modules.linear.Linear(in_features=256, out_features=512)
+        self.__0 = torch.nn.modules.linear.Linear(in_features=512, out_features=512)
         self.__1 = _model__fc2__1()
 
     def forward(self, input__1):
@@ -59,18 +59,18 @@ class _model__fc2(nn.Module):
 class _model__fc3__1(nn.Module):
     def __init__(self):
         super().__init__()
-        self.layerchoice__mutation_8_0 = torch.nn.modules.activation.ReLU()
+        self.layerchoice__mutation_8_2 = torch.nn.modules.activation.Sigmoid()
 
     def forward(self, *_inputs):
-        layerchoice__mutation_8_0 = self.layerchoice__mutation_8_0(_inputs[0])
-        return layerchoice__mutation_8_0
+        layerchoice__mutation_8_2 = self.layerchoice__mutation_8_2(_inputs[0])
+        return layerchoice__mutation_8_2
 
 
 
 class _model__fc3(nn.Module):
     def __init__(self):
         super().__init__()
-        self.__0 = torch.nn.modules.linear.Linear(in_features=512, out_features=32)
+        self.__0 = torch.nn.modules.linear.Linear(in_features=512, out_features=64)
         self.__1 = _model__fc3__1()
 
     def forward(self, input__1):
@@ -83,18 +83,18 @@ class _model__fc3(nn.Module):
 class _model__fc4__1(nn.Module):
     def __init__(self):
         super().__init__()
-        self.layerchoice__mutation_9_2 = torch.nn.modules.activation.Sigmoid()
+        self.layerchoice__mutation_9_1 = torch.nn.modules.activation.LeakyReLU()
 
     def forward(self, *_inputs):
-        layerchoice__mutation_9_2 = self.layerchoice__mutation_9_2(_inputs[0])
-        return layerchoice__mutation_9_2
+        layerchoice__mutation_9_1 = self.layerchoice__mutation_9_1(_inputs[0])
+        return layerchoice__mutation_9_1
 
 
 
 class _model__fc4(nn.Module):
     def __init__(self):
         super().__init__()
-        self.__0 = torch.nn.modules.linear.Linear(in_features=32, out_features=32)
+        self.__0 = torch.nn.modules.linear.Linear(in_features=64, out_features=64)
         self.__1 = _model__fc4__1()
 
     def forward(self, input__1):
@@ -107,13 +107,11 @@ class _model__fc4(nn.Module):
 class _model__final_layer(nn.Module):
     def __init__(self):
         super().__init__()
-        self.__0 = torch.nn.modules.linear.Linear(in_features=32, out_features=2)
-        self.__1 = torch.nn.modules.activation.Softmax()
+        self.__0 = torch.nn.modules.linear.Linear(in_features=64, out_features=2)
 
     def forward(self, input__1):
         __0 = self.__0(input__1)
-        __1 = self.__1(__0)
-        return __1
+        return __0
 
 
 
