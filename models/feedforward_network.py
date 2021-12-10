@@ -112,8 +112,8 @@ class FeedforwardNetworkModule(nn.Module):
 class FeedforwardNewtork(ModelInterface):
     def __init__(self, hidden_dims: List[int], output_dim=1, activations: List[object] = list(),
                  model_type: ModelType = ModelType.regression, default_hidden_activation: object = nn.Sigmoid(),
-                 batch_size: int = 32, num_epochs: int = 10, optimizer: object = torch.optim.SGD,
-                 criterion: object = None, learning_rate: float = 0.05):
+                 batch_size: int = 32, num_epochs: int = 10, optimizer: object = torch.optim.Adam,
+                 criterion: object = None, learning_rate: float = 0.0001):
         """
         For description of parameters not listed here, see FeedforwardNetworkModule
 
@@ -177,29 +177,30 @@ class FeedforwardNewtork(ModelInterface):
         # first, re-configure the architecture.
         self.reset(x.shape[-1])
 
-        self.optimizer.zero_grad()  # zero the gradient buffers
+        for j in range(self.num_epochs):
+            self.optimizer.zero_grad()  # zero the gradient buffers
 
-        # now, fit the model
-        mini_batch_range = trange(x.shape[0] // self.batch_size + 1)
+            # now, fit the model
+            mini_batch_range = trange(x.shape[0] // self.batch_size + 1)
 
-        for i in mini_batch_range:
-            end_range = min((i + 1) * self.batch_size, x.shape[0])
+            for i in mini_batch_range:
+                end_range = min((i + 1) * self.batch_size, x.shape[0])
 
-            # get batches
-            batch_X = x[i*self.batch_size : end_range]
-            batch_y = y[i*self.batch_size : end_range]
-            batch_X = torch.from_numpy(batch_X).float()
-            batch_y = torch.from_numpy(convert_to_one_hot(batch_y.astype(int))).float()
+                # get batches
+                batch_X = x[i*self.batch_size : end_range]
+                batch_y = y[i*self.batch_size : end_range]
+                batch_X = torch.from_numpy(batch_X).float()
+                batch_y = torch.from_numpy(convert_to_one_hot(batch_y.astype(int))).float()
 
-            # get the loss and do backprop
-            outputs = self.model(batch_X)
-            #pdb.set_trace()
-            loss = self.criterion(outputs, Variable(batch_y))
-            #print(loss)
-            loss.backward()
+                # get the loss and do backprop
+                outputs = self.model(batch_X)
+                #pdb.set_trace()
+                loss = self.criterion(outputs, Variable(batch_y))
+                print(loss)
+                loss.backward()
 
-            # output tqdm thing
-            mini_batch_range.set_postfix(loss=loss.item())
+                # output tqdm thing
+                mini_batch_range.set_postfix(loss=loss.item())
 
     def predict_proba(self, test_x):
         """
