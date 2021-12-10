@@ -46,7 +46,13 @@ def get_data_loader(features, target, rebalance=True):
     )
 
     X_train, y_train = ds.get_data('train')
+    X_val = X_train[int(0.9*X_train.shape[0]):]
+    y_val = y_train[int(0.9*y_train.shape[0]):]
+    X_train = X_train[:int(0.9 * X_train.shape[0])]
+    y_train = y_train[:int(0.9*y_train.shape[0])]
     X_test, y_test = ds.get_data('test')
+
+    #pdb.set_trace()
 
     print(f'train data shape: {X_train.shape}, test data shape: {X_test.shape}')
     print(
@@ -54,21 +60,29 @@ def get_data_loader(features, target, rebalance=True):
 
     X_train = torch.Tensor(X_train)
     y_train = torch.from_numpy(y_train)
+
+    X_val = torch.Tensor(X_val)
+    y_val = torch.from_numpy(y_val)
+
     X_test = torch.Tensor(X_test)
     y_test = torch.from_numpy(y_test)
 
     train_dataset = TensorDataset(X_train, y_train)
     train_loader = DataLoader(train_dataset)
 
+    val_dataset = TensorDataset(X_val, y_val)
+    val_loader = DataLoader(val_dataset)
+
     test_dataset = TensorDataset(X_test, y_test)
     test_loader = DataLoader(test_dataset)
 
-    return train_loader, test_loader
+    return train_loader, val_loader, test_loader
 
-def train(train_loader, net, learning_rate, num_epochs=10, logging=False):
+def train(train_loader, val_loader, net, learning_rate, num_epochs=10, logging=False):
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate)
 
+    accuracy_values = list()
     for epoch in range(num_epochs):
         for i, (embeddings, labels) in enumerate(train_loader):
             embeddings = Variable(embeddings)
@@ -83,7 +97,24 @@ def train(train_loader, net, learning_rate, num_epochs=10, logging=False):
             if logging and (i+1) % 100 == 0:
                 print(f'epoch: {epoch+1}/{num_epochs}, step: {int((i+1) / 100)}/{len(train_dataset)//batch_size}, loss: {loss.data}')
 
-    return net
+        total_preds = np.zeros(len(val_loader))
+        y_labels = np.zeros(len(val_loader))
+        for i, (embeddings,labels) in enumerate(val_loader):
+            y_labels[i * 32:(i + 1) * 32] = labels
+
+            embeddings = Variable(embeddings)
+            labels = Variable(labels)
+
+            outputs = net(embeddings)
+            preds = np.argmax(outputs.detach().numpy(), axis=1)
+            total_preds[i*32:(i+1)*32] = preds
+
+
+        correct = (total_preds == y_labels).sum()
+        accuracy_values.append(correct / len(val_loader))
+
+    print(accuracy_values)
+    return net, accuracy_values
 
 
 def evaluate(test_loader, net, time_taken):
@@ -110,13 +141,16 @@ if __name__ == '__main__':
     FEATURE_INPUT_SIZE_DICT = {'target_sentence': 384, 'all_sentence': 384, 'document': 300}
     feature_combos = [list(combo) for combo in powerset(features) if len(combo) > 0]
     scores = np.zeros((len(TARGETS), len(feature_combos)))
+    graph_data = [[list() for i in range(len(TARGETS))] for j in range(len(feature_combos))]
 
     model_type = ModelType.classification
+
+
     for i,target in enumerate(TARGETS):
         for j,feature_combo in enumerate(feature_combos):
             input_size = sum([FEATURE_INPUT_SIZE_DICT[feature] for feature in feature_combo])
             #hidden_size = int(input_size / 2)
-            train_loader, test_loader = get_data_loader(feature_combo, target, rebalance=True)
+            train_loader, val_loader, test_loader = get_data_loader(feature_combo, target, rebalance=True)
             features_string = ",".join(feature_combo)
             model_file_name = f"{model_type.name}_{features_string}_{target}_4"
 
@@ -131,11 +165,13 @@ if __name__ == '__main__':
             #net = Net(input_size, hidden_size, num_classes)
 
             start = time.time()
-            net = train(train_loader, net, 0.001)
+            net, acc_vals = train(train_loader, val_loader, net, 0.001)
+            graph_data[i][j] = acc_vals
             end = time.time()
             curr_score = evaluate(test_loader, net, end - start)
-            scores[i, j] = evaluate(test_loader, net, end - start)
+            scores[i, j] = curr_score
             print("CURRENT SCORE: {}".format(curr_score))
 
-    writeToJsonFile(scores, "AUC_ROC_SCORES_NAS.json")
+        writeToJsonFile(scores.tolist(), "AUC_ROC_SCORES_NAS.json")
+        writeToJsonFile(graph_data, "ACC_VALS_GRAPH_DATA.json")
 

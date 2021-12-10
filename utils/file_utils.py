@@ -5,6 +5,7 @@ included those functions below as well."""
 import json
 import os
 from pathlib import Path
+import numpy as np
 
 # note: these directory paths are given FROM THE HOME DIRECTORY OF THIS REPO.
 # Any script which uses these should be ru nwith the python path set to the home directory of the repo (i.e.,
