@@ -145,7 +145,8 @@ class Experiment:
                 features=features,
                 target=target,
                 model_type=model_type.name,
-                classification_threshold=self.classification_cutoff_dict[target]
+                classification_threshold=self.classification_cutoff_dict[target],
+                rebalance=True
             )
 
             train_X, train_y = ds.get_data('train')
@@ -195,7 +196,8 @@ class Experiment:
                                 features=feature_combo,
                                 target=target,
                                 model_type=model_type.name,
-                                classification_threshold=self.classification_cutoff_dict[target]
+                                classification_threshold=self.classification_cutoff_dict[target],
+                                rebalance=True
                             )
 
                             train_X, train_y = ds.get_data('train')

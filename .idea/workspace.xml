@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8c383fdb-433b-4ff8-835e-f01d9376a2b4" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_all_sentence_asset_index.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_document_asset_index.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_sentence,all_sentence_asset_index.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_sentence,document_asset_index.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_sentence_asset_index.json" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/feedforward_network.py" afterPath="$PROJECT_DIR$/models/feedforward_network.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/feedforward_network_with_nas.py" afterPath="$PROJECT_DIR$/models/feedforward_network_with_nas.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_sentence_asset_index.json" afterPath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_sentence_asset_index.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/experiments/experiment.py" afterPath="$PROJECT_DIR$/experiments/experiment.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -28,8 +22,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="98" column="36" lean-forward="true" selection-start-line="98" selection-start-column="36" selection-end-line="98" selection-end-column="36" />
+            <state relative-caret-position="1470">
+              <caret line="98" column="36" lean-forward="false" selection-start-line="98" selection-start-column="36" selection-end-line="98" selection-end-column="36" />
               <folding>
                 <element signature="e#426#462#0" expanded="true" />
               </folding>
@@ -37,14 +31,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="experiment.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="experiment.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/experiments/experiment.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3432">
-              <caret line="8" column="70" lean-forward="false" selection-start-line="8" selection-start-column="70" selection-end-line="8" selection-end-column="70" />
+            <state relative-caret-position="-1317">
+              <caret line="151" column="51" lean-forward="true" selection-start-line="151" selection-start-column="51" selection-end-line="151" selection-end-column="51" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
-                <marker date="1639125531846" expanded="true" signature="8142:8350" ph="..." />
+                <marker date="1639160967238" expanded="true" signature="8222:8430" ph="..." />
               </folding>
             </state>
           </provider>
@@ -54,7 +48,7 @@
         <entry file="file://$PROJECT_DIR$/run_nas.sh">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="240">
-              <caret line="16" column="4" lean-forward="true" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+              <caret line="16" column="4" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -63,8 +57,8 @@
       <file leaf-file-name="classification_all_sentence,document_asset_index_4.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_all_sentence,document_asset_index_4.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1095">
-              <caret line="73" column="35" lean-forward="true" selection-start-line="73" selection-start-column="35" selection-end-line="73" selection-end-column="35" />
+            <state relative-caret-position="990">
+              <caret line="73" column="35" lean-forward="false" selection-start-line="73" selection-start-column="35" selection-end-line="73" selection-end-column="35" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -75,8 +69,8 @@
       <file leaf-file-name="feedforward_network.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/feedforward_network.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="117" column="60" lean-forward="true" selection-start-line="117" selection-start-column="60" selection-end-line="117" selection-end-column="60" />
+            <state relative-caret-position="1635">
+              <caret line="117" column="60" lean-forward="false" selection-start-line="117" selection-start-column="60" selection-end-line="117" selection-end-column="60" />
               <folding>
                 <element signature="e#277#300#0" expanded="true" />
               </folding>
@@ -96,11 +90,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FeedforwardNewtork_classification_target_sentence_asset_index.json" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FeedforwardNewtork_classification_target_sentence_asset_index.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_sentence_asset_index.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="0" column="145" lean-forward="false" selection-start-line="0" selection-start-column="145" selection-end-line="0" selection-end-column="145" />
               <folding />
             </state>
           </provider>
@@ -109,8 +103,8 @@
       <file leaf-file-name="get_data_loader.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/get_data_loader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="96" column="8" lean-forward="true" selection-start-line="96" selection-start-column="8" selection-end-line="103" selection-end-column="24" />
+            <state relative-caret-position="1170">
+              <caret line="96" column="8" lean-forward="false" selection-start-line="96" selection-start-column="8" selection-end-line="103" selection-end-column="24" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -129,7 +123,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>clean</find>
       <find>predict</find>
       <find>self.model.predict</find>
       <find>country_metadata</find>
@@ -159,6 +152,7 @@
       <find>print</find>
       <find>learning_rate</find>
       <find>prin(</find>
+      <find>run_expe</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -184,12 +178,12 @@
         <option value="$PROJECT_DIR$/NAS/run_nas.py" />
         <option value="$PROJECT_DIR$/utils/file_utils.py" />
         <option value="$PROJECT_DIR$/utils/get_torch_data_loader.py" />
-        <option value="$PROJECT_DIR$/experiments/experiment.py" />
         <option value="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_sentence,document_asset_index.json" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/run_nas.sh" />
         <option value="$PROJECT_DIR$/models/feedforward_network.py" />
         <option value="$PROJECT_DIR$/models/feedforward_network_with_nas.py" />
+        <option value="$PROJECT_DIR$/experiments/experiment.py" />
       </list>
     </option>
   </component>
@@ -213,6 +207,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -311,8 +307,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -510,7 +504,7 @@
     <frame x="0" y="23" width="1440" height="773" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22410148" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22339676" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -568,7 +562,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -576,9 +569,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
           <caret line="22" column="4" lean-forward="false" selection-start-line="22" selection-start-column="4" selection-end-line="23" selection-end-column="115" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -599,8 +589,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/get_data_loader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="96" column="8" lean-forward="true" selection-start-line="96" selection-start-column="8" selection-end-line="103" selection-end-column="24" />
+        <state relative-caret-position="1170">
+          <caret line="96" column="8" lean-forward="false" selection-start-line="96" selection-start-column="8" selection-end-line="103" selection-end-column="24" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
@@ -756,8 +746,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_all_sentence,document_asset_index_4.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1095">
-          <caret line="73" column="35" lean-forward="true" selection-start-line="73" selection-start-column="35" selection-end-line="73" selection-end-column="35" />
+        <state relative-caret-position="990">
+          <caret line="73" column="35" lean-forward="false" selection-start-line="73" selection-start-column="35" selection-end-line="73" selection-end-column="35" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
@@ -768,50 +758,32 @@
     <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_all_sentence,document_asset_index.json" />
     <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_sentence,document_asset_index.json" />
     <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_document_asset_index.json" />
-    <entry file="file://$PROJECT_DIR$/experiments/experiment.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3432">
-          <caret line="8" column="70" lean-forward="false" selection-start-line="8" selection-start-column="70" selection-end-line="8" selection-end-column="70" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-            <marker date="1639125531846" expanded="true" signature="8142:8350" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="98" column="36" lean-forward="true" selection-start-line="98" selection-start-column="36" selection-end-line="98" selection-end-column="36" />
-          <folding>
-            <element signature="e#426#462#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/run_nas.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
-          <caret line="16" column="4" lean-forward="true" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+          <caret line="16" column="4" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/feedforward_network.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="117" column="60" lean-forward="true" selection-start-line="117" selection-start-column="60" selection-end-line="117" selection-end-column="60" />
+        <state relative-caret-position="1635">
+          <caret line="117" column="60" lean-forward="false" selection-start-line="117" selection-start-column="60" selection-end-line="117" selection-end-column="60" />
           <folding>
             <element signature="e#277#300#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_all_sentence_asset_index.json">
+    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_all_sentence_asset_index.json" />
+    <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="1470">
+          <caret line="98" column="36" lean-forward="false" selection-start-line="98" selection-start-column="36" selection-end-line="98" selection-end-column="36" />
+          <folding>
+            <element signature="e#426#462#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -828,8 +800,19 @@
     <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_sentence_asset_index.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="0" column="145" lean-forward="false" selection-start-line="0" selection-start-column="145" selection-end-line="0" selection-end-column="145" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/experiments/experiment.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1317">
+          <caret line="151" column="51" lean-forward="true" selection-start-line="151" selection-start-column="51" selection-end-line="151" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+            <marker date="1639160967238" expanded="true" signature="8222:8430" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
