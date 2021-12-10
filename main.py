@@ -60,7 +60,7 @@ def run_experiments():
 
 
     experiment = Experiment(classification_cutoff_dict=classification_cutoff_dict,
-                            targets=TARGETS, feature_types=feature_types, model_types=model_types,
+                            targets=TARGETS, features=features, model_types=model_types,
                             models=models, metrics=metrics)
     experiment.run_experiments()
 
@@ -121,4 +121,5 @@ def get_nas_selected_models():
 
 if __name__ == "__main__":
     #nas_experiment()
-    run_nas_experiments()
+    #run_nas_experiments()
+    run_experiments()

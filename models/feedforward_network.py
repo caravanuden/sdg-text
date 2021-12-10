@@ -10,9 +10,19 @@ from experiments.experiment import ModelType, ModelInterface
 from tqdm import trange
 import numpy as np
 import pdb
+import torch.nn.functional as F
+from torch.autograd import Variable
 
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+
+def convert_to_one_hot(array, size=2):
+    """
+    Note: Got help from https://stackoverflow.com/questions/29831489/convert-array-of-indices-to-1-hot-encoded-numpy-array
+    """
+    new_arr = np.zeros((array.size, size))
+    new_arr[np.arange(array.size), array] = 1
+    return new_arr
 
 
 class FeedforwardNetworkModule(nn.Module):
@@ -42,6 +52,9 @@ class FeedforwardNetworkModule(nn.Module):
         # Configure the architecture
         self.configure_architecture(input_dim)
 
+        if self.model_type == ModelType.classification:
+            self.output_dim = 2 # we'll use cross entropy loss now
+
     def configure_architecture(self, input_dim):
         self.layers = list()
 
@@ -64,7 +77,8 @@ class FeedforwardNetworkModule(nn.Module):
         # the last activation is specified by the task at hand!
         final_activation = None
         if self.model_type == ModelType.classification:
-            final_activation = nn.Sigmoid()
+            #final_activation = nn.Sigmoid()
+            final_activation = None
         elif self.model_type == ModelType.regression:
             final_activation = None  # keep it at None for regression model
         else:
@@ -111,6 +125,8 @@ class FeedforwardNewtork(ModelInterface):
         """
         self.hidden_dims = hidden_dims
         self.output_dim = output_dim
+
+
         # self.hidden_layer_activation = activation
         self.activations = activations
         self.model_type = model_type
@@ -122,11 +138,14 @@ class FeedforwardNewtork(ModelInterface):
         self.criterion = criterion
         if criterion is None:
             if model_type == ModelType.classification:
-                self.criterion = torch.nn.BCELoss()
+                self.criterion = torch.nn.CrossEntropyLoss()
             elif model_type == ModelType.regression:
                 self.criterion = torch.nn.MSELoss()
             else:
                 raise NotImplementedError
+
+        if self.model_type == ModelType.classification:
+            self.output_dim = 2  # we'll use cross entropy loss now
 
         # these will be configured in fit()
         # the model needs the input dims to be initialized correctly
@@ -158,8 +177,11 @@ class FeedforwardNewtork(ModelInterface):
         # first, re-configure the architecture.
         self.reset(x.shape[-1])
 
+        self.optimizer.zero_grad()  # zero the gradient buffers
+
         # now, fit the model
         mini_batch_range = trange(x.shape[0] // self.batch_size + 1)
+
         for i in mini_batch_range:
             end_range = min((i + 1) * self.batch_size, x.shape[0])
 
@@ -167,12 +189,13 @@ class FeedforwardNewtork(ModelInterface):
             batch_X = x[i*self.batch_size : end_range]
             batch_y = y[i*self.batch_size : end_range]
             batch_X = torch.from_numpy(batch_X).float()
-            batch_y = torch.from_numpy(batch_y.reshape(-1,1)).float()
+            batch_y = torch.from_numpy(convert_to_one_hot(batch_y.astype(int))).float()
 
             # get the loss and do backprop
-            self.optimizer.zero_grad()  # zero the gradient buffers
             outputs = self.model(batch_X)
-            loss = self.criterion(outputs, batch_y)
+            #pdb.set_trace()
+            loss = self.criterion(outputs, Variable(batch_y))
+            #print(loss)
             loss.backward()
 
             # output tqdm thing
@@ -199,6 +222,7 @@ class FeedforwardNewtork(ModelInterface):
                 batch_X = torch.from_numpy(batch_X).float()
 
                 predictions = self.model(batch_X)
+                predictions = F.softmax(predictions)
                 outputs[i * self.batch_size: end_range] = predictions.cpu().numpy()
 
         return outputs
@@ -213,7 +237,10 @@ class FeedforwardNewtork(ModelInterface):
         Will be an array of shape (train_set_size,) with the classification deciosn
         """
         output_probs = self.predict_proba(test_x)
-        probs = np.copy(output_probs)
-        probs[probs<0.5] = 0
-        probs[probs>=0.5] = 1
-        return probs
+
+        preds = np.argmax(output_probs, axis=1)
+
+        #probs = np.copy(output_probs)
+        #probs[probs<0.5] = 0
+        #probs[probs>=0.5] = 1
+        return preds
