@@ -100,7 +100,7 @@ class FeedforwardNetworkModuleForNAS(nn.Module):
 
 class FeedforwardNetworkForNASModelInterface(ModelInterface):
     def __init__(self, model_module, name="NAS_selected_model", model_type: ModelType = ModelType.regression,
-                 batch_size: int = 32, num_epochs: int = 10, optimizer: object = torch.optim.SGD,
+                 batch_size: int = 32, num_epochs: int = 10, optimizer: object = torch.optim.Adam,
                  criterion: object = None, learning_rate: float = 0.001):
 
 

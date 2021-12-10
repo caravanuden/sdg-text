@@ -2,9 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8c383fdb-433b-4ff8-835e-f01d9376a2b4" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_all_sentence_asset_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_document_asset_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_sentence,all_sentence_asset_index.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_sentence,document_asset_index.json" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_sentence_asset_index.json" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/feedforward_network.py" afterPath="$PROJECT_DIR$/models/feedforward_network.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/feedforward_network_with_nas.py" afterPath="$PROJECT_DIR$/models/feedforward_network_with_nas.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,7 +29,7 @@
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="450">
-              <caret line="124" column="21" lean-forward="true" selection-start-line="124" selection-start-column="21" selection-end-line="124" selection-end-column="21" />
+              <caret line="98" column="36" lean-forward="true" selection-start-line="98" selection-start-column="36" selection-end-line="98" selection-end-column="36" />
               <folding>
                 <element signature="e#426#462#0" expanded="true" />
               </folding>
@@ -34,13 +40,22 @@
       <file leaf-file-name="experiment.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/experiments/experiment.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="202" column="0" lean-forward="true" selection-start-line="202" selection-start-column="0" selection-end-line="202" selection-end-column="0" />
+            <state relative-caret-position="-3432">
+              <caret line="8" column="70" lean-forward="false" selection-start-line="8" selection-start-column="70" selection-end-line="8" selection-end-column="70" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
                 <marker date="1639125531846" expanded="true" signature="8142:8350" ph="..." />
-                <marker date="1639125531846" expanded="true" signature="8142:8484" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="run_nas.sh" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/run_nas.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="16" column="4" lean-forward="true" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -60,10 +75,22 @@
       <file leaf-file-name="feedforward_network.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/feedforward_network.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1830">
-              <caret line="122" column="49" lean-forward="true" selection-start-line="122" selection-start-column="49" selection-end-line="122" selection-end-column="49" />
+            <state relative-caret-position="378">
+              <caret line="117" column="60" lean-forward="true" selection-start-line="117" selection-start-column="60" selection-end-line="117" selection-end-column="60" />
               <folding>
                 <element signature="e#277#300#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="feedforward_network_with_nas.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/feedforward_network_with_nas.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="327">
+              <caret line="104" column="0" lean-forward="true" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+              <folding>
+                <element signature="e#162#185#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -102,9 +129,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>norms</find>
-      <find>is_file</find>
-      <find>verbose</find>
       <find>clean</find>
       <find>predict</find>
       <find>self.model.predict</find>
@@ -132,6 +156,9 @@
       <find>set_</find>
       <find>model_type</find>
       <find>set_tra</find>
+      <find>print</find>
+      <find>learning_rate</find>
+      <find>prin(</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -155,14 +182,14 @@
         <option value="$PROJECT_DIR$/dataset/scrape_gdelt.py" />
         <option value="$PROJECT_DIR$/utils/get_data_loader.py" />
         <option value="$PROJECT_DIR$/NAS/run_nas.py" />
-        <option value="$PROJECT_DIR$/run_nas.sh" />
         <option value="$PROJECT_DIR$/utils/file_utils.py" />
         <option value="$PROJECT_DIR$/utils/get_torch_data_loader.py" />
-        <option value="$PROJECT_DIR$/models/feedforward_network_with_nas.py" />
         <option value="$PROJECT_DIR$/experiments/experiment.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_sentence,document_asset_index.json" />
+        <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/run_nas.sh" />
         <option value="$PROJECT_DIR$/models/feedforward_network.py" />
+        <option value="$PROJECT_DIR$/models/feedforward_network_with_nas.py" />
       </list>
     </option>
   </component>
@@ -250,7 +277,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="lightning_logs" />
+              <option name="myItemId" value="experiments" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -264,7 +291,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="experiments" />
+              <option name="myItemId" value="experiment_results" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -481,9 +508,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="773" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22410148" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22410148" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -542,13 +569,6 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/run_nas.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="12" lean-forward="false" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="85" />
         </state>
       </provider>
     </entry>
@@ -685,16 +705,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/feedforward_network_with_nas.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2460">
-          <caret line="190" column="74" lean-forward="false" selection-start-line="190" selection-start-column="74" selection-end-line="190" selection-end-column="74" />
-          <folding>
-            <element signature="e#162#185#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,all_sentence,document_asset_index_4.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1740">
@@ -754,14 +764,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_sentence,all_sentence_asset_index.json" />
+    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_all_sentence,document_asset_index.json" />
+    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_sentence,document_asset_index.json" />
+    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_document_asset_index.json" />
     <entry file="file://$PROJECT_DIR$/experiments/experiment.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="202" column="0" lean-forward="true" selection-start-line="202" selection-start-column="0" selection-end-line="202" selection-end-column="0" />
+        <state relative-caret-position="-3432">
+          <caret line="8" column="70" lean-forward="false" selection-start-line="8" selection-start-column="70" selection-end-line="8" selection-end-column="70" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
             <marker date="1639125531846" expanded="true" signature="8142:8350" ph="..." />
-            <marker date="1639125531846" expanded="true" signature="8142:8484" ph="..." />
           </folding>
         </state>
       </provider>
@@ -769,17 +782,31 @@
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
-          <caret line="124" column="21" lean-forward="true" selection-start-line="124" selection-start-column="21" selection-end-line="124" selection-end-column="21" />
+          <caret line="98" column="36" lean-forward="true" selection-start-line="98" selection-start-column="36" selection-end-line="98" selection-end-column="36" />
           <folding>
             <element signature="e#426#462#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_sentence,all_sentence_asset_index.json" />
-    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_all_sentence,document_asset_index.json" />
-    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_sentence,document_asset_index.json" />
-    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_document_asset_index.json" />
+    <entry file="file://$PROJECT_DIR$/run_nas.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="4" lean-forward="true" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/feedforward_network.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="117" column="60" lean-forward="true" selection-start-line="117" selection-start-column="60" selection-end-line="117" selection-end-column="60" />
+          <folding>
+            <element signature="e#277#300#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_all_sentence_asset_index.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -788,12 +815,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/feedforward_network.py">
+    <entry file="file://$PROJECT_DIR$/models/feedforward_network_with_nas.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1830">
-          <caret line="122" column="49" lean-forward="true" selection-start-line="122" selection-start-column="49" selection-end-line="122" selection-end-column="49" />
+        <state relative-caret-position="327">
+          <caret line="104" column="0" lean-forward="true" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
           <folding>
-            <element signature="e#277#300#0" expanded="true" />
+            <element signature="e#162#185#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -113,7 +113,7 @@ class FeedforwardNewtork(ModelInterface):
     def __init__(self, hidden_dims: List[int], output_dim=1, activations: List[object] = list(),
                  model_type: ModelType = ModelType.regression, default_hidden_activation: object = nn.Sigmoid(),
                  batch_size: int = 32, num_epochs: int = 10, optimizer: object = torch.optim.Adam,
-                 criterion: object = None, learning_rate: float = 0.0001):
+                 criterion: object = None, learning_rate: float = 1e-8):
         """
         For description of parameters not listed here, see FeedforwardNetworkModule
 

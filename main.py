@@ -79,9 +79,9 @@ def run_nas_experiments():
 
 def get_nas_selected_models():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--feature_combo', nargs='1', type=str)
-    parser.add_argument('--target', nargs='1', type=str)
-    parser.add_argument('--model_type', nargs='1', type=str)
+    parser.add_argument('--feature_combo', nargs='?', type=str)
+    parser.add_argument('--target', nargs='?', type=str)
+    parser.add_argument('--model_type', nargs='?', type=str)
     args = parser.parse_args()
 
     model_type = None
