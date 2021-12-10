@@ -62,8 +62,7 @@ class FeedforwardNetworkModuleForNAS(nn.Module):
         elif model_type == ModelType.classification:
             output_dim = 2 # we do this and use softmax below because BCE loss is not supported by nni pl.Classification
             self.final_layer = nn.Sequential(
-                nn.Linear(last_hidden_layer_dims, output_dim),
-                nn.Softmax()  # apply sigmoid to the output to get the probability
+                nn.Linear(last_hidden_layer_dims, output_dim)
             )
         else:
             raise NotImplementedError("Only supports regression and classification")

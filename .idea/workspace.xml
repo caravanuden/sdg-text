@@ -2,37 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8c383fdb-433b-4ff8-835e-f01d9376a2b4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_all_sentence,document_asset_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_all_sentence,document_asset_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_all_sentence,document_sanitation_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_all_sentence,document_sanitation_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_all_sentence,document_water_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_all_sentence,document_water_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_all_sentence,document_women_edu_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_all_sentence,document_women_edu_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_all_sentence_asset_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_all_sentence_asset_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_all_sentence_sanitation_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_all_sentence_sanitation_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_all_sentence_water_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_all_sentence_water_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_all_sentence_women_edu_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_all_sentence_women_edu_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_document_asset_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_document_asset_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_document_sanitation_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_document_sanitation_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_document_water_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_document_water_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_document_women_edu_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_document_women_edu_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,all_sentence,document_asset_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,all_sentence,document_asset_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,all_sentence,document_sanitation_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,all_sentence,document_sanitation_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,all_sentence,document_water_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,all_sentence,document_water_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,all_sentence,document_women_edu_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,all_sentence,document_women_edu_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,all_sentence_asset_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,all_sentence_asset_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,all_sentence_sanitation_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,all_sentence_sanitation_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,all_sentence_water_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,all_sentence_water_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,all_sentence_women_edu_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,all_sentence_women_edu_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,document_asset_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,document_asset_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,document_sanitation_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,document_sanitation_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,document_water_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,document_water_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,document_women_edu_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence,document_women_edu_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence_asset_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence_asset_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence_sanitation_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence_sanitation_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence_water_index_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence_water_index_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence_women_edu_4.py" afterPath="$PROJECT_DIR$/NAS_SELECTED_MODELS/classification_target_sentence_women_edu_4.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/new_nas_eval_script.py" afterPath="$PROJECT_DIR$/new_nas_eval_script.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/notebooks/basic_models.ipynb" afterPath="$PROJECT_DIR$/notebooks/basic_models.ipynb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/feedforward_network_with_nas.py" afterPath="$PROJECT_DIR$/models/feedforward_network_with_nas.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -92,7 +62,7 @@
       <file leaf-file-name="feedforward_network.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/feedforward_network.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2565">
+            <state relative-caret-position="537">
               <caret line="179" column="0" lean-forward="false" selection-start-line="179" selection-start-column="0" selection-end-line="179" selection-end-column="0" />
               <folding>
                 <element signature="e#277#300#0" expanded="true" />
@@ -101,11 +71,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="feedforward_network_with_nas.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="feedforward_network_with_nas.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/feedforward_network_with_nas.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2250">
-              <caret line="156" column="55" lean-forward="false" selection-start-line="156" selection-start-column="55" selection-end-line="156" selection-end-column="55" />
+            <state relative-caret-position="357">
+              <caret line="63" column="45" lean-forward="true" selection-start-line="63" selection-start-column="45" selection-end-line="63" selection-end-column="45" />
               <folding>
                 <element signature="e#162#185#0" expanded="true" />
               </folding>
@@ -113,11 +83,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="new_nas_eval_script.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="new_nas_eval_script.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/new_nas_eval_script.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="137" column="57" lean-forward="true" selection-start-line="137" selection-start-column="57" selection-end-line="137" selection-end-column="57" />
+            <state relative-caret-position="327">
+              <caret line="130" column="60" lean-forward="true" selection-start-line="130" selection-start-column="60" selection-end-line="130" selection-end-column="60" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -217,9 +187,9 @@
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/run_nas.sh" />
         <option value="$PROJECT_DIR$/models/feedforward_network.py" />
-        <option value="$PROJECT_DIR$/models/feedforward_network_with_nas.py" />
         <option value="$PROJECT_DIR$/experiments/experiment.py" />
         <option value="$PROJECT_DIR$/new_nas_eval_script.py" />
+        <option value="$PROJECT_DIR$/models/feedforward_network_with_nas.py" />
       </list>
     </option>
   </component>
@@ -322,35 +292,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="experiment_results" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Multimodal-deep-learning-for-poverty-prediction" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Multimodal-deep-learning-for-poverty-prediction" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="dataset" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Multimodal-deep-learning-for-poverty-prediction" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Multimodal-deep-learning-for-poverty-prediction" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="NAS_SELECTED_MODELS" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -529,7 +471,7 @@
     <frame x="0" y="23" width="1440" height="773" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1465821" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21000704" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -558,7 +500,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_all_sentence_water_index.json" />
     <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_all_sentence_women_edu.json" />
     <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_sentence_document_asset_index.json" />
     <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_target_sentence_document_sanitation_index.json" />
@@ -790,32 +731,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/feedforward_network.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2565">
-          <caret line="179" column="0" lean-forward="false" selection-start-line="179" selection-start-column="0" selection-end-line="179" selection-end-column="0" />
-          <folding>
-            <element signature="e#277#300#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/experiment_results/FeedforwardNewtork_classification_all_sentence_asset_index.json" />
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="16" column="32" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/feedforward_network_with_nas.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2250">
-          <caret line="156" column="55" lean-forward="false" selection-start-line="156" selection-start-column="55" selection-end-line="156" selection-end-column="55" />
-          <folding>
-            <element signature="e#162#185#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -832,6 +753,36 @@
         <state relative-caret-position="60">
           <caret line="4" column="19" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/new_nas_eval_script.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="327">
+          <caret line="130" column="60" lean-forward="true" selection-start-line="130" selection-start-column="60" selection-end-line="130" selection-end-column="60" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/feedforward_network.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="537">
+          <caret line="179" column="0" lean-forward="false" selection-start-line="179" selection-start-column="0" selection-end-line="179" selection-end-column="0" />
+          <folding>
+            <element signature="e#277#300#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/feedforward_network_with_nas.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="63" column="45" lean-forward="true" selection-start-line="63" selection-start-column="45" selection-end-line="63" selection-end-column="45" />
+          <folding>
+            <element signature="e#162#185#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
