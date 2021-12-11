@@ -1,0 +1,40 @@
+Super informal, but here's some analysis we did on the Wiki data that was scraped.
+Looks like lots of repeated rows here; this is sort of surprising, but I wonder if that will help or if we should match them slightly differnetly.
+
+
+>>> total_len = 0
+>>> total_num_no_id = 0
+>>> for file_name in file_names:
+...   file_json = readFromJsonFile(os.path.join("doc2vec_inputs", file_name))
+...   total_len += len(file_json)
+...   for item in file_json:
+...     if "no_id" in item['tag']:
+...       total_num_no_id += 1
+...
+
+>>>
+>>> print(total_len)
+1747349
+>>> print(total_num_no_id)
+1464509
+>>> total_len - total_num_no_id
+282840 # this is the number of articles that matched some location in the dataset
+>>> for file_name in fil
+KeyboardInterrupt
+>>> ids = set()
+>>> for file_name in file_names:
+...   file_json = readFromJsonFile(os.path.join("doc2vec_inputs", file_name))
+...   for item in file_json:
+...     if "no_id" not in item['tag']:
+...       ids.add(item['tag'
+...
+KeyboardInterrupt
+>>> for file_name in file_names:
+...   file_json = readFromJsonFile(os.path.join("doc2vec_inputs", file_name))
+...   for item in file_json:
+...     if "no_id" not in item['tag']:
+...       ids.add(item['tag'])
+...
+>>> print(len(ids))
+15443 # but this is the total number of UNIQUE locations in the dataset that were matched.
+
