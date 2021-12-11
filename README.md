@@ -1,5 +1,5 @@
 
-# Multimodal-deep-learning-for-poverty-prediction
+# sdg-text
 ### Motivation
 Compare performance of different text sources (Wikipedia, GDELT) and embedding extraction methods (document, targeted sentence, and overall sentence embeddings) for prediction of targets related to sustainable development.
 
