@@ -11,18 +11,18 @@ import torch
 class _model__fc1__1(nn.Module):
     def __init__(self):
         super().__init__()
-        self.layerchoice__mutation_6_0 = torch.nn.modules.activation.ReLU()
+        self.layerchoice__mutation_6_1 = torch.nn.modules.activation.LeakyReLU()
 
     def forward(self, *_inputs):
-        layerchoice__mutation_6_0 = self.layerchoice__mutation_6_0(_inputs[0])
-        return layerchoice__mutation_6_0
+        layerchoice__mutation_6_1 = self.layerchoice__mutation_6_1(_inputs[0])
+        return layerchoice__mutation_6_1
 
 
 
 class _model__fc1(nn.Module):
     def __init__(self):
         super().__init__()
-        self.__0 = torch.nn.modules.linear.Linear(in_features=300, out_features=512)
+        self.__0 = torch.nn.modules.linear.Linear(in_features=300, out_features=64)
         self.__1 = _model__fc1__1()
 
     def forward(self, input__1):
@@ -46,7 +46,7 @@ class _model__fc2__1(nn.Module):
 class _model__fc2(nn.Module):
     def __init__(self):
         super().__init__()
-        self.__0 = torch.nn.modules.linear.Linear(in_features=512, out_features=256)
+        self.__0 = torch.nn.modules.linear.Linear(in_features=64, out_features=128)
         self.__1 = _model__fc2__1()
 
     def forward(self, input__1):
@@ -59,18 +59,18 @@ class _model__fc2(nn.Module):
 class _model__fc3__1(nn.Module):
     def __init__(self):
         super().__init__()
-        self.layerchoice__mutation_8_0 = torch.nn.modules.activation.ReLU()
+        self.layerchoice__mutation_8_1 = torch.nn.modules.activation.LeakyReLU()
 
     def forward(self, *_inputs):
-        layerchoice__mutation_8_0 = self.layerchoice__mutation_8_0(_inputs[0])
-        return layerchoice__mutation_8_0
+        layerchoice__mutation_8_1 = self.layerchoice__mutation_8_1(_inputs[0])
+        return layerchoice__mutation_8_1
 
 
 
 class _model__fc3(nn.Module):
     def __init__(self):
         super().__init__()
-        self.__0 = torch.nn.modules.linear.Linear(in_features=256, out_features=16)
+        self.__0 = torch.nn.modules.linear.Linear(in_features=128, out_features=256)
         self.__1 = _model__fc3__1()
 
     def forward(self, input__1):
@@ -94,7 +94,7 @@ class _model__fc4__1(nn.Module):
 class _model__fc4(nn.Module):
     def __init__(self):
         super().__init__()
-        self.__0 = torch.nn.modules.linear.Linear(in_features=16, out_features=16)
+        self.__0 = torch.nn.modules.linear.Linear(in_features=256, out_features=32)
         self.__1 = _model__fc4__1()
 
     def forward(self, input__1):
@@ -107,7 +107,7 @@ class _model__fc4(nn.Module):
 class _model__final_layer(nn.Module):
     def __init__(self):
         super().__init__()
-        self.__0 = torch.nn.modules.linear.Linear(in_features=16, out_features=2)
+        self.__0 = torch.nn.modules.linear.Linear(in_features=32, out_features=2)
 
     def forward(self, input__1):
         __0 = self.__0(input__1)

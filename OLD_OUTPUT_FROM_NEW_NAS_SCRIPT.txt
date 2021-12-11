@@ -1,0 +1,176 @@
+python3 new_nas_eval_script.py
+train data shape: (1944, 384), test data shape: (390, 384)
+462 (23.77%) positive examples in train data, 122 (31.28%) positive examples in test data
+
+[0.5555555555555556, 0.4074074074074074, 0.5555555555555556, 0.5555555555555556, 0.5555555555555556, 0.5555555555555556, 0.5555555555555556, 0.2962962962962963, 0.5555555555555556, 0.5555555555555556]
+basic neural network classifier fit time: 53.607s, roc auc: 0.725
+              precision    recall  f1-score   support
+
+           0       0.82      0.85      0.84       268
+           1       0.65      0.60      0.62       122
+
+    accuracy                           0.77       390
+   macro avg       0.73      0.72      0.73       390
+weighted avg       0.77      0.77      0.77       390
+
+CURRENT SCORE: 0.7245534621972107
+No need to resample, classes are balanced within our tolerated class ratio of 0.3
+train data shape: (8505, 300), test data shape: (1742, 300)
+2706 (31.82%) positive examples in train data, 665 (38.17%) positive examples in test data
+
+[0.3382663847780127, 0.3382663847780127, 0.3382663847780127, 0.3382663847780127, 0.3382663847780127, 0.7632135306553911, 0.7970401691331924, 0.7632135306553911, 0.7632135306553911, 0.7632135306553911]
+basic neural network classifier fit time: 296.139s, roc auc: 0.712
+              precision    recall  f1-score   support
+
+           0       0.83      0.63      0.72      1077
+           1       0.57      0.79      0.66       665
+
+    accuracy                           0.69      1742
+   macro avg       0.70      0.71      0.69      1742
+weighted avg       0.73      0.69      0.70      1742
+
+CURRENT SCORE: 0.71182133606998
+train data shape: (1959, 684), test data shape: (390, 684)
+462 (23.58%) positive examples in train data, 122 (31.28%) positive examples in test data
+
+[0.8532110091743119, 0.5596330275229358, 0.5596330275229358, 0.7064220183486238, 0.26605504587155965, 0.41284403669724773, 0.41284403669724773, 0.26605504587155965, 0.5596330275229358, 0.41284403669724773]
+basic neural network classifier fit time: 77.475s, roc auc: 0.703
+              precision    recall  f1-score   support
+
+           0       0.84      0.70      0.76       268
+           1       0.52      0.70      0.60       122
+
+    accuracy                           0.70       390
+   macro avg       0.68      0.70      0.68       390
+weighted avg       0.74      0.70      0.71       390
+
+CURRENT SCORE: 0.7032052850501591
+No need to resample, classes are balanced within our tolerated class ratio of 0.3
+train data shape: (2394, 384), test data shape: (579, 384)
+722 (30.16%) positive examples in train data, 286 (49.4%) positive examples in test data
+
+[0.8796992481203008, 0.8796992481203008, 0.8796992481203008, 0.8796992481203008, 0.8796992481203008, 0.8796992481203008, 0.8796992481203008, 0.7593984962406015, 0.8796992481203008, 0.8796992481203008]
+basic neural network classifier fit time: 105.584s, roc auc: 0.696
+              precision    recall  f1-score   support
+
+           0       0.66      0.84      0.74       293
+           1       0.77      0.56      0.65       286
+
+    accuracy                           0.70       579
+   macro avg       0.71      0.70      0.69       579
+weighted avg       0.71      0.70      0.69       579
+
+CURRENT SCORE: 0.6960607651733931
+No need to resample, classes are balanced within our tolerated class ratio of 0.3
+train data shape: (8505, 300), test data shape: (1923, 300)
+2885 (33.92%) positive examples in train data, 792 (41.19%) positive examples in test data
+
+[0.37209302325581395, 0.37209302325581395, 0.37209302325581395, 0.5750528541226215, 0.7293868921775899, 0.5940803382663847, 0.37209302325581395, 0.37209302325581395, 0.37209302325581395, 0.627906976744186]
+basic neural network classifier fit time: 764.104s, roc auc: 0.5
+              precision    recall  f1-score   support
+
+           0       0.59      1.00      0.74      1131
+           1       0.00      0.00      0.00       792
+
+    accuracy                           0.59      1923
+   macro avg       0.29      0.50      0.37      1923
+weighted avg       0.35      0.59      0.44      1923
+
+CURRENT SCORE: 0.4995579133510168
+No need to resample, classes are balanced within our tolerated class ratio of 0.3
+train data shape: (2394, 684), test data shape: (579, 684)
+722 (30.16%) positive examples in train data, 286 (49.4%) positive examples in test data
+
+[0.12030075187969924, 0.12030075187969924, 0.12030075187969924, 0.12030075187969924, 0.12030075187969924, 0.12030075187969924, 0.12030075187969924, 0.12030075187969924, 0.12030075187969924, 0.12030075187969924]
+basic neural network classifier fit time: 630.211s, roc auc: 0.5
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+              precision    recall  f1-score   support
+
+           0       0.51      1.00      0.67       293
+           1       0.00      0.00      0.00       286
+
+    accuracy                           0.51       579
+   macro avg       0.25      0.50      0.34       579
+weighted avg       0.26      0.51      0.34       579
+
+CURRENT SCORE: 0.5
+train data shape: (3699, 384), test data shape: (614, 384)
+822 (22.22%) positive examples in train data, 163 (26.55%) positive examples in test data
+
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/torch/nn/init.py:388: UserWarning: Initializing zero-element tensors is a no-op
+  warnings.warn("Initializing zero-element tensors is a no-op")
+[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+basic neural network classifier fit time: 59.898s, roc auc: 0.5
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00       451
+           1       0.27      1.00      0.42       163
+
+    accuracy                           0.27       614
+   macro avg       0.13      0.50      0.21       614
+weighted avg       0.07      0.27      0.11       614
+
+CURRENT SCORE: 0.5
+train data shape: (11164, 300), test data shape: (1742, 300)
+2481 (22.22%) positive examples in train data, 392 (22.5%) positive examples in test data
+
+[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+basic neural network classifier fit time: 110.544s, roc auc: 0.5
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00      1350
+           1       0.23      1.00      0.37       392
+
+    accuracy                           0.23      1742
+   macro avg       0.11      0.50      0.18      1742
+weighted avg       0.05      0.23      0.08      1742
+
+CURRENT SCORE: 0.5
+train data shape: (3703, 684), test data shape: (614, 684)
+822 (22.2%) positive examples in train data, 163 (26.55%) positive examples in test data
+
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/torch/nn/init.py:388: UserWarning: Initializing zero-element tensors is a no-op
+  warnings.warn("Initializing zero-element tensors is a no-op")
+[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+basic neural network classifier fit time: 41.822s, roc auc: 0.5
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+              precision    recall  f1-score   support
+
+           0       0.73      1.00      0.85       451
+           1       0.00      0.00      0.00       163
+
+    accuracy                           0.73       614
+   macro avg       0.37      0.50      0.42       614
+weighted avg       0.54      0.73      0.62       614
+
+CURRENT SCORE: 0.5
+train data shape: (4670, 384), test data shape: (1162, 384)
+1045 (22.38%) positive examples in train data, 523 (45.01%) positive examples in test data
+
+[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.9865125240847784, 0.9865125240847784, 0.9865125240847784, 0.9865125240847784]
+Traceback (most recent call last):
+  File "new_nas_eval_script.py", line 169, in <module>
+    graph_data[i][j] = acc_vals
+IndexError: list index out of range

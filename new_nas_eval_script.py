@@ -141,13 +141,16 @@ if __name__ == '__main__':
     FEATURE_INPUT_SIZE_DICT = {'target_sentence': 384, 'all_sentence': 384, 'document': 300}
     feature_combos = [list(combo) for combo in powerset(features) if len(combo) > 0]
     scores = np.zeros((len(TARGETS), len(feature_combos)))
-    graph_data = [[list() for i in range(len(TARGETS))] for j in range(len(feature_combos))]
+    graph_data = [[list() for j in range(len(feature_combos))] for i in range(len(TARGETS))]
 
     model_type = ModelType.classification
 
 
     for i,target in enumerate(TARGETS):
         for j,feature_combo in enumerate(feature_combos):
+            print("TARGET: {}".format(target))
+            print("FEATURES: {}".format(feature_combo))
+
             input_size = sum([FEATURE_INPUT_SIZE_DICT[feature] for feature in feature_combo])
             #hidden_size = int(input_size / 2)
             train_loader, val_loader, test_loader = get_data_loader(feature_combo, target, rebalance=True)

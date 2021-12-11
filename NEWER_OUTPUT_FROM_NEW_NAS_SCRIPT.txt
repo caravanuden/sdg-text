@@ -1,0 +1,255 @@
+python3 new_nas_eval_script.py
+TARGET: asset_index
+FEATURES: ['target_sentence']
+train data shape: (1944, 384), test data shape: (390, 384)
+462 (23.77%) positive examples in train data, 122 (31.28%) positive examples in test data
+
+[0.5555555555555556, 0.8518518518518519, 0.5555555555555556, 0.5555555555555556, 0.5555555555555556, 0.5555555555555556, 0.5555555555555556, 0.5555555555555556, 0.5555555555555556, 0.5555555555555556]
+basic neural network classifier fit time: 43.979s, roc auc: 0.73
+              precision    recall  f1-score   support
+
+           0       0.82      0.86      0.84       268
+           1       0.66      0.60      0.63       122
+
+    accuracy                           0.78       390
+   macro avg       0.74      0.73      0.74       390
+weighted avg       0.77      0.78      0.78       390
+
+CURRENT SCORE: 0.7301504771225839
+TARGET: asset_index
+FEATURES: ['document']
+No need to resample, classes are balanced within our tolerated class ratio of 0.3
+train data shape: (8505, 300), test data shape: (1742, 300)
+2706 (31.82%) positive examples in train data, 665 (38.17%) positive examples in test data
+
+[0.3382663847780127, 0.3382663847780127, 0.3382663847780127, 0.3382663847780127, 0.3382663847780127, 0.3382663847780127, 0.3382663847780127, 0.3382663847780127, 0.3382663847780127, 0.3382663847780127]
+basic neural network classifier fit time: 164.028s, roc auc: 0.5
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00      1077
+           1       0.38      1.00      0.55       665
+
+    accuracy                           0.38      1742
+   macro avg       0.19      0.50      0.28      1742
+weighted avg       0.15      0.38      0.21      1742
+
+CURRENT SCORE: 0.5
+TARGET: asset_index
+FEATURES: ['target_sentence', 'document']
+train data shape: (1960, 684), test data shape: (390, 684)
+462 (23.57%) positive examples in train data, 122 (31.28%) positive examples in test data
+
+[0.8532110091743119, 0.8532110091743119, 0.8532110091743119, 0.8532110091743119, 0.8532110091743119, 0.8532110091743119, 0.8532110091743119, 0.8532110091743119, 0.8532110091743119, 0.8532110091743119]
+basic neural network classifier fit time: 45.532s, roc auc: 0.5
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+              precision    recall  f1-score   support
+
+           0       0.69      1.00      0.81       268
+           1       0.00      0.00      0.00       122
+
+    accuracy                           0.69       390
+   macro avg       0.34      0.50      0.41       390
+weighted avg       0.47      0.69      0.56       390
+
+CURRENT SCORE: 0.5
+TARGET: sanitation_index
+FEATURES: ['target_sentence']
+No need to resample, classes are balanced within our tolerated class ratio of 0.3
+train data shape: (2394, 384), test data shape: (579, 384)
+722 (30.16%) positive examples in train data, 286 (49.4%) positive examples in test data
+
+[1.0, 1.0, 1.0, 1.0, 1.0, 0.8796992481203008, 0.7593984962406015, 0.8796992481203008, 0.7593984962406015, 0.8796992481203008]
+basic neural network classifier fit time: 25.373s, roc auc: 0.673
+              precision    recall  f1-score   support
+
+           0       0.63      0.85      0.73       293
+           1       0.76      0.50      0.60       286
+
+    accuracy                           0.68       579
+   macro avg       0.70      0.67      0.66       579
+weighted avg       0.70      0.68      0.66       579
+
+CURRENT SCORE: 0.6732081911262797
+TARGET: sanitation_index
+FEATURES: ['document']
+No need to resample, classes are balanced within our tolerated class ratio of 0.3
+train data shape: (8505, 300), test data shape: (1923, 300)
+2885 (33.92%) positive examples in train data, 792 (41.19%) positive examples in test data
+
+[0.6955602536997886, 0.6955602536997886, 0.5940803382663847, 0.6617336152219874, 0.5602536997885835, 0.6617336152219874, 0.6617336152219874, 0.5940803382663847, 0.627906976744186, 0.5264270613107822]
+basic neural network classifier fit time: 202.761s, roc auc: 0.659
+              precision    recall  f1-score   support
+
+           0       0.76      0.59      0.66      1131
+           1       0.55      0.73      0.63       792
+
+    accuracy                           0.65      1923
+   macro avg       0.65      0.66      0.65      1923
+weighted avg       0.67      0.65      0.65      1923
+
+CURRENT SCORE: 0.6587610186748116
+TARGET: sanitation_index
+FEATURES: ['target_sentence', 'document']
+No need to resample, classes are balanced within our tolerated class ratio of 0.3
+train data shape: (2394, 684), test data shape: (579, 684)
+722 (30.16%) positive examples in train data, 286 (49.4%) positive examples in test data
+
+[0.8796992481203008, 0.8796992481203008, 0.12030075187969924, 0.12030075187969924, 0.12030075187969924, 0.8796992481203008, 0.12030075187969924, 0.8796992481203008, 0.8796992481203008, 0.8796992481203008]
+basic neural network classifier fit time: 104.706s, roc auc: 0.5
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00       293
+           1       0.49      1.00      0.66       286
+
+    accuracy                           0.49       579
+   macro avg       0.25      0.50      0.33       579
+weighted avg       0.24      0.49      0.33       579
+
+CURRENT SCORE: 0.5
+TARGET: water_index
+FEATURES: ['target_sentence']
+train data shape: (3700, 384), test data shape: (614, 384)
+822 (22.22%) positive examples in train data, 163 (26.55%) positive examples in test data
+
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/torch/nn/init.py:388: UserWarning: Initializing zero-element tensors is a no-op
+  warnings.warn("Initializing zero-element tensors is a no-op")
+[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+basic neural network classifier fit time: 77.435s, roc auc: 0.5
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00       451
+           1       0.27      1.00      0.42       163
+
+    accuracy                           0.27       614
+   macro avg       0.13      0.50      0.21       614
+weighted avg       0.07      0.27      0.11       614
+
+CURRENT SCORE: 0.5
+TARGET: water_index
+FEATURES: ['document']
+train data shape: (11166, 300), test data shape: (1742, 300)
+2481 (22.22%) positive examples in train data, 392 (22.5%) positive examples in test data
+
+[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+basic neural network classifier fit time: 134.207s, roc auc: 0.5
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00      1350
+           1       0.23      1.00      0.37       392
+
+    accuracy                           0.23      1742
+   macro avg       0.11      0.50      0.18      1742
+weighted avg       0.05      0.23      0.08      1742
+
+CURRENT SCORE: 0.5
+TARGET: water_index
+FEATURES: ['target_sentence', 'document']
+train data shape: (3703, 684), test data shape: (614, 684)
+822 (22.2%) positive examples in train data, 163 (26.55%) positive examples in test data
+
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/torch/nn/init.py:388: UserWarning: Initializing zero-element tensors is a no-op
+  warnings.warn("Initializing zero-element tensors is a no-op")
+[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+basic neural network classifier fit time: 53.239s, roc auc: 0.5
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+              precision    recall  f1-score   support
+
+           0       0.73      1.00      0.85       451
+           1       0.00      0.00      0.00       163
+
+    accuracy                           0.73       614
+   macro avg       0.37      0.50      0.42       614
+weighted avg       0.54      0.73      0.62       614
+
+CURRENT SCORE: 0.5
+TARGET: women_edu
+FEATURES: ['target_sentence']
+train data shape: (4678, 384), test data shape: (1162, 384)
+1044 (22.32%) positive examples in train data, 523 (45.01%) positive examples in test data
+
+[1.0, 1.0, 1.0, 1.0, 1.0, 0.9384615384615385, 0.9384615384615385, 0.9384615384615385, 0.9384615384615385, 0.9384615384615385]
+basic neural network classifier fit time: 77.603s, roc auc: 0.654
+              precision    recall  f1-score   support
+
+           0       0.95      0.33      0.49       639
+           1       0.54      0.98      0.70       523
+
+    accuracy                           0.62      1162
+   macro avg       0.75      0.65      0.59      1162
+weighted avg       0.77      0.62      0.58      1162
+
+CURRENT SCORE: 0.6538029964362337
+TARGET: women_edu
+FEATURES: ['document']
+train data shape: (11373, 300), test data shape: (3015, 300)
+3249 (28.57%) positive examples in train data, 1038 (34.43%) positive examples in test data
+
+[0.569620253164557, 0.569620253164557, 0.569620253164557, 0.569620253164557, 0.569620253164557, 0.569620253164557, 0.569620253164557, 0.569620253164557, 0.569620253164557, 0.569620253164557]
+basic neural network classifier fit time: 177.069s, roc auc: 0.512
+              precision    recall  f1-score   support
+
+           0       0.66      0.98      0.79      1977
+           1       0.53      0.04      0.08      1038
+
+    accuracy                           0.66      3015
+   macro avg       0.60      0.51      0.43      3015
+weighted avg       0.62      0.66      0.55      3015
+
+CURRENT SCORE: 0.5115599626923493
+TARGET: women_edu
+FEATURES: ['target_sentence', 'document']
+train data shape: (4689, 684), test data shape: (1162, 684)
+1042 (22.22%) positive examples in train data, 523 (45.01%) positive examples in test data
+
+[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+basic neural network classifier fit time: 139.09s, roc auc: 0.5
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1308: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00       639
+           1       0.45      1.00      0.62       523
+
+    accuracy                           0.45      1162
+   macro avg       0.23      0.50      0.31      1162
+weighted avg       0.20      0.45      0.28      1162
+
+CURRENT SCORE: 0.5
