@@ -118,6 +118,7 @@ celerybeat.pid
 .venv
 env/
 venv/
+venvs/
 ENV/
 env.bak/
 venv.bak/
@@ -139,3 +140,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Mac
+*.DS_Store
+
+# Ignore large data files
+data/wikipedia
+data/clean_sentences
+data/intermediate_sentence_embeddings

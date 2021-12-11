@@ -1,0 +1,3 @@
+[submodule "sustainbench"]
+	path = sustainbench
+	url = https://github.com/sustainlab-group/sustainbench.git
