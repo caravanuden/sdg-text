@@ -190,7 +190,7 @@ class SustainBenchTextDataset:
                     metadata_list_by_feature.append(country_metadata)
                     embeddings_list_by_feature.append(country_embeddings)
                 except Exception as e:
-                    pdb.set_trace()
+                    #pdb.set_trace()
                     print(e)
 
 
