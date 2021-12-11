@@ -7,6 +7,7 @@ import pandas as pd
 from imblearn.combine import SMOTETomek
 from imblearn.under_sampling import TomekLinks
 from sklearn.decomposition import PCA
+import pdb
 
 from utils.constants import (
     OUTPUT_SENTENCE_DATA_DIR,
@@ -153,6 +154,7 @@ class SustainBenchTextDataset:
         for country in SPLITS[split]:
             metadata_list_by_feature = []
             embeddings_list_by_feature = []
+            #pdb.set_trace()
             for feature in self.features:
                 if feature == "target_sentence":
                     (
@@ -182,8 +184,15 @@ class SustainBenchTextDataset:
                         country=country, feature="document", target=self.target
                     )
 
-                metadata_list_by_feature.append(country_metadata)
-                embeddings_list_by_feature.append(country_embeddings)
+                #metadata_list_by_feature.append(country_metadata)
+                #embeddings_list_by_feature.append(country_embeddings)
+                try:
+                    metadata_list_by_feature.append(country_metadata)
+                    embeddings_list_by_feature.append(country_embeddings)
+                except Exception as e:
+                    #pdb.set_trace()
+                    print(e)
+
 
             all_country_metadata = pd.concat(metadata_list_by_feature)
             country_metadata = all_country_metadata.drop_duplicates(subset=[self.key])

@@ -1,0 +1,257 @@
+The PCA model explains 45.847% of the variance in the embedding data
+The PCA model explains 45.845% of the variance in the embedding data
+/opt/conda/lib/python3.7/site-packages/torch/nn/init.py:388: UserWarning: Initializing zero-element tensors is a no-op
+  warnings.warn("Initializing zero-element tensors is a no-op")
+The PCA model explains 45.848% of the variance in the embedding data
+The PCA model explains 45.847% of the variance in the embedding data
+[2021-12-09 01:43:03] INFO (pytorch_lightning.utilities.distributed/MainThread) GPU available: False, used: False
+[2021-12-09 01:43:03] INFO (pytorch_lightning.utilities.distributed/MainThread) TPU available: False, using: 0 TPU cores
+[2021-12-09 01:43:03] INFO (pytorch_lightning.utilities.distributed/MainThread) IPU available: False, using: 0 IPUs
+[2021-12-09 01:43:03] INFO (nni.experiment/MainThread) Creating experiment, Experiment ID: 5owugqah
+[2021-12-09 01:43:03] INFO (nni.experiment/MainThread) Connecting IPC pipe...
+[2021-12-09 01:43:03] INFO (nni.experiment/MainThread) Starting web server...
+[2021-12-09 01:43:04] INFO (nni.experiment/MainThread) Setting up...
+[2021-12-09 01:43:04] INFO (nni.runtime.msg_dispatcher_base/Thread-3) Dispatcher started
+[2021-12-09 01:43:04] INFO (nni.retiarii.experiment.pytorch/MainThread) Web UI URLs: http://127.0.0.1:8125 http://10.138.0.7:8125 http://172.17.0.1:8125
+[2021-12-09 01:43:04] INFO (nni.retiarii.experiment.pytorch/MainThread) Start strategy...
+[2021-12-09 01:43:04] INFO (nni.retiarii.strategy.bruteforce/MainThread) Random search running in fixed size mode. Dedup: on.
+/opt/conda/lib/python3.7/site-packages/json_tricks/nonp.py:225: JsonTricksDeprecation: `json_tricks.load(s)` stripped some comments, but `ignore_comments` was not passed; in the next major release, the behaviour when `ignore_comments` is not passed will change; it is recommended to explicitly pass `ignore_comments=True` if you want to strip comments; see https://github.com/mverleg/pyjson_tricks/issues/74
+  JsonTricksDeprecation)
+[2021-12-09 01:44:35] INFO (pytorch_lightning.utilities.distributed/Thread-2) GPU available: False, used: False
+[2021-12-09 01:44:35] INFO (pytorch_lightning.utilities.distributed/Thread-2) TPU available: False, using: 0 TPU cores
+[2021-12-09 01:44:35] INFO (pytorch_lightning.utilities.distributed/Thread-2) IPU available: False, using: 0 IPUs
+The PCA model explains 45.847% of the variance in the embedding data
+The PCA model explains 45.846% of the variance in the embedding data
+[2021-12-09 01:45:28] INFO (pytorch_lightning.utilities.distributed/Thread-2) GPU available: False, used: False
+[2021-12-09 01:45:28] INFO (pytorch_lightning.utilities.distributed/Thread-2) TPU available: False, using: 0 TPU cores
+[2021-12-09 01:45:28] INFO (pytorch_lightning.utilities.distributed/Thread-2) IPU available: False, using: 0 IPUs
+The PCA model explains 45.848% of the variance in the embedding data
+The PCA model explains 45.847% of the variance in the embedding data
+[2021-12-09 01:46:51] INFO (pytorch_lightning.utilities.distributed/Thread-2) GPU available: False, used: False
+[2021-12-09 01:46:51] INFO (pytorch_lightning.utilities.distributed/Thread-2) TPU available: False, using: 0 TPU cores
+[2021-12-09 01:46:51] INFO (pytorch_lightning.utilities.distributed/Thread-2) IPU available: False, using: 0 IPUs
+The PCA model explains 45.846% of the variance in the embedding data
+The PCA model explains 45.846% of the variance in the embedding data
+[2021-12-09 01:47:42] INFO (pytorch_lightning.utilities.distributed/Thread-2) GPU available: False, used: False
+[2021-12-09 01:47:42] INFO (pytorch_lightning.utilities.distributed/Thread-2) TPU available: False, using: 0 TPU cores
+[2021-12-09 01:47:42] INFO (pytorch_lightning.utilities.distributed/Thread-2) IPU available: False, using: 0 IPUs
+The PCA model explains 45.843% of the variance in the embedding data
+The PCA model explains 45.849% of the variance in the embedding data
+[2021-12-09 01:48:51] INFO (pytorch_lightning.utilities.distributed/Thread-2) GPU available: False, used: False
+[2021-12-09 01:48:51] INFO (pytorch_lightning.utilities.distributed/Thread-2) TPU available: False, using: 0 TPU cores
+[2021-12-09 01:48:51] INFO (pytorch_lightning.utilities.distributed/Thread-2) IPU available: False, using: 0 IPUs
+The PCA model explains 45.847% of the variance in the embedding data
+The PCA model explains 45.848% of the variance in the embedding data
+[2021-12-09 01:49:44] INFO (pytorch_lightning.utilities.distributed/Thread-2) GPU available: False, used: False
+[2021-12-09 01:49:44] INFO (pytorch_lightning.utilities.distributed/Thread-2) TPU available: False, using: 0 TPU cores
+[2021-12-09 01:49:44] INFO (pytorch_lightning.utilities.distributed/Thread-2) IPU available: False, using: 0 IPUs
+The PCA model explains 45.848% of the variance in the embedding data
+The PCA model explains 45.848% of the variance in the embedding data
+[2021-12-09 01:51:02] INFO (pytorch_lightning.utilities.distributed/Thread-2) GPU available: False, used: False
+[2021-12-09 01:51:02] INFO (pytorch_lightning.utilities.distributed/Thread-2) TPU available: False, using: 0 TPU cores
+[2021-12-09 01:51:02] INFO (pytorch_lightning.utilities.distributed/Thread-2) IPU available: False, using: 0 IPUs
+The PCA model explains 45.846% of the variance in the embedding data
+The PCA model explains 45.846% of the variance in the embedding data
+[2021-12-09 01:51:55] INFO (pytorch_lightning.utilities.distributed/Thread-2) GPU available: False, used: False
+[2021-12-09 01:51:55] INFO (pytorch_lightning.utilities.distributed/Thread-2) TPU available: False, using: 0 TPU cores
+[2021-12-09 01:51:55] INFO (pytorch_lightning.utilities.distributed/Thread-2) IPU available: False, using: 0 IPUs
+The PCA model explains 45.848% of the variance in the embedding data
+The PCA model explains 45.846% of the variance in the embedding data
+[2021-12-09 01:53:18] INFO (pytorch_lightning.utilities.distributed/Thread-2) GPU available: False, used: False
+[2021-12-09 01:53:18] INFO (pytorch_lightning.utilities.distributed/Thread-2) TPU available: False, using: 0 TPU cores
+[2021-12-09 01:53:18] INFO (pytorch_lightning.utilities.distributed/Thread-2) IPU available: False, using: 0 IPUs
+The PCA model explains 45.847% of the variance in the embedding data
+The PCA model explains 45.847% of the variance in the embedding data
+[2021-12-09 01:54:11] INFO (pytorch_lightning.utilities.distributed/Thread-2) GPU available: False, used: False
+[2021-12-09 01:54:11] INFO (pytorch_lightning.utilities.distributed/Thread-2) TPU available: False, using: 0 TPU cores
+[2021-12-09 01:54:11] INFO (pytorch_lightning.utilities.distributed/Thread-2) IPU available: False, using: 0 IPUs
+The PCA model explains 45.847% of the variance in the embedding data
+The PCA model explains 45.847% of the variance in the embedding data
+[2021-12-09 01:55:29] INFO (pytorch_lightning.utilities.distributed/Thread-2) GPU available: False, used: False
+[2021-12-09 01:55:29] INFO (pytorch_lightning.utilities.distributed/Thread-2) TPU available: False, using: 0 TPU cores
+[2021-12-09 01:55:29] INFO (pytorch_lightning.utilities.distributed/Thread-2) IPU available: False, using: 0 IPUs
+The PCA model explains 45.847% of the variance in the embedding data
+The PCA model explains 45.849% of the variance in the embedding data
+[2021-12-09 01:56:21] INFO (pytorch_lightning.utilities.distributed/Thread-2) GPU available: False, used: False
+[2021-12-09 01:56:21] INFO (pytorch_lightning.utilities.distributed/Thread-2) TPU available: False, using: 0 TPU cores
+[2021-12-09 01:56:21] INFO (pytorch_lightning.utilities.distributed/Thread-2) IPU available: False, using: 0 IPUs
+The PCA model explains 45.845% of the variance in the embedding data
+The PCA model explains 45.847% of the variance in the embedding data
+[2021-12-09 01:57:45] INFO (pytorch_lightning.utilities.distributed/Thread-2) GPU available: False, used: False
+[2021-12-09 01:57:45] INFO (pytorch_lightning.utilities.distributed/Thread-2) TPU available: False, using: 0 TPU cores
+[2021-12-09 01:57:45] INFO (pytorch_lightning.utilities.distributed/Thread-2) IPU available: False, using: 0 IPUs
+The PCA model explains 45.845% of the variance in the embedding data
+The PCA model explains 45.846% of the variance in the embedding data
+[2021-12-09 01:58:42] INFO (pytorch_lightning.utilities.distributed/Thread-2) GPU available: False, used: False
+[2021-12-09 01:58:42] INFO (pytorch_lightning.utilities.distributed/Thread-2) TPU available: False, using: 0 TPU cores
+[2021-12-09 01:58:42] INFO (pytorch_lightning.utilities.distributed/Thread-2) IPU available: False, using: 0 IPUs
+The PCA model explains 45.847% of the variance in the embedding data
+The PCA model explains 45.847% of the variance in the embedding data
+[2021-12-09 01:59:56] INFO (pytorch_lightning.utilities.distributed/Thread-2) GPU available: False, used: False
+[2021-12-09 01:59:56] INFO (pytorch_lightning.utilities.distributed/Thread-2) TPU available: False, using: 0 TPU cores
+[2021-12-09 01:59:56] INFO (pytorch_lightning.utilities.distributed/Thread-2) IPU available: False, using: 0 IPUs
+The PCA model explains 45.848% of the variance in the embedding data
+The PCA model explains 45.847% of the variance in the embedding data
+[2021-12-09 02:00:48] INFO (pytorch_lightning.utilities.distributed/Thread-2) GPU available: False, used: False
+[2021-12-09 02:00:48] INFO (pytorch_lightning.utilities.distributed/Thread-2) TPU available: False, using: 0 TPU cores
+[2021-12-09 02:00:48] INFO (pytorch_lightning.utilities.distributed/Thread-2) IPU available: False, using: 0 IPUs
+The PCA model explains 45.846% of the variance in the embedding data
+The PCA model explains 45.844% of the variance in the embedding data
+[2021-12-09 02:02:07] INFO (pytorch_lightning.utilities.distributed/Thread-2) GPU available: False, used: False
+[2021-12-09 02:02:07] INFO (pytorch_lightning.utilities.distributed/Thread-2) TPU available: False, using: 0 TPU cores
+[2021-12-09 02:02:07] INFO (pytorch_lightning.utilities.distributed/Thread-2) IPU available: False, using: 0 IPUs
+The PCA model explains 45.849% of the variance in the embedding data
+The PCA model explains 45.849% of the variance in the embedding data
+[2021-12-09 02:02:59] INFO (pytorch_lightning.utilities.distributed/Thread-2) GPU available: False, used: False
+[2021-12-09 02:02:59] INFO (pytorch_lightning.utilities.distributed/Thread-2) TPU available: False, using: 0 TPU cores
+[2021-12-09 02:02:59] INFO (pytorch_lightning.utilities.distributed/Thread-2) IPU available: False, using: 0 IPUs
+The PCA model explains 45.849% of the variance in the embedding data
+The PCA model explains 45.847% of the variance in the embedding data
+[2021-12-09 02:04:12] INFO (pytorch_lightning.utilities.distributed/Thread-2) GPU available: False, used: False
+[2021-12-09 02:04:12] INFO (pytorch_lightning.utilities.distributed/Thread-2) TPU available: False, using: 0 TPU cores
+[2021-12-09 02:04:12] INFO (pytorch_lightning.utilities.distributed/Thread-2) IPU available: False, using: 0 IPUs
+The PCA model explains 45.849% of the variance in the embedding data
+The PCA model explains 45.846% of the variance in the embedding data
+[2021-12-09 02:04:36] INFO (nni.retiarii.experiment.pytorch/Thread-4) Stopping experiment, please wait...
+[2021-12-09 02:04:36] INFO (nni.retiarii.experiment.pytorch/MainThread) Strategy exit
+[2021-12-09 02:04:36] INFO (nni.retiarii.experiment.pytorch/MainThread) Waiting for experiment to become DONE (you can ctrl+c if there is no running trial jobs)...
+[2021-12-09 02:04:37] INFO (nni.runtime.msg_dispatcher_base/Thread-3) Dispatcher exiting...
+[2021-12-09 02:04:37] INFO (nni.retiarii.experiment.pytorch/Thread-4) Experiment stopped
+Final model:
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import torch.optim as optim
+
+import nni.retiarii.nn.pytorch
+
+import torch
+
+
+class _model__fc1__1(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layerchoice__mutation_6_0 = torch.nn.modules.activation.ReLU()
+
+    def forward(self, *_inputs):
+        layerchoice__mutation_6_0 = self.layerchoice__mutation_6_0(_inputs[0])
+        return layerchoice__mutation_6_0
+
+
+
+class _model__fc1(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.__0 = torch.nn.modules.linear.Linear(in_features=384, out_features=16)
+        self.__1 = _model__fc1__1()
+
+    def forward(self, input__1):
+        __0 = self.__0(input__1)
+        __1 = self.__1(__0)
+        return __1
+
+
+
+class _model__fc2__1(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layerchoice__mutation_7_2 = torch.nn.modules.activation.Sigmoid()
+
+    def forward(self, *_inputs):
+        layerchoice__mutation_7_2 = self.layerchoice__mutation_7_2(_inputs[0])
+        return layerchoice__mutation_7_2
+
+
+
+class _model__fc2(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.__0 = torch.nn.modules.linear.Linear(in_features=16, out_features=16)
+        self.__1 = _model__fc2__1()
+
+    def forward(self, input__1):
+        __0 = self.__0(input__1)
+        __1 = self.__1(__0)
+        return __1
+
+
+
+class _model__fc3__1(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layerchoice__mutation_8_1 = torch.nn.modules.activation.LeakyReLU()
+
+    def forward(self, *_inputs):
+        layerchoice__mutation_8_1 = self.layerchoice__mutation_8_1(_inputs[0])
+        return layerchoice__mutation_8_1
+
+
+
+class _model__fc3(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.__0 = torch.nn.modules.linear.Linear(in_features=16, out_features=256)
+        self.__1 = _model__fc3__1()
+
+    def forward(self, input__1):
+        __0 = self.__0(input__1)
+        __1 = self.__1(__0)
+        return __1
+
+
+
+class _model__fc4__1(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layerchoice__mutation_9_2 = torch.nn.modules.activation.Sigmoid()
+
+    def forward(self, *_inputs):
+        layerchoice__mutation_9_2 = self.layerchoice__mutation_9_2(_inputs[0])
+        return layerchoice__mutation_9_2
+
+
+
+class _model__fc4(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.__0 = torch.nn.modules.linear.Linear(in_features=256, out_features=16)
+        self.__1 = _model__fc4__1()
+
+    def forward(self, input__1):
+        __0 = self.__0(input__1)
+        __1 = self.__1(__0)
+        return __1
+
+
+
+class _model__final_layer(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.__0 = torch.nn.modules.linear.Linear(in_features=16, out_features=2)
+        self.__1 = torch.nn.modules.activation.Softmax()
+
+    def forward(self, input__1):
+        __0 = self.__0(input__1)
+        __1 = self.__1(__0)
+        return __1
+
+
+
+class _model(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.__fc1 = _model__fc1()
+        self.__fc2 = _model__fc2()
+        self.__fc3 = _model__fc3()
+        self.__fc4 = _model__fc4()
+        self.__final_layer = _model__final_layer()
+
+    def forward(self, x__1):
+        __fc1 = self.__fc1(x__1)
+        __fc2 = self.__fc2(__fc1)
+        __fc3 = self.__fc3(__fc2)
+        __fc4 = self.__fc4(__fc3)
+        __final_layer = self.__final_layer(__fc4)
+        return __final_layer
+None
+[2021-12-09 02:04:38] INFO (nni.runtime.msg_dispatcher_base/Thread-3) Dispatcher terminiated

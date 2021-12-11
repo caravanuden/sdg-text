@@ -1,4 +1,4 @@
-# 
+./dataset
 dataset/geolocated_tweets
 dataset/twitter_api_keys
 dataset/doc2vec_model
@@ -9,6 +9,7 @@ dataset/wiki_outputs
 dataset/outputs
 ./dataset/outputs
 .idea/
+>>>>>>> 77a344fd3b8cc87a34f696b7534f957b0bccb889
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
